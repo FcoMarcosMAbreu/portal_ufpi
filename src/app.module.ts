@@ -8,6 +8,7 @@ import { AdminsModule } from './admins/admins.module';
 import { AlunosModule } from './alunos/alunos.module';
 import { ProfessoresModule } from './professores/professores.module';
 import { CursosModule } from './cursos/cursos.module';
+import { DocumentosModule } from './documentos/documentos.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { CursosModule } from './cursos/cursos.module';
     AlunosModule,
     ProfessoresModule,
     CursosModule,
+    DocumentosModule,
   ],
   controllers: [AppController],
   providers: [AppService],
