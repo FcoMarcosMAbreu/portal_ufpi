@@ -10,6 +10,8 @@ import { ProfessoresModule } from './professores/professores.module';
 import { CursosModule } from './cursos/cursos.module';
 import { DocumentosModule } from './documentos/documentos.module';
 import { NoticiasModule } from './noticias/noticias.module';
+import { GradeCurricularModule } from './grade-curricular/grade-curricular.module';
+import { TurmasModule } from './turmas/turmas.module';
 
 @Module({
   imports: [
@@ -37,6 +39,8 @@ import { NoticiasModule } from './noticias/noticias.module';
     CursosModule,
     DocumentosModule,
     NoticiasModule,
+    GradeCurricularModule,
+    TurmasModule,
   ],
   controllers: [AppController],
   providers: [AppService],
