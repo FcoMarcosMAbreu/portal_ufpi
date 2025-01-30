@@ -13,6 +13,7 @@ import { NoticiasModule } from './noticias/noticias.module';
 import { GradeCurricularModule } from './grade-curricular/grade-curricular.module';
 import { TurmasModule } from './turmas/turmas.module';
 import { DissertacoesTesesModule } from './dissertacoes-teses/dissertacoes-teses.module';
+import { CalendarioModule } from './calendario/calendario.module';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { DissertacoesTesesModule } from './dissertacoes-teses/dissertacoes-teses
     GradeCurricularModule,
     TurmasModule,
     DissertacoesTesesModule,
+    CalendarioModule,
   ],
   controllers: [AppController],
   providers: [AppService],
