@@ -136,6 +136,11 @@ function Header() {
               Turmas
             </Link>
           </li>
+          <li className="nav-item">
+            <Link to="/dissertacao-tese/list" className="nav-link">
+              Dissertações e Teses
+            </Link>
+          </li>
         </ul>
       </nav>
     </header>
