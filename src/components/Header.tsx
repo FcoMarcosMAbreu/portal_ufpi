@@ -68,7 +68,7 @@ function Header() {
             </Link>
           </li>
           <li className="nav-item">
-            <Link to="/processos-seletivos" className="nav-link">
+            <Link to="/processo-seletivo/list" className="nav-link">
               Processos Seletivos
             </Link>
           </li>

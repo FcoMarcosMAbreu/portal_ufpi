@@ -22,6 +22,8 @@ import DissertacaoTeseList from "./components/dissertacaoTese/DissertacaoTeseLis
 import DissertacaoTeseForm from "./components/dissertacaoTese/DissertacaoTeseForm"
 import CalendarioList from "./components/calendario/CalendarioList"
 import CalendarioForm from "./components/calendario/CalendarioForm"
+import ProcessoSeletivoList from "./components/processoSeletivo/ProcessoSeletivoList"
+import ProcessoSeletivoForm from "./components/processoSeletivo/ProcessoSeletivoForm"
 import "./App.css"
 
 function App() {
@@ -62,6 +64,9 @@ function App() {
             <Route path="/calendario/list" element={<CalendarioList />} />
             <Route path="/calendario/create" element={<CalendarioForm isEditing={false} />} />
             <Route path="/calendario/edit/:id" element={<CalendarioForm isEditing={true} />} />
+            <Route path="/processo-seletivo/list" element={<ProcessoSeletivoList />} />
+            <Route path="/processo-seletivo/create" element={<ProcessoSeletivoForm isEditing={false} />} />
+            <Route path="/processo-seletivo/edit/:id" element={<ProcessoSeletivoForm isEditing={true} />} />
           </Routes>
         </main>
         <Footer />

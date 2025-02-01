@@ -1,0 +1,48 @@
+.processo-seletivo-form {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .processo-seletivo-form h2 {
+    margin-bottom: 20px;
+  }
+  
+  .processo-seletivo-form form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .processo-seletivo-form div {
+    margin-bottom: 15px;
+  }
+  
+  .processo-seletivo-form label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .processo-seletivo-form input,
+  .processo-seletivo-form textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .processo-seletivo-form textarea {
+    height: 100px;
+  }
+  
+  .processo-seletivo-form button {
+    padding: 10px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .processo-seletivo-form button:hover {
+    background-color: #45a049;
+  }  
