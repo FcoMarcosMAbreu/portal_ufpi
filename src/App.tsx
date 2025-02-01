@@ -1,0 +1,43 @@
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
+import Header from "./components/Header"
+import Footer from "./components/Footer"
+import Home from "./pages/Home"
+import AdminList from "./components/admin/AdminList"
+import AdminForm from "./components/admin/AdminForm"
+import AlunoList from "./components/aluno/AlunoList"
+import AlunoForm from "./components/aluno/AlunoForm"
+import NoticiaList from "./components/noticia/NoticiaList"
+import NoticiaForm from "./components/noticia/NoticiaForm"
+import ProfessorList from "./components/professor/ProfessorList"
+import ProfessorForm from "./components/professor/ProfessorForm"
+import "./App.css"
+
+function App() {
+  return (
+    <Router>
+      <div className="app">
+        <Header />
+        <main>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/admin/list" element={<AdminList />} />
+            <Route path="/admin/create" element={<AdminForm isEditing={false} />} />
+            <Route path="/admin/edit/:id" element={<AdminForm isEditing={true} />} />
+            <Route path="/aluno/list" element={<AlunoList />} />
+            <Route path="/aluno/create" element={<AlunoForm isEditing={false} />} />
+            <Route path="/aluno/edit/:id" element={<AlunoForm isEditing={true} />} />
+            <Route path="/noticia/list" element={<NoticiaList />} />
+            <Route path="/noticia/create" element={<NoticiaForm isEditing={false} />} />
+            <Route path="/noticia/edit/:id" element={<NoticiaForm isEditing={true} />} />
+            <Route path="/professor/list" element={<ProfessorList />} />
+            <Route path="/professor/create" element={<ProfessorForm isEditing={false} />} />
+            <Route path="/professor/edit/:id" element={<ProfessorForm isEditing={true} />} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
+    </Router>
+  )
+}
+
+export default App

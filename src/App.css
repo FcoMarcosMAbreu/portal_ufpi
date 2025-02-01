@@ -1,0 +1,12 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
+  padding: 20px;
+  margin-top: 60px; /* Ajuste conforme a altura do seu header */
+  margin-bottom: 60px; /* Ajuste conforme a altura do seu footer */
+}
