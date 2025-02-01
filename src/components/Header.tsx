@@ -121,6 +121,11 @@ function Header() {
               Cursos
             </Link>
           </li>
+          <li className="nav-item">
+            <Link to="/documento/list" className="nav-link">
+              Documentos
+            </Link>
+          </li>
         </ul>
       </nav>
     </header>

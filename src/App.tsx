@@ -12,6 +12,8 @@ import ProfessorList from "./components/professor/ProfessorList"
 import ProfessorForm from "./components/professor/ProfessorForm"
 import CursoList from "./components/curso/CursoList"
 import CursoForm from "./components/curso/CursoForm"
+import DocumentoList from "./components/documento/DocumentoList"
+import DocumentoForm from "./components/documento/DocumentoForm"
 import "./App.css"
 
 function App() {
@@ -37,6 +39,9 @@ function App() {
             <Route path="/curso/list" element={<CursoList />} />
             <Route path="/curso/create" element={<CursoForm isEditing={false} />} />
             <Route path="/curso/edit/:id" element={<CursoForm isEditing={true} />} />
+            <Route path="/documento/list" element={<DocumentoList />} />
+            <Route path="/documento/create" element={<DocumentoForm isEditing={false} />} />
+            <Route path="/documento/edit/:id" element={<DocumentoForm isEditing={true} />} />
           </Routes>
         </main>
         <Footer />
