@@ -1,0 +1,48 @@
+.calendario-form {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .calendario-form h2 {
+    margin-bottom: 20px;
+  }
+  
+  .calendario-form form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .calendario-form div {
+    margin-bottom: 15px;
+  }
+  
+  .calendario-form label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .calendario-form input,
+  .calendario-form textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .calendario-form textarea {
+    height: 100px;
+  }
+  
+  .calendario-form button {
+    padding: 10px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .calendario-form button:hover {
+    background-color: #45a049;
+  }  

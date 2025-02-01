@@ -18,8 +18,10 @@ import GradeCurricularList from "./components/gradeCurricular/GradeCurricularLis
 import GradeCurricularForm from "./components/gradeCurricular/GradeCurricularForm"
 import TurmaList from "./components/turma/TurmaList"
 import TurmaForm from "./components/turma/TurmaForm"
-import DissertacaoTeseList from "./components/dissertacaoTese/dissertacaoTeseList"
-import DissertacaoTeseForm from "./components/dissertacaoTese/dissertacaoTeseForm"
+import DissertacaoTeseList from "./components/dissertacaoTese/DissertacaoTeseList"
+import DissertacaoTeseForm from "./components/dissertacaoTese/DissertacaoTeseForm"
+import CalendarioList from "./components/calendario/CalendarioList"
+import CalendarioForm from "./components/calendario/CalendarioForm"
 import "./App.css"
 
 function App() {
@@ -57,6 +59,9 @@ function App() {
             <Route path="/dissertacao-tese/list" element={<DissertacaoTeseList />} />
             <Route path="/dissertacao-tese/create" element={<DissertacaoTeseForm isEditing={false} />} />
             <Route path="/dissertacao-tese/edit/:id" element={<DissertacaoTeseForm isEditing={true} />} />
+            <Route path="/calendario/list" element={<CalendarioList />} />
+            <Route path="/calendario/create" element={<CalendarioForm isEditing={false} />} />
+            <Route path="/calendario/edit/:id" element={<CalendarioForm isEditing={true} />} />
           </Routes>
         </main>
         <Footer />

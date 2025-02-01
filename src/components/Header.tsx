@@ -63,7 +63,7 @@ function Header() {
             )}
           </li>
           <li className="nav-item">
-            <Link to="/calendario" className="nav-link">
+            <Link to="/calendario/list" className="nav-link">
               Calendário
             </Link>
           </li>
