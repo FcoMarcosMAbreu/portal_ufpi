@@ -10,6 +10,8 @@ import NoticiaList from "./components/noticia/NoticiaList"
 import NoticiaForm from "./components/noticia/NoticiaForm"
 import ProfessorList from "./components/professor/ProfessorList"
 import ProfessorForm from "./components/professor/ProfessorForm"
+import CursoList from "./components/curso/CursoList"
+import CursoForm from "./components/curso/CursoForm"
 import "./App.css"
 
 function App() {
@@ -32,6 +34,9 @@ function App() {
             <Route path="/professor/list" element={<ProfessorList />} />
             <Route path="/professor/create" element={<ProfessorForm isEditing={false} />} />
             <Route path="/professor/edit/:id" element={<ProfessorForm isEditing={true} />} />
+            <Route path="/curso/list" element={<CursoList />} />
+            <Route path="/curso/create" element={<CursoForm isEditing={false} />} />
+            <Route path="/curso/edit/:id" element={<CursoForm isEditing={true} />} />
           </Routes>
         </main>
         <Footer />

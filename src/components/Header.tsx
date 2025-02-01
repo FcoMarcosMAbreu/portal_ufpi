@@ -116,6 +116,11 @@ function Header() {
               Professores
             </Link>
           </li>
+          <li className="nav-item">
+            <Link to="/curso/list" className="nav-link">
+              Cursos
+            </Link>
+          </li>
         </ul>
       </nav>
     </header>
