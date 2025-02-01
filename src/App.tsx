@@ -14,6 +14,8 @@ import CursoList from "./components/curso/CursoList"
 import CursoForm from "./components/curso/CursoForm"
 import DocumentoList from "./components/documento/DocumentoList"
 import DocumentoForm from "./components/documento/DocumentoForm"
+import GradeCurricularList from "./components/gradeCurricular/GradeCurricularList"
+import GradeCurricularForm from "./components/gradeCurricular/GradeCurricularForm"
 import "./App.css"
 
 function App() {
@@ -42,6 +44,9 @@ function App() {
             <Route path="/documento/list" element={<DocumentoList />} />
             <Route path="/documento/create" element={<DocumentoForm isEditing={false} />} />
             <Route path="/documento/edit/:id" element={<DocumentoForm isEditing={true} />} />
+            <Route path="/grade-curricular/list" element={<GradeCurricularList />} />
+            <Route path="/grade-curricular/create" element={<GradeCurricularForm isEditing={false} />} />
+            <Route path="/grade-curricular/edit/:id" element={<GradeCurricularForm isEditing={true} />} />
           </Routes>
         </main>
         <Footer />

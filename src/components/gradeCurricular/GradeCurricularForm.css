@@ -1,0 +1,43 @@
+.grade-curricular-form {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .grade-curricular-form h2 {
+    margin-bottom: 20px;
+  }
+  
+  .grade-curricular-form form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .grade-curricular-form div {
+    margin-bottom: 15px;
+  }
+  
+  .grade-curricular-form label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .grade-curricular-form input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .grade-curricular-form button {
+    padding: 10px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .grade-curricular-form button:hover {
+    background-color: #45a049;
+  }  

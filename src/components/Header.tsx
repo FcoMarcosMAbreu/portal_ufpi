@@ -126,6 +126,11 @@ function Header() {
               Documentos
             </Link>
           </li>
+          <li className="nav-item">
+            <Link to="/grade-curricular/list" className="nav-link">
+              Grade Curricular
+            </Link>
+          </li>
         </ul>
       </nav>
     </header>
