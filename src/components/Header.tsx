@@ -1,5 +1,6 @@
-import { useState } from "react"
-import { Link } from "react-router-dom"
+import { useState, useEffect } from "react"
+import { Link, useNavigate } from "react-router-dom"
+import { authService } from "../services/authService"
 import "./Header.css"
 
 function Header() {
@@ -8,9 +9,29 @@ function Header() {
     ensino: false,
     documentos: false,
   })
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const checkLoginStatus = async () => {
+      try {
+        await authService.getCurrentUser()
+        setIsLoggedIn(true)
+      } catch (error) {
+        setIsLoggedIn(false)
+      }
+    }
+    checkLoginStatus()
+  }, [])
 
   const toggleDropdown = (menu: keyof typeof isOpen) => {
     setIsOpen((prev) => ({ ...prev, [menu]: !prev[menu] }))
+  }
+
+  const handleLogout = () => {
+    authService.removeToken()
+    setIsLoggedIn(false)
+    navigate("/login")
   }
 
   return (
@@ -101,46 +122,62 @@ function Header() {
               </ul>
             )}
           </li>
-          <li className="nav-item">
-            <Link to="/admin/list" className="nav-link">
-              Administradores
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link to="/aluno/list" className="nav-link">
-              Alunos
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link to="/professor/list" className="nav-link">
-              Professores
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link to="/curso/list" className="nav-link">
-              Cursos
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link to="/documento/list" className="nav-link">
-              Documentos
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link to="/grade-curricular/list" className="nav-link">
-              Grade Curricular
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link to="/turma/list" className="nav-link">
-              Turmas
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link to="/dissertacao-tese/list" className="nav-link">
-              Dissertações e Teses
-            </Link>
-          </li>
+          {isLoggedIn && (
+            <>
+              <li className="nav-item">
+                <Link to="/admin/list" className="nav-link">
+                  Administradores
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/aluno/list" className="nav-link">
+                  Alunos
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/professor/list" className="nav-link">
+                  Professores
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/curso/list" className="nav-link">
+                  Cursos
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/documento/list" className="nav-link">
+                  Documentos
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/grade-curricular/list" className="nav-link">
+                  Grade Curricular
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/turma/list" className="nav-link">
+                  Turmas
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/dissertacao-tese/list" className="nav-link">
+                  Dissertações e Teses
+                </Link>
+              </li>
+              <li className="nav-item">
+                <button onClick={handleLogout} className="nav-link">
+                  Logout
+                </button>
+              </li>
+            </>
+          )}
+          {!isLoggedIn && (
+            <li className="nav-item">
+              <Link to="/login" className="nav-link">
+                Login
+              </Link>
+            </li>
+          )}
         </ul>
       </nav>
     </header>
