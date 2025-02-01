@@ -131,6 +131,11 @@ function Header() {
               Grade Curricular
             </Link>
           </li>
+          <li className="nav-item">
+            <Link to="/turma/list" className="nav-link">
+              Turmas
+            </Link>
+          </li>
         </ul>
       </nav>
     </header>

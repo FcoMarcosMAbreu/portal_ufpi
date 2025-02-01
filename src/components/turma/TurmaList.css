@@ -1,0 +1,49 @@
+.turma-list {
+    padding: 20px;
+  }
+  
+  .turma-list h2 {
+    margin-bottom: 20px;
+  }
+  
+  .turma-list table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .turma-list th,
+  .turma-list td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .turma-list th {
+    background-color: #f2f2f2;
+  }
+  
+  .btn-create,
+  .btn-edit,
+  .btn-delete {
+    padding: 5px 10px;
+    margin-right: 5px;
+    text-decoration: none;
+    color: white;
+    border-radius: 3px;
+  }
+  
+  .btn-create {
+    background-color: #4caf50;
+    display: inline-block;
+    margin-bottom: 20px;
+  }
+  
+  .btn-edit {
+    background-color: #2196f3;
+  }
+  
+  .btn-delete {
+    background-color: #f44336;
+    border: none;
+    cursor: pointer;
+  }  
