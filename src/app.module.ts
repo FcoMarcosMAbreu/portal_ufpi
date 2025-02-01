@@ -14,6 +14,8 @@ import { GradeCurricularModule } from './grade-curricular/grade-curricular.modul
 import { TurmasModule } from './turmas/turmas.module';
 import { DissertacoesTesesModule } from './dissertacoes-teses/dissertacoes-teses.module';
 import { CalendarioModule } from './calendario/calendario.module';
+import { ProcessoSeletivoModule } from './processos-seletivos/processos-seletivos.module';
+
 
 @Module({
   imports: [
@@ -45,6 +47,7 @@ import { CalendarioModule } from './calendario/calendario.module';
     TurmasModule,
     DissertacoesTesesModule,
     CalendarioModule,
+    ProcessoSeletivoModule,
   ],
   controllers: [AppController],
   providers: [AppService],
