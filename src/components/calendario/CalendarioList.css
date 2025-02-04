@@ -1,5 +1,7 @@
 .calendario-list {
-    padding: 20px;
+    /*padding: 20px;*/
+    padding: 5%;
+    padding-bottom: 6%;
   }
   
   .calendario-list h2 {

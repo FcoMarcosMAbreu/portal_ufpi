@@ -1,14 +1,10 @@
 import { useState, useEffect } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { authService } from "../services/authService"
+import logo from "../assets/images/logo.png"
 import "./Header.css"
 
 function Header() {
-  const [isOpen, setIsOpen] = useState({
-    programas: false,
-    ensino: false,
-    documentos: false,
-  })
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const navigate = useNavigate()
 
@@ -24,10 +20,6 @@ function Header() {
     checkLoginStatus()
   }, [])
 
-  const toggleDropdown = (menu: keyof typeof isOpen) => {
-    setIsOpen((prev) => ({ ...prev, [menu]: !prev[menu] }))
-  }
-
   const handleLogout = () => {
     authService.removeToken()
     setIsLoggedIn(false)
@@ -36,16 +28,20 @@ function Header() {
 
   return (
     <header className="header">
-      <nav className="navbar">
-        <ul className="nav-list">
-          <li className="nav-item dropdown">
-            <button onClick={() => toggleDropdown("programas")} className="nav-link">
-              Programas
-            </button>
-            {isOpen.programas && (
+      <div className="header-content">
+        <Link to="/" className="logo-link">
+          <img src={logo} alt="Logo" className="logo" />
+        </Link>
+        <nav className="navbar">
+          <ul className="nav-list">
+            <li className="nav-item">
+              <span className="nav-link">Programas</span>
               <ul className="dropdown-menu">
                 <li>
-                  <Link to="/programas/apresentacao">Apresentação</Link>
+                  <Link to="/">Apresentação</Link>
+                </li>
+                <li>
+                  <Link to="/programas/grade-curricular">Grade Curricular</Link>
                 </li>
                 <li>
                   <Link to="/programas/area-concentracao">Área de Concentração</Link>
@@ -53,17 +49,10 @@ function Header() {
                 <li>
                   <Link to="/programas/cursos">Cursos</Link>
                 </li>
-                <li>
-                  <Link to="/programas/grade-curricular">Grade Curricular</Link>
-                </li>
               </ul>
-            )}
-          </li>
-          <li className="nav-item dropdown">
-            <button onClick={() => toggleDropdown("ensino")} className="nav-link">
-              Ensino
-            </button>
-            {isOpen.ensino && (
+            </li>
+            <li className="nav-item">
+              <span className="nav-link">Ensino</span>
               <ul className="dropdown-menu">
                 <li>
                   <Link to="/ensino/alunos-ativos">Alunos Ativos</Link>
@@ -81,28 +70,24 @@ function Header() {
                   <Link to="/ensino/turmas">Turmas</Link>
                 </li>
               </ul>
-            )}
-          </li>
-          <li className="nav-item">
-            <Link to="/calendario/list" className="nav-link">
-              Calendário
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link to="/processo-seletivo/list" className="nav-link">
-              Processos Seletivos
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link to="/noticia/list" className="nav-link">
-              Notícias
-            </Link>
-          </li>
-          <li className="nav-item dropdown">
-            <button onClick={() => toggleDropdown("documentos")} className="nav-link">
-              Documentos
-            </button>
-            {isOpen.documentos && (
+            </li>
+            <li className="nav-item">
+              <Link to="/calendario" className="nav-link">
+                Calendário
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/processo-seletivo" className="nav-link">
+                Processos Seletivos
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/noticia" className="nav-link">
+                Notícias
+              </Link>
+            </li>
+            <li className="nav-item">
+              <span className="nav-link">Documentos</span>
               <ul className="dropdown-menu">
                 <li>
                   <Link to="/documentos/formularios">Formulários</Link>
@@ -120,66 +105,26 @@ function Header() {
                   <Link to="/documentos/material-didatico">Material Didático</Link>
                 </li>
               </ul>
-            )}
-          </li>
-          {isLoggedIn && (
-            <>
-              <li className="nav-item">
-                <Link to="/admin/list" className="nav-link">
-                  Administradores
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link to="/aluno/list" className="nav-link">
-                  Alunos
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link to="/professor/list" className="nav-link">
-                  Professores
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link to="/curso/list" className="nav-link">
-                  Cursos
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link to="/documento/list" className="nav-link">
-                  Documentos
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link to="/grade-curricular/list" className="nav-link">
-                  Grade Curricular
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link to="/turma/list" className="nav-link">
-                  Turmas
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link to="/dissertacao-tese/list" className="nav-link">
-                  Dissertações e Teses
-                </Link>
-              </li>
-              <li className="nav-item">
-                <button onClick={handleLogout} className="nav-link">
-                  Logout
-                </button>
-              </li>
-            </>
-          )}
-          {!isLoggedIn && (
-            <li className="nav-item">
-              <Link to="/login" className="nav-link">
-                Login
-              </Link>
             </li>
+          </ul>
+        </nav>
+        <div className="auth-links">
+          {isLoggedIn ? (
+            <>
+              <Link to="/admin" className="nav-link">
+                Admin Dashboard
+              </Link>
+              <button onClick={handleLogout} className="nav-link">
+                Logout
+              </button>
+            </>
+          ) : (
+            <Link to="/login" className="nav-link">
+              Login
+            </Link>
           )}
-        </ul>
-      </nav>
+        </div>
+      </div>
     </header>
   )
 }

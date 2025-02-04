@@ -1,0 +1,68 @@
+.pos-graduacao {
+    align-items: center;
+    /*padding: 10%;*/
+    padding: 5%;
+    padding-bottom: 6%;
+  }
+  
+  .cards-container {
+    display: flex;
+    justify-content: space-between; /* Distribui os cards uniformemente */
+    align-items: center; /* Alinha os cards verticalmente */
+    gap: 20px;
+    max-width: 800px; /* Define uma largura máxima para manter uma boa disposição */
+    margin: 0 auto; /* Centraliza o contêiner */
+    flex-wrap: wrap; /* Permite que os cards quebrem linha se necessário */
+  }
+  
+  .card {
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: left;
+  }
+  
+  .titulo {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  .subtitulo {
+    font-size: 1.2rem;
+    color: gray;
+    margin-bottom: 10px;
+  }
+  
+  .linhas-pesquisa ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .linhas-pesquisa li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 8px;
+  }
+  
+  button {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background: #0056b3;
+  }
+  
+  .descricao {
+    margin-top: 5px;
+    font-size: 0.9rem;
+    color: #555;
+  }
+  

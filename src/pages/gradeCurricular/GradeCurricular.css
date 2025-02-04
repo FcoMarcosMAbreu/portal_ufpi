@@ -1,0 +1,96 @@
+.curriculo-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    /*padding: 10%;*/
+    padding: 5%;
+    padding-bottom: 6%;
+  }
+  
+  .programa-section {
+    margin-bottom: 3rem;
+  }
+  
+  .programa-section h2 {
+    color: #2c3e50;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 3px solid #3498db;
+  }
+  
+  .disciplinas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .disciplina-card {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .disciplina-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  .disciplina-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .disciplina-codigo {
+    font-family: monospace;
+    font-size: 0.9rem;
+    color: #7f8c8d;
+  }
+  
+  .disciplina-tipo {
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+  }
+  
+  .disciplina-tipo.obrigatória {
+    background-color: #e74c3c;
+    color: white;
+  }
+  
+  .disciplina-tipo.optativa {
+    background-color: #2ecc71;
+    color: white;
+  }
+  
+  .disciplina-nome {
+    font-size: 1.1rem;
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    line-height: 1.4;
+  }
+  
+  .disciplina-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: #7f8c8d;
+  }
+  
+  @media (max-width: 768px) {
+    .curriculo-container {
+      padding: 1rem;
+    }
+  
+    .disciplinas-grid {
+      grid-template-columns: 1fr;
+    }
+  
+    .programa-section h2 {
+      font-size: 1.5rem;
+    }
+  }  

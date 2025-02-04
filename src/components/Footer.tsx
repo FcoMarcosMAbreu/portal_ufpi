@@ -11,8 +11,12 @@ function Footer() {
 
   return (
     <footer className="footer">
+      <div className="footer-div">
       <p>SIGAA | Superintendência de Tecnologia da Informação - STI/UFPI - (86) 3215-1124 | © UFRN</p>
+      </div>
+      <div className="footer-div">
       <p>Data e hora atual: {currentDateTime.toLocaleString()}</p>
+      </div>
     </footer>
   )
 }

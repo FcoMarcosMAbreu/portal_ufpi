@@ -1,49 +1,49 @@
-.professor-list {
-    padding: 20px;
-  }
-  
-  .professor-list h2 {
-    margin-bottom: 20px;
-  }
-  
-  .professor-list table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  .professor-list th,
-  .professor-list td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
-  }
-  
-  .professor-list th {
-    background-color: #f2f2f2;
-  }
-  
-  .btn-create,
-  .btn-edit,
-  .btn-delete {
-    padding: 5px 10px;
-    margin-right: 5px;
-    text-decoration: none;
-    color: white;
-    border-radius: 3px;
-  }
-  
-  .btn-create {
-    background-color: #4caf50;
-    display: inline-block;
-    margin-bottom: 20px;
-  }
-  
-  .btn-edit {
-    background-color: #2196f3;
-  }
-  
-  .btn-delete {
-    background-color: #f44336;
-    border: none;
-    cursor: pointer;
-  }  
+.professor-card {
+  background: #fff;
+  border: 1px solid var(--border-color);
+  border-radius: var(--card-radius);
+  padding: 1.5rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.professor-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.professor-name {
+  color: var(--primary-color);
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.professor-info {
+  margin-bottom: 1rem;
+}
+
+.professor-info p {
+  margin-bottom: 0.5rem;
+  color: #666;
+}
+
+.professor-info strong {
+  color: #333;
+}
+
+.professor-links {
+  margin-top: auto;
+}
+
+.lattes-link {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: var(--primary-color);
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.lattes-link:hover {
+  background: #1557b0;
+}

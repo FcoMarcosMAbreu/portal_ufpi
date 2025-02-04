@@ -2,7 +2,7 @@ import type React from "react"
 import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { documentoService } from "../../services/documentoService"
-import { type CreateDocumentoDto, type UpdateDocumentoDto, TipoDocumento } from "../../types/documento"
+import { type CreateDocumentoDto, type UpdateDocumentoDto, TipoDocumento, TagDocumento } from "../../types/documento"
 import "./DocumentoForm.css"
 
 interface DocumentoFormProps {
@@ -15,6 +15,7 @@ const DocumentoForm: React.FC<DocumentoFormProps> = ({ isEditing }) => {
   const [formData, setFormData] = useState<CreateDocumentoDto | UpdateDocumentoDto>({
     nome: "",
     tipo: TipoDocumento.PDF,
+    tag: TagDocumento.OUTROS,
     arquivo: null as unknown as File,
   })
 
@@ -30,6 +31,7 @@ const DocumentoForm: React.FC<DocumentoFormProps> = ({ isEditing }) => {
       setFormData({
         nome: documento.nome,
         tipo: documento.tipo,
+        tag: documento.tag,
       })
     } catch (error) {
       console.error("Erro ao buscar documento:", error)
@@ -81,6 +83,16 @@ const DocumentoForm: React.FC<DocumentoFormProps> = ({ isEditing }) => {
             {Object.values(TipoDocumento).map((tipo) => (
               <option key={tipo} value={tipo}>
                 {tipo}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label htmlFor="tag">Categoria:</label>
+          <select id="tag" name="tag" value={formData.tag} onChange={handleChange} required>
+            {Object.values(TagDocumento).map((tag) => (
+              <option key={tag} value={tag}>
+                {tag.replace("_", " ")}
               </option>
             ))}
           </select>

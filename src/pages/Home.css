@@ -1,6 +1,6 @@
 .home {
-    padding-top: 60px; /* Ajuste conforme a altura do seu header */
-    padding-bottom: 60px; /* Ajuste conforme a altura do seu footer */
+    padding-top: 5%;
+    padding-bottom: 6%;
   }
   
   .hero {
@@ -31,6 +31,11 @@
     padding: 2rem;
     border-radius: 8px;
     margin-bottom: 2rem;
+    color: #0000;
+  }
+
+  .h2-color-text{
+    color: #000;
   }
   
   .cards {
@@ -45,12 +50,14 @@
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     flex: 1;
+    color: #000
   }
   
   .contact {
     background-color: #e9ecef;
     padding: 2rem;
     border-radius: 8px;
+    color: #000;
   }
   
   .contact-info {
