@@ -1,0 +1,1 @@
+export const USE_MOCK_DATA = true // Set this to false when ready to use real API

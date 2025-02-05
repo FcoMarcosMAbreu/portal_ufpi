@@ -1,8 +1,9 @@
 import type React from "react"
 import { useState, useEffect } from "react"
-import { Link } from "react-router-dom"
 import { alunoService } from "../../services/alunoService"
 import type { AlunoResponseDto } from "../../types/aluno"
+import { PageContainer } from "../common/PageContainer"
+import { ResourceGrid } from "../common/ResourceGrid"
 import "./AlunoList.css"
 
 const AlunoList: React.FC = () => {
@@ -21,53 +22,28 @@ const AlunoList: React.FC = () => {
     }
   }
 
-  const handleDelete = async (id: number) => {
-    if (window.confirm("Tem certeza que deseja excluir este aluno?")) {
-      try {
-        await alunoService.delete(id)
-        fetchAlunos()
-      } catch (error) {
-        console.error("Erro ao excluir aluno:", error)
-      }
-    }
-  }
-
   return (
-    <div className="aluno-list">
-      <h2>Lista de Alunos</h2>
-      <Link to="/aluno/create" className="btn-create">
-        Criar Novo Aluno
-      </Link>
-      <table>
-        <thead>
-          <tr>
-            <th>Nome</th>
-            <th>Email</th>
-            <th>Matrícula</th>
-            <th>Curso</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          {alunos.map((aluno) => (
-            <tr key={aluno.id}>
-              <td>{aluno.nome}</td>
-              <td>{aluno.email}</td>
-              <td>{aluno.matricula}</td>
-              <td>{aluno.curso}</td>
-              <td>
-                <Link to={`/aluno/edit/${aluno.id}`} className="btn-edit">
-                  Editar
-                </Link>
-                <button onClick={() => handleDelete(aluno.id)} className="btn-delete">
-                  Excluir
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <PageContainer title="Alunos Ativos" description="Lista de alunos atualmente matriculados no programa">
+      <ResourceGrid>
+        {alunos.map((aluno) => (
+          // Novo card de aluno, semelhante ao card de professor
+          <div key={aluno.id} className="aluno-card">
+            <h3 className="aluno-name">{aluno.nome}</h3>
+            <div className="aluno-info">
+              <p>
+                <strong>Matrícula:</strong> {aluno.matricula}
+              </p>
+              <p>
+                <strong>Email:</strong> {aluno.email}
+              </p>
+              <p>
+                <strong>Curso:</strong> {aluno.curso}
+              </p>
+            </div>
+          </div>
+        ))}
+      </ResourceGrid>
+    </PageContainer>
   )
 }
 

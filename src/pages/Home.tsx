@@ -1,3 +1,4 @@
+import { mockProfessores } from "../components/mock/mockData"
 import "./Home.css"
 
 function Home() {
@@ -62,7 +63,7 @@ function Home() {
       </section>
 
       <section className="contact">
-        <h2>Coordenação do Programa</h2>
+        <h2 className="h2-color-text">Coordenação do Programa</h2>
         <div className="contact-info">
           <p>
             <strong>Coordenador:</strong> 
@@ -81,6 +82,26 @@ function Home() {
             <strong>Endereço:</strong> 
             <br/>Campus Universitário Ministro Petrônio Portella, Bairro Ininga, Teresina-PI
           </p>
+        </div>
+      </section>
+      <br/>
+      <section className="alternative">
+        <h2 className="h2-color-text">Professores Destacados</h2>
+        <div className="cards">
+          {mockProfessores.slice(0, 3).map((professor) => (
+            <div key={professor.id} className="card">
+              <h3>{professor.nome}</h3>
+              <p>
+                <strong>Nível:</strong> {professor.nivel}
+              </p>
+              <p>
+                <strong>Email:</strong> {professor.email}
+              </p>
+              <a href={professor.curriculo_lattes} target="_blank" rel="noopener noreferrer">
+                Currículo Lattes
+              </a>
+            </div>
+          ))}
         </div>
       </section>
     </div>
