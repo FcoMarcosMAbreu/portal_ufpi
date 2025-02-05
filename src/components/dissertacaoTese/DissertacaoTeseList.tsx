@@ -1,6 +1,5 @@
 import type React from "react"
 import { useState, useEffect } from "react"
-import { Link } from "react-router-dom"
 import { dissertacaoTeseService } from "../../services/dissertacaoTeseService"
 import type { DissertacaoTeseDto } from "../../types/dissertacaoTese"
 import "./DissertacaoTeseList.css"
@@ -12,6 +11,7 @@ const DissertacaoTeseList: React.FC = () => {
     fetchDissertacoesTeses()
   }, [])
 
+  // Função para buscar dissertações e teses
   const fetchDissertacoesTeses = async () => {
     try {
       const data = await dissertacaoTeseService.getAll()
@@ -21,11 +21,12 @@ const DissertacaoTeseList: React.FC = () => {
     }
   }
 
+  // Função para excluir uma dissertação/tese
   const handleDelete = async (id: number) => {
     if (window.confirm("Tem certeza que deseja excluir esta dissertação/tese?")) {
       try {
         await dissertacaoTeseService.delete(id)
-        fetchDissertacoesTeses()
+        fetchDissertacoesTeses() // Atualiza a lista após a exclusão
       } catch (error) {
         console.error("Erro ao excluir dissertação/tese:", error)
       }
@@ -35,9 +36,6 @@ const DissertacaoTeseList: React.FC = () => {
   return (
     <div className="dissertacao-tese-list">
       <h2>Lista de Dissertações e Teses</h2>
-      <Link to="/dissertacao-tese/create" className="btn-create">
-        Criar Nova Dissertação/Tese
-      </Link>
       <table>
         <thead>
           <tr>
@@ -55,14 +53,7 @@ const DissertacaoTeseList: React.FC = () => {
               <td>{dissertacaoTese.titulo}</td>
               <td>{dissertacaoTese.orientador}</td>
               <td>{new Date(dissertacaoTese.data).toLocaleDateString()}</td>
-              <td>
-                <Link to={`/dissertacao-tese/edit/${dissertacaoTese.id}`} className="btn-edit">
-                  Editar
-                </Link>
-                <button onClick={() => handleDelete(dissertacaoTese.id)} className="btn-delete">
-                  Excluir
-                </button>
-              </td>
+              <td>{/* Botão de exclusão removido da visualização pública */}</td>
             </tr>
           ))}
         </tbody>

@@ -35,9 +35,6 @@ const TurmaList: React.FC = () => {
   return (
     <div className="turma-list">
       <h2>Lista de Turmas</h2>
-      <Link to="/turma/create" className="btn-create">
-        Criar Nova Turma
-      </Link>
       <table>
         <thead>
           <tr>

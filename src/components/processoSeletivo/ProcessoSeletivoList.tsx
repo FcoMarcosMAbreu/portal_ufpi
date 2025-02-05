@@ -35,9 +35,6 @@ const ProcessoSeletivoList: React.FC = () => {
   return (
     <div className="processo-seletivo-list">
       <h2>Lista de Processos Seletivos</h2>
-      <Link to="/processo-seletivo/create" className="btn-create">
-        Criar Novo Processo Seletivo
-      </Link>
       <table>
         <thead>
           <tr>

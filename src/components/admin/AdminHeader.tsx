@@ -1,0 +1,30 @@
+import type React from "react"
+import { Link, useNavigate } from "react-router-dom"
+import { authService } from "../../services/authService"
+import "./AdminHeader.css"
+
+const AdminHeader: React.FC = () => {
+  const navigate = useNavigate()
+
+  const handleLogout = () => {
+    authService.removeToken()
+    navigate("/admin/login")
+  }
+
+  return (
+    <header className="admin-header">
+      <div className="admin-header-content">
+        <Link to="/admin" className="admin-logo-link">
+          <img src="/logo.png" alt="Logo" className="admin-logo" />
+        </Link>
+        <div className="admin-auth-links">
+          <button onClick={handleLogout} className="admin-nav-link">
+            Logout
+          </button>
+        </div>
+      </div>
+    </header>
+  )
+}
+
+export default AdminHeader

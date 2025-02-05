@@ -35,9 +35,6 @@ const CalendarioList: React.FC = () => {
   return (
     <div className="calendario-list">
       <h2>Lista de Eventos do Calendário</h2>
-      <Link to="/calendario/create" className="btn-create">
-        Criar Novo Evento
-      </Link>
       <table>
         <thead>
           <tr>

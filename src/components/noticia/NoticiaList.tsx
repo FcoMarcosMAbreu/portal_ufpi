@@ -35,9 +35,6 @@ const NoticiaList: React.FC = () => {
   return (
     <div className="noticia-list">
       <h2>Lista de Notícias</h2>
-      <Link to="/noticia/create" className="btn-create">
-        Criar Nova Notícia
-      </Link>
       <table>
         <thead>
           <tr>
