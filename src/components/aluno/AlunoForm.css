@@ -1,43 +1,43 @@
 .aluno-form {
-  max-width: 500px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-.aluno-form h2 {
-  margin-bottom: 20px;
-}
-
-.aluno-form form {
-  display: flex;
-  flex-direction: column;
-}
-
-.aluno-form div {
-  margin-bottom: 15px;
-}
-
-.aluno-form label {
-  display: block;
-  margin-bottom: 5px;
-}
-
-.aluno-form input {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-.aluno-form button {
-  padding: 10px;
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.aluno-form button:hover {
-  background-color: #45a049;
-}
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .aluno-form h2 {
+    margin-bottom: 20px;
+  }
+  
+  .aluno-form form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .aluno-form div {
+    margin-bottom: 15px;
+  }
+  
+  .aluno-form label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .aluno-form input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .aluno-form button {
+    padding: 10px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .aluno-form button:hover {
+    background-color: #45a049;
+  }  

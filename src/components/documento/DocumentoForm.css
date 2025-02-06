@@ -1,44 +1,44 @@
 .documento-form {
-  max-width: 500px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-.documento-form h2 {
-  margin-bottom: 20px;
-}
-
-.documento-form form {
-  display: flex;
-  flex-direction: column;
-}
-
-.documento-form div {
-  margin-bottom: 15px;
-}
-
-.documento-form label {
-  display: block;
-  margin-bottom: 5px;
-}
-
-.documento-form input,
-.documento-form select {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-.documento-form button {
-  padding: 10px;
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.documento-form button:hover {
-  background-color: #45a049;
-}
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .documento-form h2 {
+    margin-bottom: 20px;
+  }
+  
+  .documento-form form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .documento-form div {
+    margin-bottom: 15px;
+  }
+  
+  .documento-form label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .documento-form input,
+  .documento-form select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .documento-form button {
+    padding: 10px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .documento-form button:hover {
+    background-color: #45a049;
+  }  

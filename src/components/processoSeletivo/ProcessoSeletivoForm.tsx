@@ -53,7 +53,7 @@ const ProcessoSeletivoForm: React.FC<ProcessoSeletivoFormProps> = ({ isEditing }
       } else {
         await processoSeletivoService.create(formData as CreateProcessoSeletivoDto)
       }
-      navigate("/processo-seletivo/list")
+      navigate("/processo-seletivo")
     } catch (error) {
       console.error("Erro ao salvar processo seletivo:", error)
     }
@@ -89,4 +89,3 @@ const ProcessoSeletivoForm: React.FC<ProcessoSeletivoFormProps> = ({ isEditing }
 }
 
 export default ProcessoSeletivoForm
-

@@ -1,73 +1,77 @@
-import type React from "react"
 import { useState, useEffect } from "react"
-import { Link } from "react-router-dom"
 import { documentoService } from "../../services/documentoService"
 import type { DocumentoResponseDto } from "../../types/documento"
+import type { TagDocumento } from "../../types/documento"
 import "./DocumentoList.css"
 
-const DocumentoList: React.FC = () => {
+interface DocumentoListPublicProps {
+  tag: TagDocumento
+  title: string
+}
+
+const DocumentoListPublic: React.FC<DocumentoListPublicProps> = ({ tag, title }) => {
   const [documentos, setDocumentos] = useState<DocumentoResponseDto[]>([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     fetchDocumentos()
-  }, [])
+  }, []) // Removed unnecessary dependency: tag
 
   const fetchDocumentos = async () => {
     try {
-      const data = await documentoService.getAll()
-      setDocumentos(data)
+      const allDocumentos = await documentoService.getAll()
+      const filteredDocumentos = allDocumentos.filter((doc) => doc.tag === tag)
+      setDocumentos(filteredDocumentos)
     } catch (error) {
       console.error("Erro ao buscar documentos:", error)
+    } finally {
+      setLoading(false)
     }
   }
 
-  const handleDelete = async (id: number) => {
-    if (window.confirm("Tem certeza que deseja excluir este documento?")) {
-      try {
-        await documentoService.delete(id)
-        fetchDocumentos()
-      } catch (error) {
-        console.error("Erro ao excluir documento:", error)
-      }
-    }
+  const formatDate = (date: Date) => {
+    return new Date(date).toLocaleDateString("pt-BR")
+  }
+
+  if (loading) {
+    return (
+      <div className="documento-list-public">
+        <div className="loading">Carregando...</div>
+      </div>
+    )
   }
 
   return (
-    <div className="documento-list">
-      <h2>Lista de Documentos</h2>
-      <Link to="/documento/create" className="btn-create">
-        Criar Novo Documento
-      </Link>
-      <table>
-        <thead>
-          <tr>
-            <th>Nome</th>
-            <th>Tipo</th>
-            <th>Data de Criação</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          {documentos.map((documento) => (
-            <tr key={documento.id}>
-              <td>{documento.nome}</td>
-              <td>{documento.tipo}</td>
-              <td>{new Date(documento.data_criacao).toLocaleDateString()}</td>
-              <td>
-                <Link to={`/documento/edit/${documento.id}`} className="btn-edit">
-                  Editar
-                </Link>
-                <button onClick={() => handleDelete(documento.id)} className="btn-delete">
-                  Excluir
-                </button>
-              </td>
+    <div className="documento-list-public">
+      <h2>{title}</h2>
+      {documentos.length === 0 ? (
+        <p className="no-documents">Nenhum documento encontrado nesta categoria.</p>
+      ) : (
+        <table>
+          <thead>
+            <tr>
+              <th>Título</th>
+              <th>Data de Publicação</th>
+              <th>Arquivo</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {documentos.map((documento) => (
+              <tr key={documento.id}>
+                <td>{documento.nome}</td>
+                <td>{formatDate(documento.data_criacao)}</td>
+                <td>
+                  <a href={`/api/documentos/${documento.id}/download`} className="download-link">
+                    Download
+                  </a>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </div>
   )
 }
 
-export default DocumentoList
-
+export default DocumentoListPublic

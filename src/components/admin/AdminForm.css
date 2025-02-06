@@ -1,43 +1,43 @@
 .admin-form {
-  max-width: 500px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-.admin-form h2 {
-  margin-bottom: 20px;
-}
-
-.admin-form form {
-  display: flex;
-  flex-direction: column;
-}
-
-.admin-form div {
-  margin-bottom: 15px;
-}
-
-.admin-form label {
-  display: block;
-  margin-bottom: 5px;
-}
-
-.admin-form input {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-.admin-form button {
-  padding: 10px;
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.admin-form button:hover {
-  background-color: #45a049;
-}
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .admin-form h2 {
+    margin-bottom: 20px;
+  }
+  
+  .admin-form form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .admin-form div {
+    margin-bottom: 15px;
+  }
+  
+  .admin-form label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .admin-form input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .admin-form button {
+    padding: 10px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .admin-form button:hover {
+    background-color: #45a049;
+  }  

@@ -3,6 +3,7 @@ import Header from "./components/Header"
 import Footer from "./components/Footer"
 import AdminHeader from "./components/admin/AdminHeader"
 import Home from "./pages/Home"
+import AdminDashboard from "./pages/admin/AdminDashboard"
 import AdminList from "./components/admin/AdminList"
 import AdminForm from "./components/admin/AdminForm"
 import AlunoList from "./components/aluno/AlunoList"
@@ -360,3 +361,4 @@ function App() {
 }
 
 export default App
+

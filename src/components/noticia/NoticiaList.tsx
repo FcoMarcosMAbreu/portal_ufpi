@@ -1,5 +1,6 @@
 import type React from "react"
 import { useState, useEffect } from "react"
+import { Link } from "react-router-dom"
 import { noticiaService } from "../../services/noticiaService"
 import type { NoticiaDto } from "../../types/noticia"
 import "./NoticiaList.css"
@@ -50,6 +51,9 @@ const NoticiaList: React.FC = () => {
               <td>{noticia.tag}</td>
               <td>{new Date(noticia.data_criacao).toLocaleDateString()}</td>
               <td>
+                <Link to={`/noticia/edit/${noticia.id}`} className="btn-edit">
+                  Editar
+                </Link>
                 <button onClick={() => handleDelete(noticia.id)} className="btn-delete">
                   Excluir
                 </button>
@@ -63,4 +67,3 @@ const NoticiaList: React.FC = () => {
 }
 
 export default NoticiaList
-
