@@ -1,44 +1,45 @@
 .professor-form {
-    max-width: 500px;
-    margin: 0 auto;
-    padding: 20px;
-  }
-  
-  .professor-form h2 {
-    margin-bottom: 20px;
-  }
-  
-  .professor-form form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .professor-form div {
-    margin-bottom: 15px;
-  }
-  
-  .professor-form label {
-    display: block;
-    margin-bottom: 5px;
-  }
-  
-  .professor-form input,
-  .professor-form select {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-  }
-  
-  .professor-form button {
-    padding: 10px;
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .professor-form button:hover {
-    background-color: #45a049;
-  }  
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.professor-form h2 {
+  margin-bottom: 20px;
+}
+
+.professor-form form {
+  display: flex;
+  flex-direction: column;
+}
+
+.professor-form div {
+  margin-bottom: 15px;
+}
+
+.professor-form label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.professor-form input,
+.professor-form select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.professor-form button {
+  padding: 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.professor-form button:hover {
+  background-color: #45a049;
+}
+

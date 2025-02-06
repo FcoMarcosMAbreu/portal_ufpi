@@ -1,6 +1,5 @@
 import type React from "react"
 import { useState, useEffect } from "react"
-import { Link } from "react-router-dom"
 import { turmaService } from "../../services/turmaService"
 import type { TurmaDto } from "../../types/turma"
 import "./TurmaList.css"
@@ -57,9 +56,6 @@ const TurmaList: React.FC = () => {
               <td>{turma.docentes}</td>
               <td>{new Date(turma.data_criacao).toLocaleDateString()}</td>
               <td>
-                <Link to={`/turma/edit/${turma.id}`} className="btn-edit">
-                  Editar
-                </Link>
                 <button onClick={() => handleDelete(turma.id)} className="btn-delete">
                   Excluir
                 </button>
@@ -73,3 +69,4 @@ const TurmaList: React.FC = () => {
 }
 
 export default TurmaList
+

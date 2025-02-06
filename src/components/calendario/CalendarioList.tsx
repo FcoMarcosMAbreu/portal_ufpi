@@ -1,6 +1,5 @@
 import type React from "react"
 import { useState, useEffect } from "react"
-import { Link } from "react-router-dom"
 import { calendarioService } from "../../services/calendarioService"
 import type { CalendarioDto } from "../../types/calendario"
 import "./CalendarioList.css"
@@ -53,9 +52,6 @@ const CalendarioList: React.FC = () => {
               <td>{new Date(calendario.data_inicio).toLocaleDateString()}</td>
               <td>{new Date(calendario.data_termino).toLocaleDateString()}</td>
               <td>
-                <Link to={`/calendario/edit/${calendario.id}`} className="btn-edit">
-                  Editar
-                </Link>
                 <button onClick={() => handleDelete(calendario.id)} className="btn-delete">
                   Excluir
                 </button>

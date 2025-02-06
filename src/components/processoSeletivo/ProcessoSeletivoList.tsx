@@ -1,6 +1,5 @@
 import type React from "react"
 import { useState, useEffect } from "react"
-import { Link } from "react-router-dom"
 import { processoSeletivoService } from "../../services/processoSeletivoService"
 import type { ProcessoSeletivoDto } from "../../types/processoSeletivo"
 import "./ProcessoSeletivoList.css"
@@ -57,9 +56,6 @@ const ProcessoSeletivoList: React.FC = () => {
               </td>
               <td>{new Date(processoSeletivo.data_criacao).toLocaleDateString()}</td>
               <td>
-                <Link to={`/processo-seletivo/edit/${processoSeletivo.id}`} className="btn-edit">
-                  Editar
-                </Link>
                 <button onClick={() => handleDelete(processoSeletivo.id)} className="btn-delete">
                   Excluir
                 </button>
@@ -73,3 +69,4 @@ const ProcessoSeletivoList: React.FC = () => {
 }
 
 export default ProcessoSeletivoList
+

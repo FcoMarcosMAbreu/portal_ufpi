@@ -125,3 +125,4 @@ const ProfessorForm: React.FC<ProfessorFormProps> = ({ isEditing }) => {
 }
 
 export default ProfessorForm
+

@@ -1,38 +1,47 @@
-import axios from "axios"
-import type { CreateAdminDto, LoginAdminDto } from "../types/auth"
+// Usuário mockado
+const mockUser = {
+  id: 1,
+  name: "Admin",
+  email: "admin@example.com",
+  role: "admin",
+}
 
-const API_URL = "http://localhost:3000" // Adjust to your backend URL
+// Credenciais mockadas
+const mockCredentials = {
+  email: "admin@example.com",
+  password: "password123",
+}
 
 export const authService = {
-  register: async (admin: CreateAdminDto): Promise<void> => {
-    await axios.post(`${API_URL}/auth/register`, admin)
-  },
-
-  login: async (credentials: LoginAdminDto): Promise<string> => {
-    const response = await axios.post(`${API_URL}/auth/login`, credentials)
-    return response.data.access_token
-  },
-
-  getCurrentUser: async (): Promise<any> => {
-    const token = localStorage.getItem("token")
-    if (!token) {
-      throw new Error("No token found")
-    }
-    const response = await axios.get(`${API_URL}/auth`, {
-      headers: { Authorization: `Bearer ${token}` },
+  login: (email: string, password: string): Promise<{ user: typeof mockUser; token: string }> => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (email === mockCredentials.email && password === mockCredentials.password) {
+          const token = "mock-jwt-token"
+          localStorage.setItem("token", token)
+          localStorage.setItem("user", JSON.stringify(mockUser))
+          resolve({ user: mockUser, token })
+        } else {
+          reject(new Error("Invalid credentials"))
+        }
+      }, 500) // Simula um delay de rede
     })
-    return response.data
   },
 
-  setToken: (token: string): void => {
-    localStorage.setItem("token", token)
-  },
-
-  getToken: (): string | null => {
-    return localStorage.getItem("token")
-  },
-
-  removeToken: (): void => {
+  logout: (): void => {
     localStorage.removeItem("token")
+    localStorage.removeItem("user")
+  },
+
+  getCurrentUser: (): typeof mockUser | null => {
+    const userStr = localStorage.getItem("user")
+    if (userStr) {
+      return JSON.parse(userStr)
+    }
+    return null
+  },
+
+  isAuthenticated: (): boolean => {
+    return !!localStorage.getItem("token")
   },
 }

@@ -74,3 +74,4 @@ const GradeCurricularList: React.FC = () => {
 }
 
 export default GradeCurricularList
+

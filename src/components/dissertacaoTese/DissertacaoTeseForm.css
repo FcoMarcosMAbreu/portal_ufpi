@@ -1,48 +1,48 @@
 .dissertacao-tese-form {
-    max-width: 500px;
-    margin: 0 auto;
-    padding: 20px;
-  }
-  
-  .dissertacao-tese-form h2 {
-    margin-bottom: 20px;
-  }
-  
-  .dissertacao-tese-form form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .dissertacao-tese-form div {
-    margin-bottom: 15px;
-  }
-  
-  .dissertacao-tese-form label {
-    display: block;
-    margin-bottom: 5px;
-  }
-  
-  .dissertacao-tese-form input,
-  .dissertacao-tese-form textarea {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-  }
-  
-  .dissertacao-tese-form textarea {
-    height: 100px;
-  }
-  
-  .dissertacao-tese-form button {
-    padding: 10px;
-    background-color: #4caf50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .dissertacao-tese-form button:hover {
-    background-color: #45a049;
-  }  
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.dissertacao-tese-form h2 {
+  margin-bottom: 20px;
+}
+
+.dissertacao-tese-form form {
+  display: flex;
+  flex-direction: column;
+}
+
+.dissertacao-tese-form div {
+  margin-bottom: 15px;
+}
+
+.dissertacao-tese-form label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.dissertacao-tese-form input,
+.dissertacao-tese-form textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.dissertacao-tese-form textarea {
+  height: 100px;
+}
+
+.dissertacao-tese-form button {
+  padding: 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.dissertacao-tese-form button:hover {
+  background-color: #45a049;
+}

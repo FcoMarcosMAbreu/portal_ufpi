@@ -3,7 +3,6 @@ import Header from "./components/Header"
 import Footer from "./components/Footer"
 import AdminHeader from "./components/admin/AdminHeader"
 import Home from "./pages/Home"
-import AdminDashboard from "./pages/admin/AdminDashboard"
 import AdminList from "./components/admin/AdminList"
 import AdminForm from "./components/admin/AdminForm"
 import AlunoList from "./components/aluno/AlunoList"
@@ -126,11 +125,14 @@ function App() {
           }
         />
 
-        {/* Rotas administrativas */}
+        {/* Rota de login administrativo */}
+        <Route path="/admin/login" element={<LoginForm />} />
+
+        {/* Rotas administrativas protegidas */}
         <Route
           path="/admin/*"
           element={
-            <>
+            <ProtectedRoute>
               <AdminHeader />
               <main>
                 <Routes>
@@ -138,401 +140,218 @@ function App() {
                   <Route
                     path="/admins"
                     element={
-                      <ProtectedRoute>
-                        <ResourceManager<AdminResponseDto, CreateAdminDto, UpdateAdminDto>
-                          resourceName="Administrador"
-                          fetchResources={adminService.getAll}
-                          createResource={adminService.create}
-                          updateResource={adminService.update}
-                          deleteResource={adminService.delete}
-                          resourceFields={[
-                            { name: "nome", label: "Nome", type: "text" },
-                            { name: "email", label: "Email", type: "email" },
-                            { name: "senha", label: "Senha", type: "password" },
-                          ]}
-                        />
-                      </ProtectedRoute>
+                      <ResourceManager<AdminResponseDto, CreateAdminDto, UpdateAdminDto>
+                        resourceName="Administrador"
+                        fetchResources={adminService.getAll}
+                        createResource={adminService.create}
+                        updateResource={adminService.update}
+                        deleteResource={adminService.delete}
+                        resourceFields={[
+                          { name: "nome", label: "Nome", type: "text" },
+                          { name: "email", label: "Email", type: "email" },
+                          { name: "senha", label: "Senha", type: "password" },
+                        ]}
+                      />
                     }
                   />
                   <Route
                     path="/alunos"
                     element={
-                      <ProtectedRoute>
-                        <ResourceManager<AlunoResponseDto, CreateAlunoDto, UpdateAlunoDto>
-                          resourceName="Aluno"
-                          fetchResources={alunoService.getAll}
-                          createResource={alunoService.create}
-                          updateResource={alunoService.update}
-                          deleteResource={alunoService.delete}
-                          resourceFields={[
-                            { name: "nome", label: "Nome", type: "text" },
-                            { name: "email", label: "Email", type: "email" },
-                            { name: "matricula", label: "Matrícula", type: "text" },
-                          ]}
-                        />
-                      </ProtectedRoute>
+                      <ResourceManager<AlunoResponseDto, CreateAlunoDto, UpdateAlunoDto>
+                        resourceName="Aluno"
+                        fetchResources={alunoService.getAll}
+                        createResource={alunoService.create}
+                        updateResource={alunoService.update}
+                        deleteResource={alunoService.delete}
+                        resourceFields={[
+                          { name: "nome", label: "Nome", type: "text" },
+                          { name: "email", label: "Email", type: "email" },
+                          { name: "matricula", label: "Matrícula", type: "text" },
+                        ]}
+                      />
                     }
                   />
                   <Route
                     path="/noticias"
                     element={
-                      <ProtectedRoute>
-                        <ResourceManager<NoticiaDto, CreateNoticiaDto, UpdateNoticiaDto>
-                          resourceName="Notícia"
-                          fetchResources={noticiaService.getAll}
-                          createResource={noticiaService.create}
-                          updateResource={noticiaService.update}
-                          deleteResource={noticiaService.delete}
-                          resourceFields={[
-                            { name: "titulo", label: "Título", type: "text" },
-                            { name: "conteudo", label: "Conteúdo", type: "textarea" },
-                          ]}
-                        />
-                      </ProtectedRoute>
+                      <ResourceManager<NoticiaDto, CreateNoticiaDto, UpdateNoticiaDto>
+                        resourceName="Notícia"
+                        fetchResources={noticiaService.getAll}
+                        createResource={noticiaService.create}
+                        updateResource={noticiaService.update}
+                        deleteResource={noticiaService.delete}
+                        resourceFields={[
+                          { name: "titulo", label: "Título", type: "text" },
+                          { name: "conteudo", label: "Conteúdo", type: "textarea" },
+                        ]}
+                      />
                     }
                   />
                   <Route
                     path="/professores"
                     element={
-                      <ProtectedRoute>
-                        <ResourceManager<ProfessorResponseDto, CreateProfessorDto, UpdateProfessorDto>
-                          resourceName="Professor"
-                          fetchResources={professorService.getAll}
-                          createResource={professorService.create}
-                          updateResource={professorService.update}
-                          deleteResource={professorService.delete}
-                          resourceFields={[
-                            { name: "nome", label: "Nome", type: "text" },
-                            { name: "email", label: "Email", type: "email" },
-                            { name: "siape", label: "Siape", type: "text" },
-                          ]}
-                        />
-                      </ProtectedRoute>
+                      <ResourceManager<ProfessorResponseDto, CreateProfessorDto, UpdateProfessorDto>
+                        resourceName="Professor"
+                        fetchResources={professorService.getAll}
+                        createResource={professorService.create}
+                        updateResource={professorService.update}
+                        deleteResource={professorService.delete}
+                        resourceFields={[
+                          { name: "nome", label: "Nome", type: "text" },
+                          { name: "email", label: "Email", type: "email" },
+                          { name: "siape", label: "Siape", type: "text" },
+                        ]}
+                      />
                     }
                   />
                   <Route
                     path="/cursos"
                     element={
-                      <ProtectedRoute>
-                        <ResourceManager<CursoResponseDto, CreateCursoDto, UpdateCursoDto>
-                          resourceName="Curso"
-                          fetchResources={cursoService.getAll}
-                          createResource={cursoService.create}
-                          updateResource={cursoService.update}
-                          deleteResource={cursoService.delete}
-                          resourceFields={[
-                            { name: "nome", label: "Nome", type: "text" },
-                            { name: "sigla", label: "Sigla", type: "text" },
-                          ]}
-                        />
-                      </ProtectedRoute>
+                      <ResourceManager<CursoResponseDto, CreateCursoDto, UpdateCursoDto>
+                        resourceName="Curso"
+                        fetchResources={cursoService.getAll}
+                        createResource={cursoService.create}
+                        updateResource={cursoService.update}
+                        deleteResource={cursoService.delete}
+                        resourceFields={[
+                          { name: "nome", label: "Nome", type: "text" },
+                          { name: "sigla", label: "Sigla", type: "text" },
+                        ]}
+                      />
                     }
                   />
                   <Route
                     path="/documentos"
                     element={
-                      <ProtectedRoute>
-                        <ResourceManager<DocumentoResponseDto, CreateDocumentoDto, UpdateDocumentoDto>
-                          resourceName="Documento"
-                          fetchResources={documentoService.getAll}
-                          createResource={documentoService.create}
-                          updateResource={documentoService.update}
-                          deleteResource={documentoService.delete}
-                          resourceFields={[
-                            { name: "titulo", label: "Título", type: "text" },
-                            { name: "arquivo", label: "Arquivo", type: "file" },
-                            {
-                              name: "tag",
-                              label: "Tag",
-                              type: "select",
-                              options: () => Promise.resolve(Object.values(TagDocumento)),
-                            },
-                          ]}
-                        />
-                      </ProtectedRoute>
+                      <ResourceManager<DocumentoResponseDto, CreateDocumentoDto, UpdateDocumentoDto>
+                        resourceName="Documento"
+                        fetchResources={documentoService.getAll}
+                        createResource={documentoService.create}
+                        updateResource={documentoService.update}
+                        deleteResource={documentoService.delete}
+                        resourceFields={[
+                          { name: "titulo", label: "Título", type: "text" },
+                          { name: "arquivo", label: "Arquivo", type: "file" },
+                          {
+                            name: "tag",
+                            label: "Tag",
+                            type: "select",
+                            options: () => Promise.resolve(Object.values(TagDocumento)),
+                          },
+                        ]}
+                      />
                     }
                   />
                   <Route
                     path="/grade-curricular"
                     element={
-                      <ProtectedRoute>
-                        <ResourceManager<GradeCurricularDto, CreateGradeCurricularDto, UpdateGradeCurricularDto>
-                          resourceName="Grade Curricular"
-                          fetchResources={gradeCurricularService.getAll}
-                          createResource={gradeCurricularService.create}
-                          updateResource={gradeCurricularService.update}
-                          deleteResource={gradeCurricularService.delete}
-                          resourceFields={[
-                            { name: "cursoId", label: "Curso", type: "select", options: cursoService.getAll },
-                            { name: "ano", label: "Ano", type: "number" },
-                          ]}
-                        />
-                      </ProtectedRoute>
+                      <ResourceManager<GradeCurricularDto, CreateGradeCurricularDto, UpdateGradeCurricularDto>
+                        resourceName="Grade Curricular"
+                        fetchResources={gradeCurricularService.getAll}
+                        createResource={gradeCurricularService.create}
+                        updateResource={gradeCurricularService.update}
+                        deleteResource={gradeCurricularService.delete}
+                        resourceFields={[
+                          { name: "cursoId", label: "Curso", type: "select", options: cursoService.getAll },
+                          { name: "ano", label: "Ano", type: "number" },
+                        ]}
+                      />
                     }
                   />
                   <Route
                     path="/turmas"
                     element={
-                      <ProtectedRoute>
-                        <ResourceManager<TurmaDto, CreateTurmaDto, UpdateTurmaDto>
-                          resourceName="Turma"
-                          fetchResources={turmaService.getAll}
-                          createResource={turmaService.create}
-                          updateResource={turmaService.update}
-                          deleteResource={turmaService.delete}
-                          resourceFields={[
-                            { name: "nome", label: "Nome", type: "text" },
-                            { name: "cursoId", label: "Curso", type: "select", options: cursoService.getAll },
-                            { name: "ano", label: "Ano", type: "number" },
-                          ]}
-                        />
-                      </ProtectedRoute>
+                      <ResourceManager<TurmaDto, CreateTurmaDto, UpdateTurmaDto>
+                        resourceName="Turma"
+                        fetchResources={turmaService.getAll}
+                        createResource={turmaService.create}
+                        updateResource={turmaService.update}
+                        deleteResource={turmaService.delete}
+                        resourceFields={[
+                          { name: "nome", label: "Nome", type: "text" },
+                          { name: "cursoId", label: "Curso", type: "select", options: cursoService.getAll },
+                          { name: "ano", label: "Ano", type: "number" },
+                        ]}
+                      />
                     }
                   />
                   <Route
                     path="/dissertacoes-teses"
                     element={
-                      <ProtectedRoute>
-                        <ResourceManager<DissertacaoTeseDto, CreateDissertacaoTeseDto, UpdateDissertacaoTeseDto>
-                          resourceName="Dissertação/Tese"
-                          fetchResources={dissertacaoTeseService.getAll}
-                          createResource={dissertacaoTeseService.create}
-                          updateResource={dissertacaoTeseService.update}
-                          deleteResource={dissertacaoTeseService.delete}
-                          resourceFields={[
-                            { name: "titulo", label: "Título", type: "text" },
-                            { name: "autor", label: "Autor", type: "text" },
-                            { name: "arquivo", label: "Arquivo", type: "file" },
-                          ]}
-                        />
-                      </ProtectedRoute>
+                      <ResourceManager<DissertacaoTeseDto, CreateDissertacaoTeseDto, UpdateDissertacaoTeseDto>
+                        resourceName="Dissertação/Tese"
+                        fetchResources={dissertacaoTeseService.getAll}
+                        createResource={dissertacaoTeseService.create}
+                        updateResource={dissertacaoTeseService.update}
+                        deleteResource={dissertacaoTeseService.delete}
+                        resourceFields={[
+                          { name: "titulo", label: "Título", type: "text" },
+                          { name: "autor", label: "Autor", type: "text" },
+                          { name: "arquivo", label: "Arquivo", type: "file" },
+                        ]}
+                      />
                     }
                   />
                   <Route
                     path="/calendarios"
                     element={
-                      <ProtectedRoute>
-                        <ResourceManager<CalendarioDto, CreateCalendarioDto, UpdateCalendarioDto>
-                          resourceName="Calendário"
-                          fetchResources={calendarioService.getAll}
-                          createResource={calendarioService.create}
-                          updateResource={calendarioService.update}
-                          deleteResource={calendarioService.delete}
-                          resourceFields={[
-                            { name: "titulo", label: "Título", type: "text" },
-                            { name: "data", label: "Data", type: "date" },
-                            { name: "descricao", label: "Descrição", type: "textarea" },
-                          ]}
-                        />
-                      </ProtectedRoute>
+                      <ResourceManager<CalendarioDto, CreateCalendarioDto, UpdateCalendarioDto>
+                        resourceName="Calendário"
+                        fetchResources={calendarioService.getAll}
+                        createResource={calendarioService.create}
+                        updateResource={calendarioService.update}
+                        deleteResource={calendarioService.delete}
+                        resourceFields={[
+                          { name: "titulo", label: "Título", type: "text" },
+                          { name: "data", label: "Data", type: "date" },
+                          { name: "descricao", label: "Descrição", type: "textarea" },
+                        ]}
+                      />
                     }
                   />
                   <Route
                     path="/processos-seletivos"
                     element={
-                      <ProtectedRoute>
-                        <ResourceManager<ProcessoSeletivoDto, CreateProcessoSeletivoDto, UpdateProcessoSeletivoDto>
-                          resourceName="Processo Seletivo"
-                          fetchResources={processoSeletivoService.getAll}
-                          createResource={processoSeletivoService.create}
-                          updateResource={processoSeletivoService.update}
-                          deleteResource={processoSeletivoService.delete}
-                          resourceFields={[
-                            { name: "nome", label: "Nome", type: "text" },
-                            { name: "dataInicio", label: "Data de Início", type: "date" },
-                            { name: "dataFim", label: "Data de Fim", type: "date" },
-                          ]}
-                        />
-                      </ProtectedRoute>
+                      <ResourceManager<ProcessoSeletivoDto, CreateProcessoSeletivoDto, UpdateProcessoSeletivoDto>
+                        resourceName="Processo Seletivo"
+                        fetchResources={processoSeletivoService.getAll}
+                        createResource={processoSeletivoService.create}
+                        updateResource={processoSeletivoService.update}
+                        deleteResource={processoSeletivoService.delete}
+                        resourceFields={[
+                          { name: "nome", label: "Nome", type: "text" },
+                          { name: "dataInicio", label: "Data de Início", type: "date" },
+                          { name: "dataFim", label: "Data de Fim", type: "date" },
+                        ]}
+                      />
                     }
                   />
-                  <Route
-                    path="/list"
-                    element={
-                      <ProtectedRoute>
-                        <AdminList />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/create"
-                    element={
-                      <ProtectedRoute>
-                        <AdminForm isEditing={false} />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/edit/:id"
-                    element={
-                      <ProtectedRoute>
-                        <AdminForm isEditing={true} />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/aluno/create"
-                    element={
-                      <ProtectedRoute>
-                        <AlunoForm isEditing={false} />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/aluno/edit/:id"
-                    element={
-                      <ProtectedRoute>
-                        <AlunoForm isEditing={true} />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/noticia/create"
-                    element={
-                      <ProtectedRoute>
-                        <NoticiaForm isEditing={false} />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/noticia/edit/:id"
-                    element={
-                      <ProtectedRoute>
-                        <NoticiaForm isEditing={true} />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/professor/create"
-                    element={
-                      <ProtectedRoute>
-                        <ProfessorForm isEditing={false} />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/professor/edit/:id"
-                    element={
-                      <ProtectedRoute>
-                        <ProfessorForm isEditing={true} />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/curso/create"
-                    element={
-                      <ProtectedRoute>
-                        <CursoForm isEditing={false} />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/curso/edit/:id"
-                    element={
-                      <ProtectedRoute>
-                        <CursoForm isEditing={true} />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/documento/create"
-                    element={
-                      <ProtectedRoute>
-                        <DocumentoForm isEditing={false} />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/documento/edit/:id"
-                    element={
-                      <ProtectedRoute>
-                        <DocumentoForm isEditing={true} />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/grade-curricular/create"
-                    element={
-                      <ProtectedRoute>
-                        <GradeCurricularForm isEditing={false} />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/grade-curricular/edit/:id"
-                    element={
-                      <ProtectedRoute>
-                        <GradeCurricularForm isEditing={true} />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/turma/create"
-                    element={
-                      <ProtectedRoute>
-                        <TurmaForm isEditing={false} />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/turma/edit/:id"
-                    element={
-                      <ProtectedRoute>
-                        <TurmaForm isEditing={true} />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/dissertacao-tese/create"
-                    element={
-                      <ProtectedRoute>
-                        <DissertacaoTeseForm isEditing={false} />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/dissertacao-tese/edit/:id"
-                    element={
-                      <ProtectedRoute>
-                        <DissertacaoTeseForm isEditing={true} />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/calendario/create"
-                    element={
-                      <ProtectedRoute>
-                        <CalendarioForm isEditing={false} />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/calendario/edit/:id"
-                    element={
-                      <ProtectedRoute>
-                        <CalendarioForm isEditing={true} />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/processo-seletivo/create"
-                    element={
-                      <ProtectedRoute>
-                        <ProcessoSeletivoForm isEditing={false} />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/processo-seletivo/edit/:id"
-                    element={
-                      <ProtectedRoute>
-                        <ProcessoSeletivoForm isEditing={true} />
-                      </ProtectedRoute>
-                    }
-                  />
+                  <Route path="/list" element={<AdminList />} />
+                  <Route path="/create" element={<AdminForm isEditing={false} />} />
+                  <Route path="/edit/:id" element={<AdminForm isEditing={true} />} />
+                  <Route path="/aluno/create" element={<AlunoForm isEditing={false} />} />
+                  <Route path="/aluno/edit/:id" element={<AlunoForm isEditing={true} />} />
+                  <Route path="/noticia/create" element={<NoticiaForm isEditing={false} />} />
+                  <Route path="/noticia/edit/:id" element={<NoticiaForm isEditing={true} />} />
+                  <Route path="/professor/create" element={<ProfessorForm isEditing={false} />} />
+                  <Route path="/professor/edit/:id" element={<ProfessorForm isEditing={true} />} />
+                  <Route path="/curso/create" element={<CursoForm isEditing={false} />} />
+                  <Route path="/curso/edit/:id" element={<CursoForm isEditing={true} />} />
+                  <Route path="/documento/create" element={<DocumentoForm isEditing={false} />} />
+                  <Route path="/documento/edit/:id" element={<DocumentoForm isEditing={true} />} />
+                  <Route path="/grade-curricular/create" element={<GradeCurricularForm isEditing={false} />} />
+                  <Route path="/grade-curricular/edit/:id" element={<GradeCurricularForm isEditing={true} />} />
+                  <Route path="/turma/create" element={<TurmaForm isEditing={false} />} />
+                  <Route path="/turma/edit/:id" element={<TurmaForm isEditing={true} />} />
+                  <Route path="/dissertacao-tese/create" element={<DissertacaoTeseForm isEditing={false} />} />
+                  <Route path="/dissertacao-tese/edit/:id" element={<DissertacaoTeseForm isEditing={true} />} />
+                  <Route path="/calendario/create" element={<CalendarioForm isEditing={false} />} />
+                  <Route path="/calendario/edit/:id" element={<CalendarioForm isEditing={true} />} />
+                  <Route path="/processo-seletivo/create" element={<ProcessoSeletivoForm isEditing={false} />} />
+                  <Route path="/processo-seletivo/edit/:id" element={<ProcessoSeletivoForm isEditing={true} />} />
                 </Routes>
               </main>
-            </>
+            </ProtectedRoute>
           }
         />
       </Routes>

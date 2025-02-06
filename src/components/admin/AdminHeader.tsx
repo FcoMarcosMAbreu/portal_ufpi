@@ -5,9 +5,10 @@ import "./AdminHeader.css"
 
 const AdminHeader: React.FC = () => {
   const navigate = useNavigate()
+  const currentUser = authService.getCurrentUser()
 
   const handleLogout = () => {
-    authService.removeToken()
+    authService.logout()
     navigate("/admin/login")
   }
 
@@ -17,8 +18,9 @@ const AdminHeader: React.FC = () => {
         <Link to="/admin" className="admin-logo-link">
           <img src="/logo.png" alt="Logo" className="admin-logo" />
         </Link>
-        <div className="admin-auth-links">
-          <button onClick={handleLogout} className="admin-nav-link">
+        <div className="admin-user-info">
+          {currentUser && <span className="admin-user-name">Olá, {currentUser.name}</span>}
+          <button onClick={handleLogout} className="admin-logout-button">
             Logout
           </button>
         </div>
