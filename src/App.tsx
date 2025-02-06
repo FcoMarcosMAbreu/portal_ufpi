@@ -62,6 +62,7 @@ import { turmaService } from "./services/turmaService"
 import { dissertacaoTeseService } from "./services/dissertacaoTeseService"
 import { calendarioService } from "./services/calendarioService"
 import { processoSeletivoService } from "./services/processoSeletivoService"
+import AdminAluno from "./pages/admin/AdminAlunos"
 
 function App() {
   return (
@@ -130,6 +131,15 @@ function App() {
         <Route path="/admin/login" element={<LoginForm />} />
 
         {/* Rotas administrativas protegidas */}
+        <Route
+          path="/admin/alunos"
+          element={
+            <ProtectedRoute>
+              <AdminHeader />
+              <AdminAluno />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/admin/*"
           element={
