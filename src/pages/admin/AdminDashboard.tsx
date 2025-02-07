@@ -3,11 +3,11 @@ import { Link } from "react-router-dom"
 import "./AdminDashboard.css"
 
 const resources = [
-  { name: "Administradores", path: "/admin/admins" },
+  { name: "Administradores", path: "/admin/administradores" },
   { name: "Alunos", path: "/admin/alunos" },
   { name: "Notícias", path: "/admin/noticias" },
   { name: "Professores", path: "/admin/professores" },
-  { name: "Cursos", path: "/admin/cursos" },
+  { name: "Cursos", path: "/admin/cursos"  },
   { name: "Documentos", path: "/admin/documentos" },
   { name: "Grade Curricular", path: "/admin/grade-curricular" },
   { name: "Turmas", path: "/admin/turmas" },

@@ -63,6 +63,8 @@ import { dissertacaoTeseService } from "./services/dissertacaoTeseService"
 import { calendarioService } from "./services/calendarioService"
 import { processoSeletivoService } from "./services/processoSeletivoService"
 import AdminAluno from "./pages/admin/AdminAlunos"
+import AdminAdministradores from "./pages/admin/administradores/AdminAdministradores"
+import AdminNoticias from "./pages/admin/noticias/AdminNoticia"
 
 function App() {
   return (
@@ -140,6 +142,42 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+        path="/admin/alunos/create"
+        element={
+          <ProtectedRoute>
+            <AdminHeader />
+            <AlunoForm isEditing={false} />
+          </ProtectedRoute>
+        }
+        />
+        <Route
+        path="/admin/alunos/edit/:id"
+        element={
+          <ProtectedRoute>
+            <AdminHeader />
+            <AlunoForm isEditing={true} />
+          </ProtectedRoute>
+        }
+        />
+        <Route
+          path="/admin/administradores"
+          element={
+            <ProtectedRoute>
+              <AdminHeader />
+                <AdminAdministradores />
+              </ProtectedRoute>
+          }
+        />
+         <Route
+          path="/admin/noticias"
+            element={
+              <ProtectedRoute>
+                <AdminHeader />
+                  <AdminNoticias />
+                </ProtectedRoute>
+            }
+          />
         <Route
           path="/admin/*"
           element={
