@@ -45,9 +45,14 @@ const AdminTurmas: React.FC = () => {
     <div className="admin-turmas">
       <h2>Lista de Turmas</h2>
       <div className="admin-turmas-actions">
-        <Link to="/admin/turmas/create" className="btn-create">
-          Criar Nova Turma
-        </Link>
+        <div className="action-buttons">
+          <Link to="/admin" className="btn-back">
+            Voltar
+          </Link>
+          <Link to="/admin/turmas/create" className="btn-create">
+            Criar Nova Turma
+          </Link>
+        </div>
         <input
           type="text"
           placeholder="Pesquisar por nome..."
@@ -97,3 +102,4 @@ const AdminTurmas: React.FC = () => {
 }
 
 export default AdminTurmas
+

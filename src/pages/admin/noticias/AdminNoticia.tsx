@@ -45,9 +45,14 @@ const AdminNoticias: React.FC = () => {
     <div className="admin-noticias">
       <h2>Lista de Notícias</h2>
       <div className="admin-noticias-actions">
-        <Link to="/admin/noticias/create" className="btn-create">
-          Criar Nova Notícia
-        </Link>
+        <div className="action-buttons">
+          <Link to="/admin" className="btn-back">
+            Voltar
+          </Link>
+          <Link to="/admin/noticias/create" className="btn-create">
+            Criar Nova Notícia
+          </Link>
+        </div>
         <input
           type="text"
           placeholder="Pesquisar por título..."

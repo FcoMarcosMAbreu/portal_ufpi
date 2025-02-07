@@ -47,9 +47,14 @@ const AdminGradeCurricular: React.FC = () => {
     <div className="admin-grade-curricular">
       <h2>Lista de Grades Curriculares</h2>
       <div className="admin-grade-curricular-actions">
-        <Link to="/admin/grade-curricular/create" className="btn-create">
-          Criar Nova Grade Curricular
-        </Link>
+        <div className="action-buttons">
+          <Link to="/admin" className="btn-back">
+            Voltar
+          </Link>
+          <Link to="/admin/grade-curricular/create" className="btn-create">
+            Criar Nova Grade Curricular
+          </Link>
+        </div>
         <input
           type="text"
           placeholder="Pesquisar por título..."
@@ -97,3 +102,4 @@ const AdminGradeCurricular: React.FC = () => {
 }
 
 export default AdminGradeCurricular
+

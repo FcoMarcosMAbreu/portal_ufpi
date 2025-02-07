@@ -62,7 +62,6 @@ import { turmaService } from "./services/turmaService"
 import { dissertacaoTeseService } from "./services/dissertacaoTeseService"
 import { calendarioService } from "./services/calendarioService"
 import { processoSeletivoService } from "./services/processoSeletivoService"
-import AdminAluno from "./pages/admin/AdminAlunos"
 import AdminAdministradores from "./pages/admin/administradores/AdminAdministradores"
 import AdminNoticias from "./pages/admin/noticias/AdminNoticia"
 import AdminProfessores from "./pages/admin/professores/AdminProfessores"
@@ -73,6 +72,7 @@ import AdminDocumentos from "./pages/admin/documentos/AdminDocumentos"
 import AdminDissertacoesTeses from "./pages/admin/dissertacoesTeses/AdminDissertacoesTeses"
 import AdminCalendario from "./pages/admin/calendario/AdminCalendario"
 import AdminProcessosSeletivos from "./pages/admin/processosSeletivos/AdminProcessosSeletivos"
+import AdminAluno from "./pages/alunos/AdminAlunos"
 
 function App() {
   return (

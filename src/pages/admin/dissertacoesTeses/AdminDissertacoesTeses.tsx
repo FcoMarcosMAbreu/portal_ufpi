@@ -49,9 +49,14 @@ const AdminDissertacoesTeses: React.FC = () => {
     <div className="admin-dissertacoes-teses">
       <h2>Lista de Dissertações e Teses</h2>
       <div className="admin-dissertacoes-teses-actions">
-        <Link to="/admin/dissertacoes-teses/create" className="btn-create">
-          Criar Nova Dissertação/Tese
-        </Link>
+        <div className="action-buttons">
+          <Link to="/admin" className="btn-back">
+            Voltar
+          </Link>
+          <Link to="/admin/dissertacoes-teses/create" className="btn-create">
+            Criar Nova Dissertação/Tese
+          </Link>
+        </div>
         <input
           type="text"
           placeholder="Pesquisar por título ou autor..."
@@ -97,3 +102,4 @@ const AdminDissertacoesTeses: React.FC = () => {
 }
 
 export default AdminDissertacoesTeses
+

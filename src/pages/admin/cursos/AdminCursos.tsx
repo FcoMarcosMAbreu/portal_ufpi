@@ -45,9 +45,14 @@ const AdminCursos: React.FC = () => {
     <div className="admin-cursos">
       <h2>Lista de Cursos</h2>
       <div className="admin-cursos-actions">
-        <Link to="/admin/cursos/create" className="btn-create">
-          Criar Novo Curso
-        </Link>
+        <div className="action-buttons">
+          <Link to="/admin" className="btn-back">
+            Voltar
+          </Link>
+          <Link to="/admin/cursos/create" className="btn-create">
+            Criar Novo Curso
+          </Link>
+        </div>
         <input
           type="text"
           placeholder="Pesquisar por nome..."

@@ -3,9 +3,9 @@
 import type React from "react"
 import { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
+import { documentoService } from "../../../services/documentoService"
 import type { DocumentoResponseDto } from "../../../types/documento"
 import "./AdminDocumentos.css"
-import { documentoService } from "../../../services/documentoService"
 
 const AdminDocumentos: React.FC = () => {
   const [documentos, setDocumentos] = useState<DocumentoResponseDto[]>([])
@@ -47,9 +47,14 @@ const AdminDocumentos: React.FC = () => {
     <div className="admin-documentos">
       <h2>Lista de Documentos</h2>
       <div className="admin-documentos-actions">
-        <Link to="/admin/documentos/create" className="btn-create">
-          Criar Novo Documento
-        </Link>
+        <div className="action-buttons">
+          <Link to="/admin" className="btn-back">
+            Voltar
+          </Link>
+          <Link to="/admin/documentos/create" className="btn-create">
+            Criar Novo Documento
+          </Link>
+        </div>
         <input
           type="text"
           placeholder="Pesquisar por nome..."
@@ -95,3 +100,4 @@ const AdminDocumentos: React.FC = () => {
 }
 
 export default AdminDocumentos
+

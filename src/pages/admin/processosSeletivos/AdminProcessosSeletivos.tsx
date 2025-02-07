@@ -47,9 +47,14 @@ const AdminProcessosSeletivos: React.FC = () => {
     <div className="admin-processos-seletivos">
       <h2>Lista de Processos Seletivos</h2>
       <div className="admin-processos-seletivos-actions">
-        <Link to="/admin/processos-seletivos/create" className="btn-create">
-          Criar Novo Processo Seletivo
-        </Link>
+        <div className="action-buttons">
+          <Link to="/admin" className="btn-back">
+            Voltar
+          </Link>
+          <Link to="/admin/processos-seletivos/create" className="btn-create">
+            Criar Novo Processo Seletivo
+          </Link>
+        </div>
         <input
           type="text"
           placeholder="Pesquisar por título..."
@@ -99,3 +104,4 @@ const AdminProcessosSeletivos: React.FC = () => {
 }
 
 export default AdminProcessosSeletivos
+
