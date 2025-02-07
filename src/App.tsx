@@ -70,6 +70,9 @@ import AdminCursos from "./pages/admin/cursos/AdminCursos"
 import AdminTurmas from "./pages/admin/turmas/AdminTurmas"
 import AdminGradeCurricular from "./pages/admin/gradeCurricular/AdminGradeCurricular"
 import AdminDocumentos from "./pages/admin/documentos/AdminDocumentos"
+import AdminDissertacoesTeses from "./pages/admin/dissertacoesTeses/AdminDissertacoesTeses"
+import AdminCalendario from "./pages/admin/calendario/AdminCalendario"
+import AdminProcessosSeletivos from "./pages/admin/processosSeletivos/AdminProcessosSeletivos"
 
 function App() {
   return (
@@ -225,6 +228,33 @@ function App() {
               <ProtectedRoute>
                 <AdminHeader />
                 <AdminTurmas />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/dissertacoes-teses"
+            element={
+              <ProtectedRoute>
+                <AdminHeader />
+                <AdminDissertacoesTeses />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/calendario"
+            element={
+              <ProtectedRoute>
+                <AdminHeader />
+                <AdminCalendario />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/processos-seletivos"
+            element={
+              <ProtectedRoute>
+                <AdminHeader />
+                <AdminProcessosSeletivos />
               </ProtectedRoute>
             }
           />
