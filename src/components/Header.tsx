@@ -20,12 +20,6 @@ function Header() {
     checkLoginStatus()
   }, [])
 
-  const handleLogout = () => {
-    authService.removeToken()
-    setIsLoggedIn(false)
-    navigate("/login")
-  }
-
   return (
     <header className="header">
       <div className="header-content">
@@ -34,6 +28,11 @@ function Header() {
         </Link>
         <nav className="navbar">
           <ul className="nav-list">
+            <li className="nav-item">
+              <Link to="/" className="nav-link">
+                Início
+              </Link>
+            </li>
             <li className="nav-item">
               <span className="nav-link">Programas</span>
               <ul className="dropdown-menu">
@@ -110,14 +109,9 @@ function Header() {
         </nav>
         <div className="auth-links">
           {isLoggedIn ? (
-            <>
-              <Link to="/admin" className="nav-link">
-                Admin Dashboard
-              </Link>
-              <button onClick={handleLogout} className="nav-link">
-                Logout
-              </button>
-            </>
+            <Link to="/admin" className="nav-link">
+              Admin Dashboard
+            </Link>
           ) : (
             <Link to="/login" className="nav-link">
               Login

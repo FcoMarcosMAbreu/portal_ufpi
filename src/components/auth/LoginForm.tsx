@@ -1,6 +1,6 @@
 import type React from "react"
 import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom"
 import { authService } from "../../services/authService"
 import "./LoginForm.css"
 
@@ -44,10 +44,12 @@ const LoginForm: React.FC = () => {
         <button type="submit" className="login-button">
           Login
         </button>
+        <Link to="/" className="back-to-home-button">
+          Voltar à tela inicial
+        </Link>
       </form>
     </div>
   )
 }
 
 export default LoginForm
-

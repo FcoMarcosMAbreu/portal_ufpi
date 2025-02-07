@@ -23,7 +23,7 @@ function AreaConcentracao() {
 
   return (
     <div className="pos-graduacao">
-      <h2>Programas de Pós-Graduação</h2>
+      <h2 className="pos-title">Programas de Pós-Graduação</h2>
       <div className="cards-container">
         {[1, 2].map(index => (
           <div key={index} className="card">

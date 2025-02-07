@@ -44,6 +44,11 @@
   .admin-calendario th {
     background-color: #f2f2f2;
   }
+
+  .action-buttons {
+    display: flex;
+    gap: 1rem;
+  }
   
   .btn-view,
   .btn-edit,
@@ -67,4 +72,16 @@
     background-color: #f44336;
     border: none;
     cursor: pointer;
+  }  
+
+  .btn-back {
+    padding: 10px 20px;
+    background-color: #f0f0f0;
+    color: #333;
+    text-decoration: none;
+    border-radius: 5px;
+  }
+  
+  .btn-back:hover {
+    background-color: #e0e0e0;
   }  

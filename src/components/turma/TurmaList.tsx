@@ -1,12 +1,12 @@
 import type React from "react"
 import { useState, useEffect } from "react"
-import { Link } from "react-router-dom"
 import { turmaService } from "../../services/turmaService"
 import type { TurmaDto } from "../../types/turma"
 import "./TurmaList.css"
 
 const TurmaList: React.FC = () => {
   const [turmas, setTurmas] = useState<TurmaDto[]>([])
+  const [searchTerm, setSearchTerm] = useState("")
 
   useEffect(() => {
     fetchTurmas()
@@ -32,9 +32,29 @@ const TurmaList: React.FC = () => {
     }
   }
 
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value)
+  }
+
+  const filteredTurmas = turmas.filter(
+    (turma) =>
+      turma.materia.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      turma.nome_turma.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      turma.docentes.toLowerCase().includes(searchTerm.toLowerCase()),
+  )
+
   return (
     <div className="turma-list">
       <h2>Lista de Turmas</h2>
+      <div className="filter-container">
+        <input
+          type="text"
+          placeholder="Pesquisar turmas..."
+          value={searchTerm}
+          onChange={handleSearchChange}
+          className="search-input"
+        />
+      </div>
       <table>
         <thead>
           <tr>
@@ -48,7 +68,7 @@ const TurmaList: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          {turmas.map((turma) => (
+          {filteredTurmas.map((turma) => (
             <tr key={turma.id}>
               <td>{turma.materia}</td>
               <td>{turma.nome_turma}</td>
@@ -57,9 +77,6 @@ const TurmaList: React.FC = () => {
               <td>{turma.docentes}</td>
               <td>{new Date(turma.data_criacao).toLocaleDateString()}</td>
               <td>
-                <Link to={`/turma/edit/${turma.id}`} className="btn-edit">
-                  Editar
-                </Link>
                 <button onClick={() => handleDelete(turma.id)} className="btn-delete">
                   Excluir
                 </button>

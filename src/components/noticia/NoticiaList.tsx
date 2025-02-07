@@ -1,12 +1,12 @@
 import type React from "react"
 import { useState, useEffect } from "react"
-import { Link } from "react-router-dom"
 import { noticiaService } from "../../services/noticiaService"
 import type { NoticiaDto } from "../../types/noticia"
 import "./NoticiaList.css"
 
 const NoticiaList: React.FC = () => {
   const [noticias, setNoticias] = useState<NoticiaDto[]>([])
+  const [searchTerm, setSearchTerm] = useState("")
 
   useEffect(() => {
     fetchNoticias()
@@ -32,9 +32,28 @@ const NoticiaList: React.FC = () => {
     }
   }
 
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value)
+  }
+
+  const filteredNoticias = noticias.filter(
+    (noticia) =>
+      noticia.titulo.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      noticia.tag.toLowerCase().includes(searchTerm.toLowerCase()),
+  )
+
   return (
     <div className="noticia-list">
       <h2>Lista de Notícias</h2>
+      <div className="filter-container">
+        <input
+          type="text"
+          placeholder="Pesquisar notícias..."
+          value={searchTerm}
+          onChange={handleSearchChange}
+          className="search-input"
+        />
+      </div>
       <table>
         <thead>
           <tr>
@@ -45,15 +64,12 @@ const NoticiaList: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          {noticias.map((noticia) => (
+          {filteredNoticias.map((noticia) => (
             <tr key={noticia.id}>
               <td>{noticia.titulo}</td>
               <td>{noticia.tag}</td>
               <td>{new Date(noticia.data_criacao).toLocaleDateString()}</td>
               <td>
-                <Link to={`/noticia/edit/${noticia.id}`} className="btn-edit">
-                  Editar
-                </Link>
                 <button onClick={() => handleDelete(noticia.id)} className="btn-delete">
                   Excluir
                 </button>

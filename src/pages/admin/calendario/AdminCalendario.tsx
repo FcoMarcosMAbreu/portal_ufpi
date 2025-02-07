@@ -45,9 +45,13 @@ const AdminCalendario: React.FC = () => {
     <div className="admin-calendario">
       <h2>Lista de Eventos do Calendário</h2>
       <div className="admin-calendario-actions">
-        <Link to="/admin/calendario/create" className="btn-create">
-          Criar Novo Evento
-        </Link>
+        <div className="action-buttons">
+          <Link to="/admin" className="btn-back">
+          </Link>        
+          <Link to="/admin/calendario/create" className="btn-create">
+            Criar Novo Evento
+          </Link>
+        </div>
         <input
           type="text"
           placeholder="Pesquisar por título..."

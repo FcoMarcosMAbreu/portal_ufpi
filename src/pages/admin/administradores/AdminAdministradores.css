@@ -123,3 +123,19 @@
     color: white;
   }
   
+  .action-buttons {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .btn-back {
+    padding: 10px 20px;
+    background-color: #f0f0f0;
+    color: #333;
+    text-decoration: none;
+    border-radius: 5px;
+  }
+  
+  .btn-back:hover {
+    background-color: #e0e0e0;
+  }  

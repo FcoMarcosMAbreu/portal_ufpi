@@ -8,10 +8,16 @@ import "./AlunoList.css"
 
 const AlunoList: React.FC = () => {
   const [alunos, setAlunos] = useState<AlunoResponseDto[]>([])
+  const [filteredAlunos, setFilteredAlunos] = useState<AlunoResponseDto[]>([])
+  const [searchTerm, setSearchTerm] = useState("")
 
   useEffect(() => {
     fetchAlunos()
   }, [])
+
+  useEffect(() => {
+    filterAlunos()
+  }, [searchTerm, alunos])
 
   const fetchAlunos = async () => {
     try {
@@ -22,11 +28,34 @@ const AlunoList: React.FC = () => {
     }
   }
 
+  const filterAlunos = () => {
+    const filtered = alunos.filter(
+      (aluno) =>
+        aluno.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        aluno.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        aluno.matricula.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        aluno.curso.toLowerCase().includes(searchTerm.toLowerCase()),
+    )
+    setFilteredAlunos(filtered)
+  }
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value)
+  }
+
   return (
     <PageContainer title="Alunos Ativos" description="Lista de alunos atualmente matriculados no programa">
+      <div className="filter-container">
+        <input
+          type="text"
+          placeholder="Pesquisar alunos..."
+          value={searchTerm}
+          onChange={handleSearchChange}
+          className="search-input"
+        />
+      </div>
       <ResourceGrid>
-        {alunos.map((aluno) => (
-          // Novo card de aluno, semelhante ao card de professor
+        {filteredAlunos.map((aluno) => (
           <div key={aluno.id} className="aluno-card">
             <h3 className="aluno-name">{aluno.nome}</h3>
             <div className="aluno-info">

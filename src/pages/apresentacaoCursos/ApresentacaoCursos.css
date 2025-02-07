@@ -52,3 +52,16 @@
   .card-links a:hover {
     text-decoration: underline;
   }  
+
+  .filter-container {
+    margin-bottom: 1rem;
+  }
+  
+  .search-input {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--card-radius);
+  }
+  

@@ -6,6 +6,7 @@ import "./DissertacaoTeseList.css"
 
 const DissertacaoTeseList: React.FC = () => {
   const [dissertacoesTeses, setDissertacoesTeses] = useState<DissertacaoTeseDto[]>([])
+  const [searchTerm, setSearchTerm] = useState("")
 
   useEffect(() => {
     fetchDissertacoesTeses()
@@ -33,9 +34,29 @@ const DissertacaoTeseList: React.FC = () => {
     }
   }
 
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value)
+  }
+
+  const filteredDissertacoesTeses = dissertacoesTeses.filter(
+    (item) =>
+      item.titulo.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.nome_autor.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.orientador.toLowerCase().includes(searchTerm.toLowerCase()),
+  )
+
   return (
     <div className="dissertacao-tese-list">
       <h2>Lista de Dissertações e Teses</h2>
+      <div className="filter-container">
+        <input
+          type="text"
+          placeholder="Pesquisar dissertações e teses..."
+          value={searchTerm}
+          onChange={handleSearchChange}
+          className="search-input"
+        />
+      </div>
       <table>
         <thead>
           <tr>
@@ -47,7 +68,7 @@ const DissertacaoTeseList: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          {dissertacoesTeses.map((dissertacaoTese) => (
+          {filteredDissertacoesTeses.map((dissertacaoTese) => (
             <tr key={dissertacaoTese.id}>
               <td>{dissertacaoTese.nome_autor}</td>
               <td>{dissertacaoTese.titulo}</td>
@@ -63,4 +84,3 @@ const DissertacaoTeseList: React.FC = () => {
 }
 
 export default DissertacaoTeseList
-
