@@ -65,6 +65,8 @@ import { processoSeletivoService } from "./services/processoSeletivoService"
 import AdminAluno from "./pages/admin/AdminAlunos"
 import AdminAdministradores from "./pages/admin/administradores/AdminAdministradores"
 import AdminNoticias from "./pages/admin/noticias/AdminNoticia"
+import AdminProfessores from "./pages/admin/professores/AdminProfessores"
+import AdminCursos from "./pages/admin/cursos/AdminCursos"
 
 function App() {
   return (
@@ -176,6 +178,24 @@ function App() {
                 <AdminHeader />
                   <AdminNoticias />
                 </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/professores"
+            element={
+              <ProtectedRoute>
+                <AdminHeader />
+                <AdminProfessores />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/cursos"
+            element={
+              <ProtectedRoute>
+                <AdminHeader />
+                <AdminCursos />
+              </ProtectedRoute>
             }
           />
         <Route
