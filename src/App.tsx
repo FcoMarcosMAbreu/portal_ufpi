@@ -67,6 +67,9 @@ import AdminAdministradores from "./pages/admin/administradores/AdminAdministrad
 import AdminNoticias from "./pages/admin/noticias/AdminNoticia"
 import AdminProfessores from "./pages/admin/professores/AdminProfessores"
 import AdminCursos from "./pages/admin/cursos/AdminCursos"
+import AdminTurmas from "./pages/admin/turmas/AdminTurmas"
+import AdminGradeCurricular from "./pages/admin/gradeCurricular/AdminGradeCurricular"
+import AdminDocumentos from "./pages/admin/documentos/AdminDocumentos"
 
 function App() {
   return (
@@ -195,6 +198,33 @@ function App() {
               <ProtectedRoute>
                 <AdminHeader />
                 <AdminCursos />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/documentos"
+            element={
+              <ProtectedRoute>
+                <AdminHeader />
+                <AdminDocumentos />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/grade-curricular"
+            element={
+              <ProtectedRoute>
+                <AdminHeader />
+                <AdminGradeCurricular />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/turmas"
+            element={
+              <ProtectedRoute>
+                <AdminHeader />
+                <AdminTurmas />
               </ProtectedRoute>
             }
           />
