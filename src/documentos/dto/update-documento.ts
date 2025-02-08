@@ -10,6 +10,6 @@ export class UpdateDocumentoDto extends PartialType(CreateDocumentoDto) {
   @ApiProperty({ description: 'Tipo do documento', enum: TipoDocumento, example: 'DOCX' })
   tipo?: TipoDocumento;
 
-  @ApiProperty({ description: 'Arquivo do documento atualizado', format: 'binary' })
-  arquivo?: Buffer;
+  @ApiProperty({ description: 'Arquivo do documento atualizado', example: 'binary' })
+  caminho_arquivo?: string;
 }

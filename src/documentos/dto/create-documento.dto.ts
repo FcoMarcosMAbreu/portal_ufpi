@@ -9,5 +9,5 @@ export class CreateDocumentoDto {
   tipo: TipoDocumento; // Usando o enum diretamente
 
   @ApiProperty({ description: 'Arquivo do documento', type: 'string', format: 'binary' })
-  arquivo: any;
+  caminho_arquivo: any;
 }

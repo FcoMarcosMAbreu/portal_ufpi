@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { Documento } from './documento.entity';
 import { CreateDocumentoDto } from './dto/create-documento.dto';
 import { UpdateDocumentoDto } from './dto/update-documento';
+import * as fs from 'fs';
 
 @Injectable()
 export class DocumentosService {
@@ -29,24 +30,36 @@ export class DocumentosService {
     return documento;
   }
 
+  async downloadDocumento(id: number): Promise<Documento> {
+    const documento = await this.documentosRepository.findOne({where: { id }});
+    if (!documento) {
+      throw new NotFoundException(`Documento com id ${id} não encontrado`);
+    }
+    return documento;
+  }
+
   async update(id: number, updateDocumentoDto: UpdateDocumentoDto): Promise<Documento> {
     const documento = await this.documentosRepository.findOneBy({ id })
     if (!documento){
         throw new NotFoundException(`Documento com o id ${id} não encontrado`);
     }
 
-    const documentoAtualizado =  Object.assign(documento, updateDocumentoDto);
-    if (!documentoAtualizado){
-        throw new NotFoundException(`Erro ao atualizar: documento com o id ${id} não encontrado`);
-    }
-    await this.documentosRepository.save(documentoAtualizado);
-    return this.findOne(id);
+    Object.assign(documento, updateDocumentoDto);
+    return this.documentosRepository.save(documento);
   }
 
   async remove(id: number): Promise<void> {
+    const documento = await this.findOne(id);
+
+    fs.unlink(documento.caminho_arquivo, (err) => {
+      if (err) {
+        console.log('Erro ao deletar o arquivo: ', err);
+      }
+    });
+
     const result = await this.documentosRepository.delete(id);
     if (result.affected === 0) {
-      throw new NotFoundException(`Documento com id ${id} não encontrado`);
+      throw new NotFoundException(`Documento com id ${id} não encontrado`)
     }
   }
 }

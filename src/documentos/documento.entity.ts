@@ -12,8 +12,8 @@ export class Documento {
   @Column({ type: 'enum', enum: TipoDocumento })
   tipo: TipoDocumento;
 
-  @Column({ type: 'bytea' })
-  arquivo: Buffer;
+  @Column()
+  caminho_arquivo: string;
 
   @CreateDateColumn()
   data_criacao: Date;

@@ -10,6 +10,9 @@ export class DocumentoResponseDto {
 
   @ApiProperty({ description: 'Tipo do documento', enum: TipoDocumento, example: 'PDF' })
   tipo: TipoDocumento;
+  
+  @ApiProperty({ description: 'Caminho do arquivo', example: '/uploads/documentos/relatorio.pdf' })
+  caminho_arquivo: string;
 
   @ApiProperty({ description: 'Data de criação', example: '2025-01-29T12:00:00.000Z' })
   data_criacao: Date;

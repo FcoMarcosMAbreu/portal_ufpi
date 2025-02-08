@@ -1,14 +1,14 @@
-import { Controller, Post, Body, Get, Param, Patch, Delete, UseGuards, UploadedFile, UseInterceptors, HttpException, HttpStatus, MaxFileSizeValidator } from '@nestjs/common';
-import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
+import { Controller, Post, Body, Get, Param, Patch, Delete, UseGuards, UploadedFile, UseInterceptors, HttpException, HttpStatus, MaxFileSizeValidator, Res } from '@nestjs/common';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { DocumentosService } from './documentos.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { CreateDocumentoDto } from './dto/create-documento.dto';
 import { UpdateDocumentoDto } from './dto/update-documento';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Express } from 'express';
+import { diskStorage } from 'multer';
+import { extname } from 'path';
 import { TipoDocumento } from './tipo-documento.enum';
-import { InjectQueue } from '@nestjs/bull';
-import { Queue } from 'bull';
 
 
 @ApiTags('Documentos')
@@ -16,21 +16,32 @@ import { Queue } from 'bull';
 @UseGuards(JwtAuthGuard)
 @Controller('documentos')
 export class DocumentosController {
-  constructor(private readonly documentosService: DocumentosService,
-    @InjectQueue('documento-queue') private readonly documentoQueue: Queue,
-  ){}
+  constructor(private readonly documentosService: DocumentosService){}
 
 
   @Post()
   @UseInterceptors(FileInterceptor('arquivo', {
-    limits: {
-      fileSize: 10 * 1024 * 1024,
-    }
+    storage: diskStorage({
+      destination: "./uploads/documentos",
+      filename: (req, file, callback) => {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() *1e9);
+        const ext = extname(file.originalname);
+        callback(null, `${file.fieldname}-${uniqueSuffix}${ext}`);
+      }
+    }),
+    limits: { fileSize: 10 * 1024 * 1024}
   }))
   @ApiConsumes('multipart/form-data')
+  @ApiOperation({ summary: 'Faz upload e cria um documento' })
   @ApiBody({
-    description: 'Envie um arquivo para o documento',
-    type: CreateDocumentoDto, // DTO que representa os dados do corpo, além do arquivo
+    schema: {
+      type: 'object',
+      properties: {
+        nome: { type: 'string', example: 'Relatório de vendas' },
+        tipo: { type: 'string', example: 'PDF' },
+        arquivo: { type: 'string', format: 'binary' }
+      }
+    }
   })
   create(
     @UploadedFile() file: Express.Multer.File,
@@ -39,14 +50,14 @@ export class DocumentosController {
         throw new HttpException('Arquivo não encontrado', HttpStatus.BAD_REQUEST);
       }
 
-      try {
-        createDocumentoDto.tipo = this.getTipoDocumento(file.mimetype); // Detecta o tipo do documento  
-        createDocumentoDto.arquivo = file.buffer;
-    
-        return this.documentosService.create(createDocumentoDto);
-      } catch (error) {
-        throw new HttpException('Erro ao processar o arquivo', HttpStatus.INTERNAL_SERVER_ERROR);
-      }
+      const tipoDocumento = this.getTipoDocumento(file.mimetype);
+      const caminhoArquivo = `uploads/documentos/${file.filename}`;
+
+      return this.documentosService.create({
+        nome: createDocumentoDto.nome,
+        tipo: tipoDocumento,
+        caminho_arquivo: caminhoArquivo
+      })
       
   }
 
@@ -55,9 +66,15 @@ export class DocumentosController {
     return this.documentosService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.documentosService.findOne(+id);
+  @Get(':id/download')
+  async downloadDocumento(@Param('id') id: string, @Res() res) {
+    const documento = await this.documentosService.downloadDocumento(+id);
+
+    if (!documento){
+      throw new HttpException('Documento não encontrado', HttpStatus.NOT_FOUND);
+    }
+
+    res.download(documento.caminho_arquivo);
   }
 
   @Patch(':id')

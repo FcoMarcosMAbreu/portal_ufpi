@@ -12,7 +12,7 @@ export class DocumentoProcessor {
     const { tipo, arquivo, nome } = job.data;
     const documento = new Documento();
     documento.tipo = tipo;
-    documento.arquivo = arquivo;
+    documento.caminho_arquivo = arquivo;
     documento.nome = nome;
     documento.data_criacao = new Date();
 
