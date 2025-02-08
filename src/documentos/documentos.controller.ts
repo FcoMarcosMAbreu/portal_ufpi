@@ -43,7 +43,7 @@ export class DocumentosController {
       }
     }
   })
-  create(
+  async create(
     @UploadedFile() file: Express.Multer.File,
     @Body() createDocumentoDto: CreateDocumentoDto) {
       if (!file){

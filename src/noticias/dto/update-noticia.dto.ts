@@ -15,8 +15,8 @@ export class UpdateNoticiaDto {
   @ApiProperty({ description: 'Links de referência', example: 'https://linkreferencia.com', required: false })
   links_referencia?: string;
 
-  @ApiProperty({ description: 'Documento anexo', type: 'string', format: 'binary', required: false })
-  arquivo?: Buffer;
+  @ApiProperty({ description: 'Documento anexo', type: 'string', required: false })
+  arquivo?: string;
 
   @ApiProperty({ description: 'Data de criação', example: '2025-01-30T12:00:00.000Z', required: false })
   data_criacao?: Date;

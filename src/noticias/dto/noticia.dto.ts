@@ -19,7 +19,7 @@ export class NoticiaDto {
   links_referencia: string;
 
   @ApiProperty({ description: 'Documento anexo', type: 'string', format: 'binary', required: false })
-  documento_anexo?: Buffer;
+  arquivo?: string;
 
   @ApiProperty({ description: 'Data de criação', example: '2025-01-30T12:00:00.000Z' })
   data_criacao: Date;

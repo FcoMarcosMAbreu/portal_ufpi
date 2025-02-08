@@ -22,7 +22,7 @@ export class CreateNoticiaDto {
 
   @ApiProperty({ description: 'Documento anexo', type: 'string', format: 'binary', required: false })
   @IsOptional()
-  arquivo?: Buffer;
+  arquivo?: any;
 
   @ApiProperty({ description: 'Data de criação', example: '2025-01-30T12:00:00.000Z' })
   data_criacao: Date;

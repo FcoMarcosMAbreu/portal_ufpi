@@ -19,8 +19,8 @@ export class Noticia {
   @Column()
   links_referencia: string;
 
-  @Column({ type: 'bytea', nullable: true })
-  arquivo: Buffer;
+  @Column({ type: 'varchar', nullable: true })
+  arquivo: string;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   data_criacao: Date;
