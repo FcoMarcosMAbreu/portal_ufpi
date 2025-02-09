@@ -2,19 +2,27 @@
 
 import type React from "react"
 import { useState, useEffect } from "react"
-import { Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { noticiaService } from "../../../services/noticiaService"
 import type { NoticiaDto } from "../../../types/noticia"
 import "./AdminNoticia.css"
+import NoticiaFormModal from "../../../components/noticia/NoticiaFormModal"
+import NoticiaViewModal from "../../../components/noticia/NoticiaViewModal"
 
 const AdminNoticias: React.FC = () => {
+  const navigate = useNavigate()
   const [noticias, setNoticias] = useState<NoticiaDto[]>([])
   const [searchTerm, setSearchTerm] = useState<string>("")
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false)
+  const [selectedNoticia, setSelectedNoticia] = useState<NoticiaDto | null>(null)
 
   useEffect(() => {
     fetchNoticias()
   }, [])
 
+  // Função para buscar notícias do banco de dados
   const fetchNoticias = async () => {
     try {
       const data = await noticiaService.getAll()
@@ -24,11 +32,12 @@ const AdminNoticias: React.FC = () => {
     }
   }
 
+  // Função para excluir uma notícia do banco de dados
   const handleDelete = async (id: number) => {
     if (window.confirm("Tem certeza que deseja excluir esta notícia?")) {
       try {
         await noticiaService.delete(id)
-        fetchNoticias()
+        fetchNoticias() // Atualiza a lista após a exclusão
       } catch (error) {
         console.error("Erro ao excluir notícia:", error)
       }
@@ -39,23 +48,48 @@ const AdminNoticias: React.FC = () => {
     setSearchTerm(event.target.value)
   }
 
-  const filteredNoticias = noticias.filter((noticia) => noticia.titulo.toLowerCase().includes(searchTerm.toLowerCase()))
+  const filteredNoticias = noticias.filter(
+    (noticia) =>
+      noticia.titulo.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      noticia.conteudo.toLowerCase().includes(searchTerm.toLowerCase()),
+  )
+
+  const openCreateModal = () => setIsCreateModalOpen(true)
+  const closeCreateModal = () => setIsCreateModalOpen(false)
+
+  const openEditModal = (noticia: NoticiaDto) => {
+    setSelectedNoticia(noticia)
+    setIsEditModalOpen(true)
+  }
+  const closeEditModal = () => {
+    setSelectedNoticia(null)
+    setIsEditModalOpen(false)
+  }
+
+  const openViewModal = (noticia: NoticiaDto) => {
+    setSelectedNoticia(noticia)
+    setIsViewModalOpen(true)
+  }
+  const closeViewModal = () => {
+    setSelectedNoticia(null)
+    setIsViewModalOpen(false)
+  }
 
   return (
     <div className="admin-noticias">
       <h2>Lista de Notícias</h2>
       <div className="admin-noticias-actions">
         <div className="action-buttons">
-          <Link to="/admin" className="btn-back">
+          <button onClick={() => navigate("/admin")} className="btn-back">
             Voltar
-          </Link>
-          <Link to="/admin/noticias/create" className="btn-create">
+          </button>
+          <button onClick={openCreateModal} className="btn-create">
             Criar Nova Notícia
-          </Link>
+          </button>
         </div>
         <input
           type="text"
-          placeholder="Pesquisar por título..."
+          placeholder="Pesquisar por título ou conteúdo..."
           value={searchTerm}
           onChange={handleSearch}
           className="search-input"
@@ -66,7 +100,6 @@ const AdminNoticias: React.FC = () => {
           <tr>
             <th>Título</th>
             <th>Tag</th>
-            <th>Links de Referência</th>
             <th>Data de Criação</th>
             <th>Ações</th>
           </tr>
@@ -76,15 +109,14 @@ const AdminNoticias: React.FC = () => {
             <tr key={noticia.id}>
               <td>{noticia.titulo}</td>
               <td>{noticia.tag}</td>
-              <td>{noticia.links_referencia}</td>
               <td>{new Date(noticia.data_criacao).toLocaleDateString()}</td>
               <td>
-                <Link to={`/admin/noticias/view/${noticia.id}`} className="btn-view">
+                <button onClick={() => openViewModal(noticia)} className="btn-view">
                   Visualizar
-                </Link>
-                <Link to={`/admin/noticias/edit/${noticia.id}`} className="btn-edit">
+                </button>
+                <button onClick={() => openEditModal(noticia)} className="btn-edit">
                   Editar
-                </Link>
+                </button>
                 <button onClick={() => handleDelete(noticia.id)} className="btn-delete">
                   Excluir
                 </button>
@@ -93,6 +125,21 @@ const AdminNoticias: React.FC = () => {
           ))}
         </tbody>
       </table>
+
+      {isCreateModalOpen && (
+        <NoticiaFormModal isOpen={isCreateModalOpen} onClose={closeCreateModal} onSubmitSuccess={fetchNoticias} />
+      )}
+      {isEditModalOpen && selectedNoticia && (
+        <NoticiaFormModal
+          isOpen={isEditModalOpen}
+          onClose={closeEditModal}
+          onSubmitSuccess={fetchNoticias}
+          noticia={selectedNoticia}
+        />
+      )}
+      {isViewModalOpen && selectedNoticia && (
+        <NoticiaViewModal isOpen={isViewModalOpen} onClose={closeViewModal} noticia={selectedNoticia} />
+      )}
     </div>
   )
 }

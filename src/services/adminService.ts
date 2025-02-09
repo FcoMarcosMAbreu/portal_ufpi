@@ -1,7 +1,7 @@
 import axios from "axios"
 import type { AdminResponseDto, CreateAdminDto, UpdateAdminDto } from "../types/admin"
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/api"
+const API_URL = "http://localhost:3000"
 
 const axiosInstance = axios.create({
   baseURL: API_URL,
@@ -10,37 +10,34 @@ const axiosInstance = axios.create({
   },
 })
 
-// Interceptor para adicionar o token de autenticação
-axiosInstance.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token")
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`
-  }
-  return config
-})
-
 export const adminService = {
+  // Obtém todos os administradores do banco de dados
   getAll: async (): Promise<AdminResponseDto[]> => {
     const response = await axiosInstance.get("/admins")
     return response.data
   },
 
+  // Obtém um administrador específico pelo ID
   getById: async (id: number): Promise<AdminResponseDto> => {
     const response = await axiosInstance.get(`/admins/${id}`)
     return response.data
   },
 
+  // Cria um novo administrador no banco de dados
   create: async (admin: CreateAdminDto): Promise<AdminResponseDto> => {
     const response = await axiosInstance.post("/admins", admin)
     return response.data
   },
 
+  // Atualiza um administrador existente no banco de dados
   update: async (id: number, admin: UpdateAdminDto): Promise<AdminResponseDto> => {
     const response = await axiosInstance.put(`/admins/${id}`, admin)
     return response.data
   },
 
+  // Remove um administrador do banco de dados
   delete: async (id: number): Promise<void> => {
     await axiosInstance.delete(`/admins/${id}`)
   },
 }
+

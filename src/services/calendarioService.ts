@@ -1,30 +1,42 @@
 import axios from "axios"
 import type { CalendarioDto, CreateCalendarioDto, UpdateCalendarioDto } from "../types/calendario"
 
-const API_URL = "http://localhost:3000" // Adjust to your backend URL
+const API_URL = "http://localhost:3000"
+
+const axiosInstance = axios.create({
+  baseURL: API_URL,
+  headers: {
+    "Content-Type": "application/json",
+  },
+})
 
 export const calendarioService = {
+  // Obtém todos os eventos do calendário do banco de dados
   getAll: async (): Promise<CalendarioDto[]> => {
-    const response = await axios.get(`${API_URL}/calendario`)
+    const response = await axiosInstance.get("/calendario")
     return response.data
   },
 
+  // Obtém um evento específico do calendário pelo ID
   getById: async (id: number): Promise<CalendarioDto> => {
-    const response = await axios.get(`${API_URL}/calendario/${id}`)
+    const response = await axiosInstance.get(`/calendario/${id}`)
     return response.data
   },
 
+  // Cria um novo evento no calendário no banco de dados
   create: async (calendario: CreateCalendarioDto): Promise<CalendarioDto> => {
-    const response = await axios.post(`${API_URL}/calendario`, calendario)
+    const response = await axiosInstance.post("/calendario", calendario)
     return response.data
   },
 
+  // Atualiza um evento existente no calendário no banco de dados
   update: async (id: number, calendario: UpdateCalendarioDto): Promise<CalendarioDto> => {
-    const response = await axios.put(`${API_URL}/calendario/${id}`, calendario)
+    const response = await axiosInstance.put(`/calendario/${id}`, calendario)
     return response.data
   },
 
+  // Remove um evento do calendário do banco de dados
   delete: async (id: number): Promise<void> => {
-    await axios.delete(`${API_URL}/calendario/${id}`)
+    await axiosInstance.delete(`/calendario/${id}`)
   },
 }

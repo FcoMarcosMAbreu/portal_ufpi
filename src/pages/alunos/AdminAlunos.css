@@ -122,3 +122,109 @@
     background-color: #4caf50;
     color: white;
   }  
+
+  .admin-alunos {
+    padding: 5%;
+    padding-bottom: 6%;
+  }
+  
+  .admin-alunos h2 {
+    margin-bottom: 20px;
+  }
+  
+  .admin-alunos-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .action-buttons {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .btn-back {
+    padding: 10px 20px;
+    background-color: #f0f0f0;
+    color: #333;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .btn-create {
+    padding: 10px 20px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .search-input {
+    padding: 10px;
+    width: 300px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .admin-alunos table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .admin-alunos th,
+  .admin-alunos td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .admin-alunos th {
+    background-color: #f2f2f2;
+  }
+  
+  .btn-view,
+  .btn-edit,
+  .btn-delete {
+    padding: 5px 10px;
+    margin-right: 5px;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  .btn-view {
+    background-color: #4caf50;
+  }
+  
+  .btn-edit {
+    background-color: #2196f3;
+  }
+  
+  .btn-delete {
+    background-color: #f44336;
+  }
+  
+  /* Hover effects */
+  .btn-back:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .btn-create:hover {
+    background-color: #45a049;
+  }
+  
+  .btn-view:hover {
+    background-color: #45a049;
+  }
+  
+  .btn-edit:hover {
+    background-color: #1976d2;
+  }
+  
+  .btn-delete:hover {
+    background-color: #d32f2f;
+  }  

@@ -2,14 +2,21 @@
 
 import type React from "react"
 import { useState, useEffect } from "react"
-import { Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { gradeCurricularService } from "../../../services/gradeCurricularService"
 import type { GradeCurricularDto } from "../../../types/gradeCurricular"
 import "./AdminGradeCurricular.css"
+import GradeCurricularFormModal from "../../../components/gradeCurricular/GradeCurricularFormModal"
+import GradeCurricularViewModal from "../../../components/gradeCurricular/GradeCurricularViewModel"
 
 const AdminGradeCurricular: React.FC = () => {
+  const navigate = useNavigate()
   const [gradesCurriculares, setGradesCurriculares] = useState<GradeCurricularDto[]>([])
   const [searchTerm, setSearchTerm] = useState<string>("")
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false)
+  const [selectedGradeCurricular, setSelectedGradeCurricular] = useState<GradeCurricularDto | null>(null)
 
   useEffect(() => {
     fetchGradesCurriculares()
@@ -39,25 +46,49 @@ const AdminGradeCurricular: React.FC = () => {
     setSearchTerm(event.target.value)
   }
 
-  const filteredGradesCurriculares = gradesCurriculares.filter((grade) =>
-    grade.titulo.toLowerCase().includes(searchTerm.toLowerCase()),
+  const filteredGradesCurriculares = gradesCurriculares.filter(
+    (gradeCurricular) =>
+      gradeCurricular.titulo.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      gradeCurricular.codigo.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      gradeCurricular.componente_curricular.toLowerCase().includes(searchTerm.toLowerCase()),
   )
+
+  const openCreateModal = () => setIsCreateModalOpen(true)
+  const closeCreateModal = () => setIsCreateModalOpen(false)
+
+  const openEditModal = (gradeCurricular: GradeCurricularDto) => {
+    setSelectedGradeCurricular(gradeCurricular)
+    setIsEditModalOpen(true)
+  }
+  const closeEditModal = () => {
+    setSelectedGradeCurricular(null)
+    setIsEditModalOpen(false)
+  }
+
+  const openViewModal = (gradeCurricular: GradeCurricularDto) => {
+    setSelectedGradeCurricular(gradeCurricular)
+    setIsViewModalOpen(true)
+  }
+  const closeViewModal = () => {
+    setSelectedGradeCurricular(null)
+    setIsViewModalOpen(false)
+  }
 
   return (
     <div className="admin-grade-curricular">
       <h2>Lista de Grades Curriculares</h2>
       <div className="admin-grade-curricular-actions">
         <div className="action-buttons">
-          <Link to="/admin" className="btn-back">
+          <button onClick={() => navigate("/admin")} className="btn-back">
             Voltar
-          </Link>
-          <Link to="/admin/grade-curricular/create" className="btn-create">
+          </button>
+          <button onClick={openCreateModal} className="btn-create">
             Criar Nova Grade Curricular
-          </Link>
+          </button>
         </div>
         <input
           type="text"
-          placeholder="Pesquisar por título..."
+          placeholder="Pesquisar por título, código ou componente curricular..."
           value={searchTerm}
           onChange={handleSearch}
           className="search-input"
@@ -75,21 +106,21 @@ const AdminGradeCurricular: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          {filteredGradesCurriculares.map((grade) => (
-            <tr key={grade.id}>
-              <td>{grade.titulo}</td>
-              <td>{grade.codigo}</td>
-              <td>{grade.componente_curricular}</td>
-              <td>{grade.carga_horaria}</td>
-              <td>{new Date(grade.data_criacao).toLocaleDateString()}</td>
+          {filteredGradesCurriculares.map((gradeCurricular) => (
+            <tr key={gradeCurricular.id}>
+              <td>{gradeCurricular.titulo}</td>
+              <td>{gradeCurricular.codigo}</td>
+              <td>{gradeCurricular.componente_curricular}</td>
+              <td>{gradeCurricular.carga_horaria}</td>
+              <td>{new Date(gradeCurricular.data_criacao).toLocaleDateString()}</td>
               <td>
-                <Link to={`/admin/grade-curricular/view/${grade.id}`} className="btn-view">
+                <button onClick={() => openViewModal(gradeCurricular)} className="btn-view">
                   Visualizar
-                </Link>
-                <Link to={`/admin/grade-curricular/edit/${grade.id}`} className="btn-edit">
+                </button>
+                <button onClick={() => openEditModal(gradeCurricular)} className="btn-edit">
                   Editar
-                </Link>
-                <button onClick={() => handleDelete(grade.id)} className="btn-delete">
+                </button>
+                <button onClick={() => handleDelete(gradeCurricular.id)} className="btn-delete">
                   Excluir
                 </button>
               </td>
@@ -97,9 +128,31 @@ const AdminGradeCurricular: React.FC = () => {
           ))}
         </tbody>
       </table>
+
+      {isCreateModalOpen && (
+        <GradeCurricularFormModal
+          isOpen={isCreateModalOpen}
+          onClose={closeCreateModal}
+          onSubmitSuccess={fetchGradesCurriculares}
+        />
+      )}
+      {isEditModalOpen && selectedGradeCurricular && (
+        <GradeCurricularFormModal
+          isOpen={isEditModalOpen}
+          onClose={closeEditModal}
+          onSubmitSuccess={fetchGradesCurriculares}
+          gradeCurricular={selectedGradeCurricular}
+        />
+      )}
+      {isViewModalOpen && selectedGradeCurricular && (
+        <GradeCurricularViewModal
+          isOpen={isViewModalOpen}
+          onClose={closeViewModal}
+          gradeCurricular={selectedGradeCurricular}
+        />
+      )}
     </div>
   )
 }
 
 export default AdminGradeCurricular
-

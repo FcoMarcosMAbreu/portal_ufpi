@@ -2,19 +2,27 @@
 
 import type React from "react"
 import { useState, useEffect } from "react"
-import { Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { dissertacaoTeseService } from "../../../services/dissertacaoTeseService"
 import type { DissertacaoTeseDto } from "../../../types/dissertacaoTese"
 import "./AdminDissertacoesTeses.css"
+import DissertacaoTeseFormModal from "../../../components/dissertacaoTese/DissertacaoTeseFormModal"
+import DissertacaoTeseViewModal from "../../../components/dissertacaoTese/DissertacaoTeseViewModal"
 
 const AdminDissertacoesTeses: React.FC = () => {
+  const navigate = useNavigate()
   const [dissertacoesTeses, setDissertacoesTeses] = useState<DissertacaoTeseDto[]>([])
   const [searchTerm, setSearchTerm] = useState<string>("")
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false)
+  const [selectedDissertacaoTese, setSelectedDissertacaoTese] = useState<DissertacaoTeseDto | null>(null)
 
   useEffect(() => {
     fetchDissertacoesTeses()
   }, [])
 
+  // Função para buscar dissertações e teses do banco de dados
   const fetchDissertacoesTeses = async () => {
     try {
       const data = await dissertacaoTeseService.getAll()
@@ -24,11 +32,12 @@ const AdminDissertacoesTeses: React.FC = () => {
     }
   }
 
+  // Função para excluir uma dissertação ou tese do banco de dados
   const handleDelete = async (id: number) => {
     if (window.confirm("Tem certeza que deseja excluir esta dissertação/tese?")) {
       try {
         await dissertacaoTeseService.delete(id)
-        fetchDissertacoesTeses()
+        fetchDissertacoesTeses() // Atualiza a lista após a exclusão
       } catch (error) {
         console.error("Erro ao excluir dissertação/tese:", error)
       }
@@ -42,24 +51,46 @@ const AdminDissertacoesTeses: React.FC = () => {
   const filteredDissertacoesTeses = dissertacoesTeses.filter(
     (item) =>
       item.titulo.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.nome_autor.toLowerCase().includes(searchTerm.toLowerCase()),
+      item.nome_autor.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.orientador.toLowerCase().includes(searchTerm.toLowerCase()),
   )
+
+  const openCreateModal = () => setIsCreateModalOpen(true)
+  const closeCreateModal = () => setIsCreateModalOpen(false)
+
+  const openEditModal = (dissertacaoTese: DissertacaoTeseDto) => {
+    setSelectedDissertacaoTese(dissertacaoTese)
+    setIsEditModalOpen(true)
+  }
+  const closeEditModal = () => {
+    setSelectedDissertacaoTese(null)
+    setIsEditModalOpen(false)
+  }
+
+  const openViewModal = (dissertacaoTese: DissertacaoTeseDto) => {
+    setSelectedDissertacaoTese(dissertacaoTese)
+    setIsViewModalOpen(true)
+  }
+  const closeViewModal = () => {
+    setSelectedDissertacaoTese(null)
+    setIsViewModalOpen(false)
+  }
 
   return (
     <div className="admin-dissertacoes-teses">
       <h2>Lista de Dissertações e Teses</h2>
       <div className="admin-dissertacoes-teses-actions">
         <div className="action-buttons">
-          <Link to="/admin" className="btn-back">
+          <button onClick={() => navigate("/admin")} className="btn-back">
             Voltar
-          </Link>
-          <Link to="/admin/dissertacoes-teses/create" className="btn-create">
+          </button>
+          <button onClick={openCreateModal} className="btn-create">
             Criar Nova Dissertação/Tese
-          </Link>
+          </button>
         </div>
         <input
           type="text"
-          placeholder="Pesquisar por título ou autor..."
+          placeholder="Pesquisar por título, autor ou orientador..."
           value={searchTerm}
           onChange={handleSearch}
           className="search-input"
@@ -81,14 +112,14 @@ const AdminDissertacoesTeses: React.FC = () => {
               <td>{item.titulo}</td>
               <td>{item.nome_autor}</td>
               <td>{item.orientador}</td>
-              <td>{item.data}</td>
+              <td>{new Date(item.data).toLocaleDateString()}</td>
               <td>
-                <Link to={`/admin/dissertacoes-teses/view/${item.id}`} className="btn-view">
+                <button onClick={() => openViewModal(item)} className="btn-view">
                   Visualizar
-                </Link>
-                <Link to={`/admin/dissertacoes-teses/edit/${item.id}`} className="btn-edit">
+                </button>
+                <button onClick={() => openEditModal(item)} className="btn-edit">
                   Editar
-                </Link>
+                </button>
                 <button onClick={() => handleDelete(item.id)} className="btn-delete">
                   Excluir
                 </button>
@@ -97,9 +128,31 @@ const AdminDissertacoesTeses: React.FC = () => {
           ))}
         </tbody>
       </table>
+
+      {isCreateModalOpen && (
+        <DissertacaoTeseFormModal
+          isOpen={isCreateModalOpen}
+          onClose={closeCreateModal}
+          onSubmitSuccess={fetchDissertacoesTeses}
+        />
+      )}
+      {isEditModalOpen && selectedDissertacaoTese && (
+        <DissertacaoTeseFormModal
+          isOpen={isEditModalOpen}
+          onClose={closeEditModal}
+          onSubmitSuccess={fetchDissertacoesTeses}
+          dissertacaoTese={selectedDissertacaoTese}
+        />
+      )}
+      {isViewModalOpen && selectedDissertacaoTese && (
+        <DissertacaoTeseViewModal
+          isOpen={isViewModalOpen}
+          onClose={closeViewModal}
+          dissertacaoTese={selectedDissertacaoTese}
+        />
+      )}
     </div>
   )
 }
 
 export default AdminDissertacoesTeses
-

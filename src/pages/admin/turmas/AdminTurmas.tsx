@@ -2,14 +2,21 @@
 
 import type React from "react"
 import { useState, useEffect } from "react"
-import { Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { turmaService } from "../../../services/turmaService"
 import type { TurmaDto } from "../../../types/turma"
 import "./AdminTurmas.css"
+import TurmaFormModal from "../../../components/turma/TurmaFormModal"
+import TurmaViewModal from "../../../components/turma/TurmaViewModal"
 
 const AdminTurmas: React.FC = () => {
+  const navigate = useNavigate()
   const [turmas, setTurmas] = useState<TurmaDto[]>([])
   const [searchTerm, setSearchTerm] = useState<string>("")
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false)
+  const [selectedTurma, setSelectedTurma] = useState<TurmaDto | null>(null)
 
   useEffect(() => {
     fetchTurmas()
@@ -39,23 +46,49 @@ const AdminTurmas: React.FC = () => {
     setSearchTerm(event.target.value)
   }
 
-  const filteredTurmas = turmas.filter((turma) => turma.nome_turma.toLowerCase().includes(searchTerm.toLowerCase()))
+  const filteredTurmas = turmas.filter(
+    (turma) =>
+      turma.materia.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      turma.nome_turma.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      turma.docentes.toLowerCase().includes(searchTerm.toLowerCase()),
+  )
+
+  const openCreateModal = () => setIsCreateModalOpen(true)
+  const closeCreateModal = () => setIsCreateModalOpen(false)
+
+  const openEditModal = (turma: TurmaDto) => {
+    setSelectedTurma(turma)
+    setIsEditModalOpen(true)
+  }
+  const closeEditModal = () => {
+    setSelectedTurma(null)
+    setIsEditModalOpen(false)
+  }
+
+  const openViewModal = (turma: TurmaDto) => {
+    setSelectedTurma(turma)
+    setIsViewModalOpen(true)
+  }
+  const closeViewModal = () => {
+    setSelectedTurma(null)
+    setIsViewModalOpen(false)
+  }
 
   return (
     <div className="admin-turmas">
       <h2>Lista de Turmas</h2>
       <div className="admin-turmas-actions">
         <div className="action-buttons">
-          <Link to="/admin" className="btn-back">
+          <button onClick={() => navigate("/admin")} className="btn-back">
             Voltar
-          </Link>
-          <Link to="/admin/turmas/create" className="btn-create">
+          </button>
+          <button onClick={openCreateModal} className="btn-create">
             Criar Nova Turma
-          </Link>
+          </button>
         </div>
         <input
           type="text"
-          placeholder="Pesquisar por nome..."
+          placeholder="Pesquisar por matéria, nome da turma ou docentes..."
           value={searchTerm}
           onChange={handleSearch}
           className="search-input"
@@ -69,7 +102,6 @@ const AdminTurmas: React.FC = () => {
             <th>Horários</th>
             <th>Período/Ano</th>
             <th>Docentes</th>
-            <th>Data de Criação</th>
             <th>Ações</th>
           </tr>
         </thead>
@@ -81,14 +113,13 @@ const AdminTurmas: React.FC = () => {
               <td>{turma.horarios}</td>
               <td>{turma.periodo_ano}</td>
               <td>{turma.docentes}</td>
-              <td>{new Date(turma.data_criacao).toLocaleDateString()}</td>
               <td>
-                <Link to={`/admin/turmas/view/${turma.id}`} className="btn-view">
+                <button onClick={() => openViewModal(turma)} className="btn-view">
                   Visualizar
-                </Link>
-                <Link to={`/admin/turmas/edit/${turma.id}`} className="btn-edit">
+                </button>
+                <button onClick={() => openEditModal(turma)} className="btn-edit">
                   Editar
-                </Link>
+                </button>
                 <button onClick={() => handleDelete(turma.id)} className="btn-delete">
                   Excluir
                 </button>
@@ -97,9 +128,23 @@ const AdminTurmas: React.FC = () => {
           ))}
         </tbody>
       </table>
+
+      {isCreateModalOpen && (
+        <TurmaFormModal isOpen={isCreateModalOpen} onClose={closeCreateModal} onSubmitSuccess={fetchTurmas} />
+      )}
+      {isEditModalOpen && selectedTurma && (
+        <TurmaFormModal
+          isOpen={isEditModalOpen}
+          onClose={closeEditModal}
+          onSubmitSuccess={fetchTurmas}
+          turma={selectedTurma}
+        />
+      )}
+      {isViewModalOpen && selectedTurma && (
+        <TurmaViewModal isOpen={isViewModalOpen} onClose={closeViewModal} turma={selectedTurma} />
+      )}
     </div>
   )
 }
 
 export default AdminTurmas
-

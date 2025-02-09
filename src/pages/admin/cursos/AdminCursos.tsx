@@ -2,19 +2,27 @@
 
 import type React from "react"
 import { useState, useEffect } from "react"
-import { Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { cursoService } from "../../../services/cursoService"
 import type { CursoResponseDto } from "../../../types/curso"
 import "./AdminCursos.css"
+import CursoFormModal from "../../../components/curso/CursoFormModal"
+import CursoViewModal from "../../../components/curso/CursoViewModal"
 
 const AdminCursos: React.FC = () => {
+  const navigate = useNavigate()
   const [cursos, setCursos] = useState<CursoResponseDto[]>([])
   const [searchTerm, setSearchTerm] = useState<string>("")
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false)
+  const [selectedCurso, setSelectedCurso] = useState<CursoResponseDto | null>(null)
 
   useEffect(() => {
     fetchCursos()
   }, [])
 
+  // Função para buscar cursos do banco de dados
   const fetchCursos = async () => {
     try {
       const data = await cursoService.getAll()
@@ -24,11 +32,12 @@ const AdminCursos: React.FC = () => {
     }
   }
 
+  // Função para excluir um curso do banco de dados
   const handleDelete = async (id: number) => {
     if (window.confirm("Tem certeza que deseja excluir este curso?")) {
       try {
         await cursoService.delete(id)
-        fetchCursos()
+        fetchCursos() // Atualiza a lista após a exclusão
       } catch (error) {
         console.error("Erro ao excluir curso:", error)
       }
@@ -41,17 +50,38 @@ const AdminCursos: React.FC = () => {
 
   const filteredCursos = cursos.filter((curso) => curso.nome.toLowerCase().includes(searchTerm.toLowerCase()))
 
+  const openCreateModal = () => setIsCreateModalOpen(true)
+  const closeCreateModal = () => setIsCreateModalOpen(false)
+
+  const openEditModal = (curso: CursoResponseDto) => {
+    setSelectedCurso(curso)
+    setIsEditModalOpen(true)
+  }
+  const closeEditModal = () => {
+    setSelectedCurso(null)
+    setIsEditModalOpen(false)
+  }
+
+  const openViewModal = (curso: CursoResponseDto) => {
+    setSelectedCurso(curso)
+    setIsViewModalOpen(true)
+  }
+  const closeViewModal = () => {
+    setSelectedCurso(null)
+    setIsViewModalOpen(false)
+  }
+
   return (
     <div className="admin-cursos">
       <h2>Lista de Cursos</h2>
       <div className="admin-cursos-actions">
         <div className="action-buttons">
-          <Link to="/admin" className="btn-back">
+          <button onClick={() => navigate("/admin")} className="btn-back">
             Voltar
-          </Link>
-          <Link to="/admin/cursos/create" className="btn-create">
+          </button>
+          <button onClick={openCreateModal} className="btn-create">
             Criar Novo Curso
-          </Link>
+          </button>
         </div>
         <input
           type="text"
@@ -67,7 +97,6 @@ const AdminCursos: React.FC = () => {
             <th>Nome</th>
             <th>Link Documento CAPES</th>
             <th>Link Detalhes do Curso</th>
-            <th>Data de Criação</th>
             <th>Ações</th>
           </tr>
         </thead>
@@ -85,14 +114,13 @@ const AdminCursos: React.FC = () => {
                   Detalhes do Curso
                 </a>
               </td>
-              <td>{new Date(curso.data_criacao).toLocaleDateString()}</td>
               <td>
-                <Link to={`/admin/cursos/view/${curso.id}`} className="btn-view">
+                <button onClick={() => openViewModal(curso)} className="btn-view">
                   Visualizar
-                </Link>
-                <Link to={`/admin/cursos/edit/${curso.id}`} className="btn-edit">
+                </button>
+                <button onClick={() => openEditModal(curso)} className="btn-edit">
                   Editar
-                </Link>
+                </button>
                 <button onClick={() => handleDelete(curso.id)} className="btn-delete">
                   Excluir
                 </button>
@@ -101,6 +129,21 @@ const AdminCursos: React.FC = () => {
           ))}
         </tbody>
       </table>
+
+      {isCreateModalOpen && (
+        <CursoFormModal isOpen={isCreateModalOpen} onClose={closeCreateModal} onSubmitSuccess={fetchCursos} />
+      )}
+      {isEditModalOpen && selectedCurso && (
+        <CursoFormModal
+          isOpen={isEditModalOpen}
+          onClose={closeEditModal}
+          onSubmitSuccess={fetchCursos}
+          curso={selectedCurso}
+        />
+      )}
+      {isViewModalOpen && selectedCurso && (
+        <CursoViewModal isOpen={isViewModalOpen} onClose={closeViewModal} curso={selectedCurso} />
+      )}
     </div>
   )
 }

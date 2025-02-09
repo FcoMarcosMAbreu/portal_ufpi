@@ -2,14 +2,21 @@
 
 import type React from "react"
 import { useState, useEffect } from "react"
-import { Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { documentoService } from "../../../services/documentoService"
 import type { DocumentoResponseDto } from "../../../types/documento"
 import "./AdminDocumentos.css"
+import DocumentoFormModal from "../../../components/documento/DocumentoFormModal"
+import DocumentoViewModal from "../../../components/documento/DocumentoViewModal"
 
 const AdminDocumentos: React.FC = () => {
+  const navigate = useNavigate()
   const [documentos, setDocumentos] = useState<DocumentoResponseDto[]>([])
   const [searchTerm, setSearchTerm] = useState<string>("")
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false)
+  const [selectedDocumento, setSelectedDocumento] = useState<DocumentoResponseDto | null>(null)
 
   useEffect(() => {
     fetchDocumentos()
@@ -39,25 +46,49 @@ const AdminDocumentos: React.FC = () => {
     setSearchTerm(event.target.value)
   }
 
-  const filteredDocumentos = documentos.filter((documento) =>
-    documento.nome.toLowerCase().includes(searchTerm.toLowerCase()),
+  const filteredDocumentos = documentos.filter(
+    (documento) =>
+      documento.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      documento.tipo.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      documento.tag.toLowerCase().includes(searchTerm.toLowerCase()),
   )
+
+  const openCreateModal = () => setIsCreateModalOpen(true)
+  const closeCreateModal = () => setIsCreateModalOpen(false)
+
+  const openEditModal = (documento: DocumentoResponseDto) => {
+    setSelectedDocumento(documento)
+    setIsEditModalOpen(true)
+  }
+  const closeEditModal = () => {
+    setSelectedDocumento(null)
+    setIsEditModalOpen(false)
+  }
+
+  const openViewModal = (documento: DocumentoResponseDto) => {
+    setSelectedDocumento(documento)
+    setIsViewModalOpen(true)
+  }
+  const closeViewModal = () => {
+    setSelectedDocumento(null)
+    setIsViewModalOpen(false)
+  }
 
   return (
     <div className="admin-documentos">
       <h2>Lista de Documentos</h2>
       <div className="admin-documentos-actions">
         <div className="action-buttons">
-          <Link to="/admin" className="btn-back">
+          <button onClick={() => navigate("/admin")} className="btn-back">
             Voltar
-          </Link>
-          <Link to="/admin/documentos/create" className="btn-create">
+          </button>
+          <button onClick={openCreateModal} className="btn-create">
             Criar Novo Documento
-          </Link>
+          </button>
         </div>
         <input
           type="text"
-          placeholder="Pesquisar por nome..."
+          placeholder="Pesquisar por nome, tipo ou tag..."
           value={searchTerm}
           onChange={handleSearch}
           className="search-input"
@@ -81,12 +112,12 @@ const AdminDocumentos: React.FC = () => {
               <td>{documento.tag}</td>
               <td>{new Date(documento.data_criacao).toLocaleDateString()}</td>
               <td>
-                <Link to={`/admin/documentos/view/${documento.id}`} className="btn-view">
+                <button onClick={() => openViewModal(documento)} className="btn-view">
                   Visualizar
-                </Link>
-                <Link to={`/admin/documentos/edit/${documento.id}`} className="btn-edit">
+                </button>
+                <button onClick={() => openEditModal(documento)} className="btn-edit">
                   Editar
-                </Link>
+                </button>
                 <button onClick={() => handleDelete(documento.id)} className="btn-delete">
                   Excluir
                 </button>
@@ -95,9 +126,23 @@ const AdminDocumentos: React.FC = () => {
           ))}
         </tbody>
       </table>
+
+      {isCreateModalOpen && (
+        <DocumentoFormModal isOpen={isCreateModalOpen} onClose={closeCreateModal} onSubmitSuccess={fetchDocumentos} />
+      )}
+      {isEditModalOpen && selectedDocumento && (
+        <DocumentoFormModal
+          isOpen={isEditModalOpen}
+          onClose={closeEditModal}
+          onSubmitSuccess={fetchDocumentos}
+          documento={selectedDocumento}
+        />
+      )}
+      {isViewModalOpen && selectedDocumento && (
+        <DocumentoViewModal isOpen={isViewModalOpen} onClose={closeViewModal} documento={selectedDocumento} />
+      )}
     </div>
   )
 }
 
 export default AdminDocumentos
-

@@ -2,14 +2,21 @@
 
 import type React from "react"
 import { useState, useEffect } from "react"
-import { Link } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { processoSeletivoService } from "../../../services/processoSeletivoService"
 import type { ProcessoSeletivoDto } from "../../../types/processoSeletivo"
 import "./AdminProcessosSeletivos.css"
+import ProcessoSeletivoFormModal from "../../../components/processoSeletivo/ProcessoSeletivoFormModal"
+import ProcessoSeletivoViewModal from "../../../components/processoSeletivo/ProcessoSeletivoViewModal"
 
 const AdminProcessosSeletivos: React.FC = () => {
+  const navigate = useNavigate()
   const [processosSeletivos, setProcessosSeletivos] = useState<ProcessoSeletivoDto[]>([])
   const [searchTerm, setSearchTerm] = useState<string>("")
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false)
+  const [selectedProcessoSeletivo, setSelectedProcessoSeletivo] = useState<ProcessoSeletivoDto | null>(null)
 
   useEffect(() => {
     fetchProcessosSeletivos()
@@ -39,25 +46,48 @@ const AdminProcessosSeletivos: React.FC = () => {
     setSearchTerm(event.target.value)
   }
 
-  const filteredProcessosSeletivos = processosSeletivos.filter((item) =>
-    item.titulo.toLowerCase().includes(searchTerm.toLowerCase()),
+  const filteredProcessosSeletivos = processosSeletivos.filter(
+    (item) =>
+      item.titulo.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.descricao.toLowerCase().includes(searchTerm.toLowerCase()),
   )
+
+  const openCreateModal = () => setIsCreateModalOpen(true)
+  const closeCreateModal = () => setIsCreateModalOpen(false)
+
+  const openEditModal = (processoSeletivo: ProcessoSeletivoDto) => {
+    setSelectedProcessoSeletivo(processoSeletivo)
+    setIsEditModalOpen(true)
+  }
+  const closeEditModal = () => {
+    setSelectedProcessoSeletivo(null)
+    setIsEditModalOpen(false)
+  }
+
+  const openViewModal = (processoSeletivo: ProcessoSeletivoDto) => {
+    setSelectedProcessoSeletivo(processoSeletivo)
+    setIsViewModalOpen(true)
+  }
+  const closeViewModal = () => {
+    setSelectedProcessoSeletivo(null)
+    setIsViewModalOpen(false)
+  }
 
   return (
     <div className="admin-processos-seletivos">
       <h2>Lista de Processos Seletivos</h2>
       <div className="admin-processos-seletivos-actions">
         <div className="action-buttons">
-          <Link to="/admin" className="btn-back">
+          <button onClick={() => navigate("/admin")} className="btn-back">
             Voltar
-          </Link>
-          <Link to="/admin/processos-seletivos/create" className="btn-create">
+          </button>
+          <button onClick={openCreateModal} className="btn-create">
             Criar Novo Processo Seletivo
-          </Link>
+          </button>
         </div>
         <input
           type="text"
-          placeholder="Pesquisar por título..."
+          placeholder="Pesquisar por título ou descrição..."
           value={searchTerm}
           onChange={handleSearch}
           className="search-input"
@@ -85,12 +115,12 @@ const AdminProcessosSeletivos: React.FC = () => {
               </td>
               <td>{new Date(item.data_criacao).toLocaleDateString()}</td>
               <td>
-                <Link to={`/admin/processos-seletivos/view/${item.id}`} className="btn-view">
+                <button onClick={() => openViewModal(item)} className="btn-view">
                   Visualizar
-                </Link>
-                <Link to={`/admin/processos-seletivos/edit/${item.id}`} className="btn-edit">
+                </button>
+                <button onClick={() => openEditModal(item)} className="btn-edit">
                   Editar
-                </Link>
+                </button>
                 <button onClick={() => handleDelete(item.id)} className="btn-delete">
                   Excluir
                 </button>
@@ -99,9 +129,31 @@ const AdminProcessosSeletivos: React.FC = () => {
           ))}
         </tbody>
       </table>
+
+      {isCreateModalOpen && (
+        <ProcessoSeletivoFormModal
+          isOpen={isCreateModalOpen}
+          onClose={closeCreateModal}
+          onSubmitSuccess={fetchProcessosSeletivos}
+        />
+      )}
+      {isEditModalOpen && selectedProcessoSeletivo && (
+        <ProcessoSeletivoFormModal
+          isOpen={isEditModalOpen}
+          onClose={closeEditModal}
+          onSubmitSuccess={fetchProcessosSeletivos}
+          processoSeletivo={selectedProcessoSeletivo}
+        />
+      )}
+      {isViewModalOpen && selectedProcessoSeletivo && (
+        <ProcessoSeletivoViewModal
+          isOpen={isViewModalOpen}
+          onClose={closeViewModal}
+          processoSeletivo={selectedProcessoSeletivo}
+        />
+      )}
     </div>
   )
 }
 
 export default AdminProcessosSeletivos
-

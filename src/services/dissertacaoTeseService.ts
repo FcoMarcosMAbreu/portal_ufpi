@@ -1,30 +1,43 @@
 import axios from "axios"
 import type { DissertacaoTeseDto, CreateDissertacaoTeseDto, UpdateDissertacaoTeseDto } from "../types/dissertacaoTese"
 
-const API_URL = "http://localhost:3000" // Adjust to your backend URL
+const API_URL = "http://localhost:3000"
+
+const axiosInstance = axios.create({
+  baseURL: API_URL,
+  headers: {
+    "Content-Type": "application/json",
+  },
+})
 
 export const dissertacaoTeseService = {
+  // Obtém todas as dissertações e teses do banco de dados
   getAll: async (): Promise<DissertacaoTeseDto[]> => {
-    const response = await axios.get(`${API_URL}/dissertacoes-teses`)
+    const response = await axiosInstance.get("/dissertacoes-teses")
     return response.data
   },
 
+  // Obtém uma dissertação ou tese específica pelo ID
   getById: async (id: number): Promise<DissertacaoTeseDto> => {
-    const response = await axios.get(`${API_URL}/dissertacoes-teses/${id}`)
+    const response = await axiosInstance.get(`/dissertacoes-teses/${id}`)
     return response.data
   },
 
+  // Cria uma nova dissertação ou tese no banco de dados
   create: async (dissertacaoTese: CreateDissertacaoTeseDto): Promise<DissertacaoTeseDto> => {
-    const response = await axios.post(`${API_URL}/dissertacoes-teses`, dissertacaoTese)
+    const response = await axiosInstance.post("/dissertacoes-teses", dissertacaoTese)
     return response.data
   },
 
+  // Atualiza uma dissertação ou tese existente no banco de dados
   update: async (id: number, dissertacaoTese: UpdateDissertacaoTeseDto): Promise<DissertacaoTeseDto> => {
-    const response = await axios.put(`${API_URL}/dissertacoes-teses/${id}`, dissertacaoTese)
+    const response = await axiosInstance.put(`/dissertacoes-teses/${id}`, dissertacaoTese)
     return response.data
   },
 
+  // Remove uma dissertação ou tese do banco de dados
   delete: async (id: number): Promise<void> => {
-    await axios.delete(`${API_URL}/dissertacoes-teses/${id}`)
+    await axiosInstance.delete(`/dissertacoes-teses/${id}`)
   },
 }
+
