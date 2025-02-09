@@ -14,7 +14,7 @@ export class GradeCurricularDto {
   componente_curricular: string;
 
   @ApiProperty({ description: 'Ementa do componente curricular', format: 'binary', required: false })
-  ementa: any;
+  ementa?: string;
 
   @ApiProperty({ description: 'Carga horária do componente curricular', example: '60h' })
   carga_horaria: string;

@@ -11,9 +11,9 @@ export class CreateGradeCurricularDto {
   @ApiProperty({ description: 'Componente curricular', example: 'Programação Web' })
   componente_curricular: string;
 
-  @ApiProperty({ description: 'Ementa do componente curricular (opcional)', format: 'binary', required: false })
+  @ApiProperty({ description: 'Ementa do componente curricular (opcional)', type: 'string', format: 'binary', required: false })
   @IsOptional()
-  ementa?: Express.Multer.File;
+  ementa?: any;
 
   @ApiProperty({ description: 'Carga horária do componente curricular', example: '60h' })
   carga_horaria: string;

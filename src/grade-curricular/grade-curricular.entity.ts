@@ -14,8 +14,8 @@ export class GradeCurricular {
   @Column()
   componente_curricular: string;
 
-  @Column('bytea', { nullable: true })
-  ementa: Buffer;
+  @Column('varchar', { nullable: true })
+  ementa: string;
 
   @Column()
   carga_horaria: string;
