@@ -19,15 +19,15 @@ export class CursosController {
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard) // Protege a rota para admins autenticados
-  @ApiBearerAuth() // Requer autenticação via token JWT
+  //@UseGuards(JwtAuthGuard) // Protege a rota para admins autenticados
+  //@ApiBearerAuth() // Requer autenticação via token JWT
   findAll(): Promise<CursoResponseDto[]> {
     return this.cursosService.findAll();
   }
 
   @Get(':id')
-  @UseGuards(JwtAuthGuard) // Protege a rota para admins autenticados
-  @ApiBearerAuth() // Requer autenticação via token JWT
+  //@UseGuards(JwtAuthGuard) // Protege a rota para admins autenticados
+  //@ApiBearerAuth() // Requer autenticação via token JWT
   findOne(@Param('id') id: number): Promise<CursoResponseDto> {
     return this.cursosService.findOne(id);
   }

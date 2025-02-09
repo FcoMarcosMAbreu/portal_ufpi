@@ -12,13 +12,13 @@ import { callbackify } from 'util';
 import { extname } from 'path';
 
 @ApiTags('Grade Curricular')
-@ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
 @Controller('grade-curricular')
 export class GradeCurricularController {
   constructor(private readonly gradeCurricularService: GradeCurricularService) {}
 
   @Post()
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @UseInterceptors(FileInterceptor('ementa', {
     storage: diskStorage({
       destination: './uploads/grade-curricular',
@@ -76,11 +76,15 @@ export class GradeCurricularController {
       }
 
   @Patch(':id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   update(@Param('id') id: string, @Body() updateGradeCurricularDto: UpdateGradeCurricularDto) {
     return this.gradeCurricularService.update(+id, updateGradeCurricularDto);
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   remove(@Param('id') id: string) {
     return this.gradeCurricularService.remove(+id);
   }

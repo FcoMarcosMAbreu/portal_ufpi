@@ -11,13 +11,13 @@ import { diskStorage } from 'multer';
 import { extname } from 'path';
 
 @ApiTags('Notícias')
-@ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
 @Controller('noticias')
 export class NoticiasController {
   constructor(private readonly noticiasService: NoticiasService) {}
 
   @Post()
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @UseInterceptors(FileInterceptor('arquivo', {
     storage: diskStorage({
       destination: './uploads/noticias',
@@ -75,11 +75,15 @@ export class NoticiasController {
     }
 
   @Patch(':id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   update(@Param('id') id: number, @Body() updateNoticiaDto: UpdateNoticiaDto): Promise<NoticiaDto> {
     return this.noticiasService.update(id, updateNoticiaDto);
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   remove(@Param('id') id: number): Promise<void> {
     return this.noticiasService.remove(id);
   }

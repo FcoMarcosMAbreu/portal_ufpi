@@ -7,13 +7,13 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { ProcessoSeletivoService } from './processos-seletivos.service';
 
 @ApiTags('Processos Seletivos')
-@ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
 @Controller('processos-seletivos')
 export class ProcessoSeletivoController {
   constructor(private readonly processoSeletivoService: ProcessoSeletivoService) {}
 
   @Post()
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   create(@Body() createProcessoSeletivoDto: CreateProcessoSeletivoDto) {
     return this.processoSeletivoService.create(createProcessoSeletivoDto);
   }
@@ -29,11 +29,15 @@ export class ProcessoSeletivoController {
   }
 
   @Patch(':id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   update(@Param('id') id: number, @Body() updateProcessoSeletivoDto: UpdateProcessoSeletivoDto) {
     return this.processoSeletivoService.update(id, updateProcessoSeletivoDto);
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   remove(@Param('id') id: number) {
     return this.processoSeletivoService.remove(id);
   }

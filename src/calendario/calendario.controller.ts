@@ -6,13 +6,13 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Calendário')
-@ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
 @Controller('calendario')
 export class CalendarioController {
   constructor(private readonly calendarioService: CalendarioService) {}
 
   @Post()
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   create(@Body() createCalendarioDto: CreateCalendarioDto) {
     return this.calendarioService.create(createCalendarioDto);
   }
@@ -28,11 +28,15 @@ export class CalendarioController {
   }
 
   @Patch(':id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   update(@Param('id') id: number, @Body() updateCalendarioDto: UpdateCalendarioDto) {
     return this.calendarioService.update(id, updateCalendarioDto);
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   remove(@Param('id') id: number) {
     return this.calendarioService.remove(id);
   }

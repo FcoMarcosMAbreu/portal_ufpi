@@ -15,13 +15,13 @@ import {
   import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
   
   @ApiTags('Turmas')
-  @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
   @Controller('turmas')
   export class TurmasController {
     constructor(private readonly turmasService: TurmasService) {}
   
     @Post()
+    @UseGuards(JwtAuthGuard)
+    @ApiBearerAuth()
     create(@Body() createTurmaDto: CreateTurmaDto) {
       return this.turmasService.create(createTurmaDto);
     }
@@ -37,11 +37,15 @@ import {
     }
   
     @Put(':id')
+    @UseGuards(JwtAuthGuard)
+    @ApiBearerAuth()
     update(@Param('id') id: string, @Body() updateTurmaDto: UpdateTurmaDto) {
       return this.turmasService.update(+id, updateTurmaDto);
     }
   
     @Delete(':id')
+    @UseGuards(JwtAuthGuard)
+    @ApiBearerAuth()
     remove(@Param('id') id: string) {
       return this.turmasService.remove(+id);
     }

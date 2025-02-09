@@ -25,15 +25,15 @@ export class ProfessoresController {
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard) // Protege a rota para admins autenticados
-  @ApiBearerAuth() // Requer autenticação via token JWT
+  //@UseGuards(JwtAuthGuard) // Protege a rota para admins autenticados
+  //@ApiBearerAuth() // Requer autenticação via token JWT
   async findAll(): Promise<ProfessorResponseDto[]> {
     return this.professoresService.findAll();
   }
 
   @Get(':id')
-  @UseGuards(JwtAuthGuard) // Protege a rota para admins autenticados
-  @ApiBearerAuth() // Requer autenticação via token JWT
+  //@UseGuards(JwtAuthGuard) // Protege a rota para admins autenticados
+  //@ApiBearerAuth() // Requer autenticação via token JWT
   async findOne(@Param('id') id: number): Promise<ProfessorResponseDto> {
     return this.professoresService.findOne(id);
   }

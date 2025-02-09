@@ -9,17 +9,19 @@ import { Express } from 'express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
 import { TipoDocumento } from './tipo-documento.enum';
+import { TagDocumento } from './tag-documento.enum';
+import { DocumentoResponseDto } from './dto/documento-response.dto';
 
 
 @ApiTags('Documentos')
-@ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
 @Controller('documentos')
 export class DocumentosController {
   constructor(private readonly documentosService: DocumentosService){}
 
 
   @Post()
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   @UseInterceptors(FileInterceptor('arquivo', {
     storage: diskStorage({
       destination: "./uploads/documentos",
@@ -39,13 +41,14 @@ export class DocumentosController {
       properties: {
         nome: { type: 'string', example: 'Relatório de vendas' },
         tipo: { type: 'string', example: 'PDF' },
+        tag: { type: 'string', example: 'FORMULARIO' },
         arquivo: { type: 'string', format: 'binary' }
       }
     }
   })
   async create(
     @UploadedFile() file: Express.Multer.File,
-    @Body() createDocumentoDto: CreateDocumentoDto) {
+    @Body() createDocumentoDto: CreateDocumentoDto):  Promise<DocumentoResponseDto>{
       if (!file){
         throw new HttpException('Arquivo não encontrado', HttpStatus.BAD_REQUEST);
       }
@@ -56,7 +59,8 @@ export class DocumentosController {
       return this.documentosService.create({
         nome: createDocumentoDto.nome,
         tipo: tipoDocumento,
-        caminho_arquivo: caminhoArquivo
+        tag: createDocumentoDto.tag,
+        caminho_arquivo: caminhoArquivo,
       })
       
   }
@@ -78,11 +82,15 @@ export class DocumentosController {
   }
 
   @Patch(':id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   update(@Param('id') id: string, @Body() updateDocumentoDto: UpdateDocumentoDto) {
     return this.documentosService.update(+id, updateDocumentoDto);
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   remove(@Param('id') id: string) {
     return this.documentosService.remove(+id);
   }

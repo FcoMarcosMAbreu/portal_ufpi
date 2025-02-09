@@ -7,13 +7,13 @@ import { CreateDissertacaoTeseDto } from './dto/create-disseracao-tese.dto';
 
 
 @ApiTags('Dissertações e Teses')
-@ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
 @Controller('dissertacoes-teses')
 export class DissertacoesTesesController {
   constructor(private readonly dissertacoesTesesService: DissertacoesTesesService) {}
 
   @Post()
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   create(@Body() createDissertacaoTeseDto: CreateDissertacaoTeseDto) {
     return this.dissertacoesTesesService.create(createDissertacaoTeseDto);
   }
@@ -29,11 +29,15 @@ export class DissertacoesTesesController {
   }
 
   @Patch(':id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   update(@Param('id') id: number, @Body() updateDissertacaoTeseDto: UpdateDissertacaoTeseDto) {
     return this.dissertacoesTesesService.update(id, updateDissertacaoTeseDto);
   }
 
   @Delete(':id')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
   remove(@Param('id') id: number) {
     return this.dissertacoesTesesService.remove(id);
   }

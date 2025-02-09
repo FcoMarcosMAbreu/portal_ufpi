@@ -18,15 +18,15 @@ export class AlunosController {
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard) // Protege a rota para admins autenticados
-  @ApiBearerAuth()
+  //@UseGuards(JwtAuthGuard) // Protege a rota para admins autenticados
+  //@ApiBearerAuth()
   findAll() {
     return this.alunosService.findAll();
   }
 
   @Get(':id')
-  @UseGuards(JwtAuthGuard) // Protege a rota para admins autenticados
-  @ApiBearerAuth()
+  //@UseGuards(JwtAuthGuard) // Protege a rota para admins autenticados
+  //@ApiBearerAuth()
   findOne(@Param('id') id: string) {
     return this.alunosService.findOne(+id);
   }
