@@ -19,7 +19,7 @@ const DocumentoFormModal: React.FC<DocumentoFormModalProps> = ({ isOpen, onClose
     nome: "",
     tipo: TipoDocumento.PDF,
     tag: TagDocumento.OUTROS,
-    arquivo: null,
+    arquivo: null as unknown as File,
   })
 
   useEffect(() => {
@@ -34,7 +34,7 @@ const DocumentoFormModal: React.FC<DocumentoFormModalProps> = ({ isOpen, onClose
         nome: "",
         tipo: TipoDocumento.PDF,
         tag: TagDocumento.OUTROS,
-        arquivo: null,
+        arquivo: null as unknown as File,
       })
     }
   }, [documento])
@@ -53,17 +53,10 @@ const DocumentoFormModal: React.FC<DocumentoFormModalProps> = ({ isOpen, onClose
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
-      const formDataToSend = new FormData()
-      Object.entries(formData).forEach(([key, value]) => {
-        if (value !== null) {
-          formDataToSend.append(key, value)
-        }
-      })
-
       if (documento) {
-        await documentoService.update(documento.id, formDataToSend as unknown as UpdateDocumentoDto)
+        await documentoService.update(documento.id, formData as UpdateDocumentoDto)
       } else {
-        await documentoService.create(formDataToSend as unknown as CreateDocumentoDto)
+        await documentoService.create(formData as CreateDocumentoDto)
       }
       onSubmitSuccess()
       onClose()
@@ -120,3 +113,4 @@ const DocumentoFormModal: React.FC<DocumentoFormModalProps> = ({ isOpen, onClose
 }
 
 export default DocumentoFormModal
+

@@ -1,12 +1,19 @@
+"use client"
+
 import type React from "react"
 import { useState, useEffect } from "react"
 import { turmaService } from "../../services/turmaService"
 import type { TurmaDto } from "../../types/turma"
+import TurmaViewModal from "./TurmaViewModal"
+import { PageContainer } from "../common/PageContainer"
+import { ResourceGrid } from "../common/ResourceGrid"
 import "./TurmaList.css"
 
 const TurmaList: React.FC = () => {
   const [turmas, setTurmas] = useState<TurmaDto[]>([])
   const [searchTerm, setSearchTerm] = useState("")
+  const [selectedTurma, setSelectedTurma] = useState<TurmaDto | null>(null)
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false)
 
   useEffect(() => {
     fetchTurmas()
@@ -21,17 +28,6 @@ const TurmaList: React.FC = () => {
     }
   }
 
-  const handleDelete = async (id: number) => {
-    if (window.confirm("Tem certeza que deseja excluir esta turma?")) {
-      try {
-        await turmaService.delete(id)
-        fetchTurmas()
-      } catch (error) {
-        console.error("Erro ao excluir turma:", error)
-      }
-    }
-  }
-
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value)
   }
@@ -43,9 +39,18 @@ const TurmaList: React.FC = () => {
       turma.docentes.toLowerCase().includes(searchTerm.toLowerCase()),
   )
 
+  const openViewModal = (turma: TurmaDto) => {
+    setSelectedTurma(turma)
+    setIsViewModalOpen(true)
+  }
+
+  const closeViewModal = () => {
+    setSelectedTurma(null)
+    setIsViewModalOpen(false)
+  }
+
   return (
-    <div className="turma-list">
-      <h2>Lista de Turmas</h2>
+    <PageContainer title="Turmas" description="Lista de turmas disponíveis">
       <div className="filter-container">
         <input
           type="text"
@@ -55,38 +60,29 @@ const TurmaList: React.FC = () => {
           className="search-input"
         />
       </div>
-      <table>
-        <thead>
-          <tr>
-            <th>Matéria</th>
-            <th>Nome da Turma</th>
-            <th>Horários</th>
-            <th>Período/Ano</th>
-            <th>Docentes</th>
-            <th>Data de Criação</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredTurmas.map((turma) => (
-            <tr key={turma.id}>
-              <td>{turma.materia}</td>
-              <td>{turma.nome_turma}</td>
-              <td>{turma.horarios}</td>
-              <td>{turma.periodo_ano}</td>
-              <td>{turma.docentes}</td>
-              <td>{new Date(turma.data_criacao).toLocaleDateString()}</td>
-              <td>
-                <button onClick={() => handleDelete(turma.id)} className="btn-delete">
-                  Excluir
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+      <ResourceGrid>
+        {filteredTurmas.map((turma) => (
+          <div key={turma.id} className="turma-card">
+            <h3>{turma.nome_turma}</h3>
+            <p>
+              <strong>Matéria:</strong> {turma.materia}
+            </p>
+            <p>
+              <strong>Horários:</strong> {turma.horarios}
+            </p>
+            <button onClick={() => openViewModal(turma)} className="btn-view">
+              Visualizar
+            </button>
+          </div>
+        ))}
+      </ResourceGrid>
+
+      {isViewModalOpen && selectedTurma && (
+        <TurmaViewModal isOpen={isViewModalOpen} onClose={closeViewModal} turma={selectedTurma} />
+      )}
+    </PageContainer>
   )
 }
 
 export default TurmaList
+

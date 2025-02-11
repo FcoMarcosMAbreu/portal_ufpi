@@ -1,13 +1,29 @@
+"use client"
+
 import type React from "react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { professorService } from "../../services/professorService"
+import type { ProfessorResponseDto } from "../../types/professor"
 import { PageContainer } from "../common/PageContainer"
 import { ResourceGrid } from "../common/ResourceGrid"
 import "./ProfessorList.css"
-import { mockProfessores } from "../mock/mockData"
 
-const ProfessorList = () => {
-  const [professores, setProfessores] = useState(mockProfessores)
+const ProfessorList: React.FC = () => {
+  const [professores, setProfessores] = useState<ProfessorResponseDto[]>([])
   const [searchTerm, setSearchTerm] = useState("")
+
+  useEffect(() => {
+    fetchProfessores()
+  }, [])
+
+  const fetchProfessores = async () => {
+    try {
+      const data = await professorService.getAll()
+      setProfessores(data)
+    } catch (error) {
+      console.error("Erro ao buscar professores:", error)
+    }
+  }
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value)
@@ -59,3 +75,4 @@ const ProfessorList = () => {
 }
 
 export default ProfessorList
+

@@ -22,7 +22,6 @@ const AdminNoticias: React.FC = () => {
     fetchNoticias()
   }, [])
 
-  // Função para buscar notícias do banco de dados
   const fetchNoticias = async () => {
     try {
       const data = await noticiaService.getAll()
@@ -32,12 +31,11 @@ const AdminNoticias: React.FC = () => {
     }
   }
 
-  // Função para excluir uma notícia do banco de dados
   const handleDelete = async (id: number) => {
     if (window.confirm("Tem certeza que deseja excluir esta notícia?")) {
       try {
         await noticiaService.delete(id)
-        fetchNoticias() // Atualiza a lista após a exclusão
+        fetchNoticias() // Refresh the list after deletion
       } catch (error) {
         console.error("Erro ao excluir notícia:", error)
       }
@@ -145,3 +143,4 @@ const AdminNoticias: React.FC = () => {
 }
 
 export default AdminNoticias
+

@@ -22,7 +22,6 @@ const AdminProfessores: React.FC = () => {
     fetchProfessores()
   }, [])
 
-  // Função para buscar professores do banco de dados
   const fetchProfessores = async () => {
     try {
       const data = await professorService.getAll()
@@ -32,12 +31,11 @@ const AdminProfessores: React.FC = () => {
     }
   }
 
-  // Função para excluir um professor do banco de dados
   const handleDelete = async (id: number) => {
     if (window.confirm("Tem certeza que deseja excluir este professor?")) {
       try {
         await professorService.delete(id)
-        fetchProfessores() // Atualiza a lista após a exclusão
+        setProfessores(professores.filter((professor) => professor.id !== id))
       } catch (error) {
         console.error("Erro ao excluir professor:", error)
       }

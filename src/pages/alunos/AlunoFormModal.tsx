@@ -97,3 +97,4 @@ const AlunoFormModal: React.FC<AlunoFormModalProps> = ({ isOpen, onClose, onSubm
 }
 
 export default AlunoFormModal
+

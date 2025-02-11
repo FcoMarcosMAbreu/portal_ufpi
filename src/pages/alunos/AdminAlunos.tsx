@@ -35,7 +35,7 @@ const AdminAluno: React.FC = () => {
     if (window.confirm("Tem certeza que deseja excluir este aluno?")) {
       try {
         await alunoService.delete(id)
-        fetchAlunos()
+        fetchAlunos() // Refresh the list after deletion
       } catch (error) {
         console.error("Erro ao excluir aluno:", error)
       }
@@ -88,7 +88,7 @@ const AdminAluno: React.FC = () => {
         </div>
         <input
           type="text"
-          placeholder="Pesquisar por nome..."
+          placeholder="Pesquisar por nome, email ou matrícula..."
           value={searchTerm}
           onChange={handleSearch}
           className="search-input"
@@ -146,3 +146,4 @@ const AdminAluno: React.FC = () => {
 }
 
 export default AdminAluno
+

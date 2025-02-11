@@ -1,36 +1,28 @@
+"use client"
+
 import type React from "react"
 import { useState, useEffect } from "react"
 import { dissertacaoTeseService } from "../../services/dissertacaoTeseService"
 import type { DissertacaoTeseDto } from "../../types/dissertacaoTese"
+import DissertacaoTeseViewModal from "./DissertacaoTeseViewModal"
 import "./DissertacaoTeseList.css"
 
 const DissertacaoTeseList: React.FC = () => {
   const [dissertacoesTeses, setDissertacoesTeses] = useState<DissertacaoTeseDto[]>([])
   const [searchTerm, setSearchTerm] = useState("")
+  const [selectedItem, setSelectedItem] = useState<DissertacaoTeseDto | null>(null)
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false)
 
   useEffect(() => {
     fetchDissertacoesTeses()
   }, [])
 
-  // Função para buscar dissertações e teses
   const fetchDissertacoesTeses = async () => {
     try {
       const data = await dissertacaoTeseService.getAll()
       setDissertacoesTeses(data)
     } catch (error) {
       console.error("Erro ao buscar dissertações e teses:", error)
-    }
-  }
-
-  // Função para excluir uma dissertação/tese
-  const handleDelete = async (id: number) => {
-    if (window.confirm("Tem certeza que deseja excluir esta dissertação/tese?")) {
-      try {
-        await dissertacaoTeseService.delete(id)
-        fetchDissertacoesTeses() // Atualiza a lista após a exclusão
-      } catch (error) {
-        console.error("Erro ao excluir dissertação/tese:", error)
-      }
     }
   }
 
@@ -44,6 +36,16 @@ const DissertacaoTeseList: React.FC = () => {
       item.nome_autor.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.orientador.toLowerCase().includes(searchTerm.toLowerCase()),
   )
+
+  const openViewModal = (item: DissertacaoTeseDto) => {
+    setSelectedItem(item)
+    setIsViewModalOpen(true)
+  }
+
+  const closeViewModal = () => {
+    setSelectedItem(null)
+    setIsViewModalOpen(false)
+  }
 
   return (
     <div className="dissertacao-tese-list">
@@ -68,19 +70,28 @@ const DissertacaoTeseList: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          {filteredDissertacoesTeses.map((dissertacaoTese) => (
-            <tr key={dissertacaoTese.id}>
-              <td>{dissertacaoTese.nome_autor}</td>
-              <td>{dissertacaoTese.titulo}</td>
-              <td>{dissertacaoTese.orientador}</td>
-              <td>{new Date(dissertacaoTese.data).toLocaleDateString()}</td>
-              <td>{/* Botão de exclusão removido da visualização pública */}</td>
+          {filteredDissertacoesTeses.map((item) => (
+            <tr key={item.id}>
+              <td>{item.nome_autor}</td>
+              <td>{item.titulo}</td>
+              <td>{item.orientador}</td>
+              <td>{new Date(item.data).toLocaleDateString()}</td>
+              <td>
+                <button onClick={() => openViewModal(item)} className="btn-view">
+                  Visualizar
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
+
+      {isViewModalOpen && selectedItem && (
+        <DissertacaoTeseViewModal isOpen={isViewModalOpen} onClose={closeViewModal} dissertacaoTese={selectedItem} />
+      )}
     </div>
   )
 }
 
 export default DissertacaoTeseList
+

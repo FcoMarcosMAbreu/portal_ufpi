@@ -1,77 +1,102 @@
+"use client"
+
+import type React from "react"
 import { useState, useEffect } from "react"
 import { documentoService } from "../../services/documentoService"
 import type { DocumentoResponseDto } from "../../types/documento"
 import type { TagDocumento } from "../../types/documento"
+import DocumentoViewModal from "./DocumentoViewModal"
+import { PageContainer } from "../common/PageContainer"
+import { ResourceGrid } from "../common/ResourceGrid"
 import "./DocumentoList.css"
 
-interface DocumentoListPublicProps {
+interface DocumentoListProps {
   tag: TagDocumento
   title: string
 }
 
-const DocumentoListPublic: React.FC<DocumentoListPublicProps> = ({ tag, title }) => {
+const DocumentoList: React.FC<DocumentoListProps> = ({ tag, title }) => {
   const [documentos, setDocumentos] = useState<DocumentoResponseDto[]>([])
-  const [loading, setLoading] = useState(true)
+  const [filteredDocumentos, setFilteredDocumentos] = useState<DocumentoResponseDto[]>([])
+  const [searchTerm, setSearchTerm] = useState("")
+  const [selectedDocumento, setSelectedDocumento] = useState<DocumentoResponseDto | null>(null)
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false)
 
   useEffect(() => {
     fetchDocumentos()
-  }, []) // Removed unnecessary dependency: tag
+  }, [])
+
+  useEffect(() => {
+    filterDocumentos()
+  }, [searchTerm, tag]) //Corrected dependency array
 
   const fetchDocumentos = async () => {
     try {
       const allDocumentos = await documentoService.getAll()
-      const filteredDocumentos = allDocumentos.filter((doc) => doc.tag === tag)
-      setDocumentos(filteredDocumentos)
+      setDocumentos(allDocumentos)
     } catch (error) {
       console.error("Erro ao buscar documentos:", error)
-    } finally {
-      setLoading(false)
     }
   }
 
-  const formatDate = (date: Date) => {
-    return new Date(date).toLocaleDateString("pt-BR")
+  const filterDocumentos = () => {
+    const filtered = documentos.filter(
+      (doc) =>
+        doc.tag === tag &&
+        (doc.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          doc.tipo.toLowerCase().includes(searchTerm.toLowerCase())),
+    )
+    setFilteredDocumentos(filtered)
   }
 
-  if (loading) {
-    return (
-      <div className="documento-list-public">
-        <div className="loading">Carregando...</div>
-      </div>
-    )
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value)
+  }
+
+  const openViewModal = (documento: DocumentoResponseDto) => {
+    setSelectedDocumento(documento)
+    setIsViewModalOpen(true)
+  }
+
+  const closeViewModal = () => {
+    setSelectedDocumento(null)
+    setIsViewModalOpen(false)
   }
 
   return (
-    <div className="documento-list-public">
-      <h2>{title}</h2>
-      {documentos.length === 0 ? (
-        <p className="no-documents">Nenhum documento encontrado nesta categoria.</p>
-      ) : (
-        <table>
-          <thead>
-            <tr>
-              <th>Título</th>
-              <th>Data de Publicação</th>
-              <th>Arquivo</th>
-            </tr>
-          </thead>
-          <tbody>
-            {documentos.map((documento) => (
-              <tr key={documento.id}>
-                <td>{documento.nome}</td>
-                <td>{formatDate(documento.data_criacao)}</td>
-                <td>
-                  <a href={`/api/documentos/${documento.id}/download`} className="download-link">
-                    Download
-                  </a>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+    <PageContainer title={title} description={`Lista de documentos - ${title}`}>
+      <div className="filter-container">
+        <input
+          type="text"
+          placeholder="Pesquisar documentos..."
+          value={searchTerm}
+          onChange={handleSearchChange}
+          className="search-input"
+        />
+      </div>
+      <ResourceGrid>
+        {filteredDocumentos.map((documento) => (
+          <div key={documento.id} className="documento-card">
+            <h3>{documento.nome}</h3>
+            <p>
+              <strong>Tipo:</strong> {documento.tipo}
+            </p>
+            <p>
+              <strong>Data de Criação:</strong> {new Date(documento.data_criacao).toLocaleDateString()}
+            </p>
+            <button onClick={() => openViewModal(documento)} className="btn-view">
+              Visualizar
+            </button>
+          </div>
+        ))}
+      </ResourceGrid>
+
+      {isViewModalOpen && selectedDocumento && (
+        <DocumentoViewModal isOpen={isViewModalOpen} onClose={closeViewModal} documento={selectedDocumento} />
       )}
-    </div>
+    </PageContainer>
   )
 }
 
-export default DocumentoListPublic
+export default DocumentoList
+

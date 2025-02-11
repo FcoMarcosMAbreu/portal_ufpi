@@ -19,6 +19,7 @@ export interface DocumentoResponseDto {
   nome: string
   tipo: TipoDocumento
   tag: TagDocumento
+  caminho_arquivo: string
   data_criacao: Date
 }
 
@@ -35,3 +36,4 @@ export interface UpdateDocumentoDto {
   tag?: TagDocumento
   arquivo?: File
 }
+

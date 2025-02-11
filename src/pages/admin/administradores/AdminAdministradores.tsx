@@ -37,7 +37,7 @@ const AdminAdministradores: React.FC = () => {
     if (window.confirm("Tem certeza que deseja excluir este administrador?")) {
       try {
         await adminService.delete(id)
-        fetchAdmins() // Atualiza a lista após a exclusão
+        setAdmins(admins.filter((admin) => admin.id !== id)) // Atualiza o estado local após a exclusão
       } catch (error) {
         console.error("Erro ao excluir administrador:", error)
       }
@@ -149,3 +149,4 @@ const AdminAdministradores: React.FC = () => {
 }
 
 export default AdminAdministradores
+

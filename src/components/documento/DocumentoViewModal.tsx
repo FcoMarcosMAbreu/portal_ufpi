@@ -28,6 +28,12 @@ const DocumentoViewModal: React.FC<DocumentoViewModalProps> = ({ isOpen, onClose
           <p>
             <strong>Data de Criação:</strong> {new Date(documento.data_criacao).toLocaleDateString()}
           </p>
+          <p>
+            <strong>Download:</strong>{" "}
+            <a href={`/documentos/${documento.id}/download`} download>
+              Baixar Arquivo
+            </a>
+          </p>
         </div>
         <div className="modal-buttons">
           <button onClick={onClose}>Fechar</button>
@@ -38,3 +44,4 @@ const DocumentoViewModal: React.FC<DocumentoViewModalProps> = ({ isOpen, onClose
 }
 
 export default DocumentoViewModal
+

@@ -1,79 +1,54 @@
-.documento-list-public {
-  max-width: 1200px;
-  margin: 0 auto;
-  /*padding: 10%;*/
-  padding: 5%;
-  padding-bottom: 6%;
+.documento-card {
+  background: #fff;
+  border: 1px solid var(--border-color);
+  border-radius: var(--card-radius);
+  padding: 1.5rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.documento-list-public h2 {
-  color: #2c3e50;
-  font-size: 1.5rem;
-  margin-bottom: 1.5rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 2px solid #3498db;
+.documento-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.documento-list-public table {
-  width: 100%;
-  border-collapse: collapse;
-  background-color: #fff;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+.documento-card h3 {
+  color: var(--primary-color);
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
 }
 
-.documento-list-public th,
-.documento-list-public td {
-  padding: 1rem;
-  text-align: left;
-  border-bottom: 1px solid #e1e1e1;
-}
-
-.documento-list-public th {
-  background-color: #f8f9fa;
-  font-weight: 600;
-  color: #2c3e50;
-}
-
-.documento-list-public tr:hover {
-  background-color: #f8f9fa;
-}
-
-.download-link {
-  color: #3498db;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.download-link:hover {
-  text-decoration: underline;
-}
-
-.loading {
-  text-align: center;
-  padding: 2rem;
+.documento-card p {
+  margin-bottom: 0.5rem;
   color: #666;
 }
 
-.no-documents {
-  text-align: center;
-  padding: 2rem;
-  color: #666;
-  background-color: #f8f9fa;
+.documento-card strong {
+  color: #333;
+}
+
+.btn-view {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
   border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
-@media (max-width: 768px) {
-  .documento-list-public {
-    padding: 1rem;
-  }
-
-  .documento-list-public table {
-    display: block;
-    overflow-x: auto;
-  }
-
-  .documento-list-public th,
-  .documento-list-public td {
-    padding: 0.75rem;
-  }
+.btn-view:hover {
+  background-color: var(--primary-color-dark);
 }
+
+.filter-container {
+  margin-bottom: 1rem;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--card-radius);
+}
+

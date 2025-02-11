@@ -44,3 +44,4 @@ export const documentoService = {
     await axios.delete(`${API_URL}/documentos/${id}`)
   },
 }
+

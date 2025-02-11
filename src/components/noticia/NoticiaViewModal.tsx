@@ -31,6 +31,22 @@ const NoticiaViewModal: React.FC<NoticiaViewModalProps> = ({ isOpen, onClose, no
           <p>
             <strong>Data de Criação:</strong> {new Date(noticia.data_criacao).toLocaleDateString()}
           </p>
+          {noticia.documento_anexo && (
+            <p>
+              <strong>Documento Anexo:</strong>{" "}
+              <a href={noticia.documento_anexo} target="_blank" rel="noopener noreferrer">
+                Visualizar Documento
+              </a>
+            </p>
+          )}
+          {noticia.id && (
+            <p>
+              <strong>Arquivo:</strong>{" "}
+              <a href={`/noticias/${noticia.id}/download`} download>
+                Download do Arquivo
+              </a>
+            </p>
+          )}
         </div>
         <div className="modal-buttons">
           <button onClick={onClose}>Fechar</button>
@@ -41,3 +57,4 @@ const NoticiaViewModal: React.FC<NoticiaViewModalProps> = ({ isOpen, onClose, no
 }
 
 export default NoticiaViewModal
+

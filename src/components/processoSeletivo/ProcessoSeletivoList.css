@@ -1,62 +1,38 @@
-.processo-seletivo-list {
-  padding: 5%;
-  padding-bottom: 6%;
+.processo-seletivo-card {
+  background: #fff;
+  border: 1px solid var(--border-color);
+  border-radius: var(--card-radius);
+  padding: 1.5rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.processo-seletivo-list h2 {
-  margin-bottom: 20px;
+.processo-seletivo-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.processo-seletivo-list table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.processo-seletivo-list th,
-.processo-seletivo-list td {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: left;
-}
-
-.processo-seletivo-list th {
-  background-color: #f2f2f2;
-}
-
-.btn-create,
-.btn-edit,
-.btn-delete {
-  padding: 5px 10px;
-  margin-right: 5px;
-  text-decoration: none;
-  color: white;
-  border-radius: 3px;
-}
-
-.btn-create {
-  background-color: #4caf50;
-  display: inline-block;
-  margin-bottom: 20px;
-}
-
-.btn-edit {
-  background-color: #2196f3;
-}
-
-.btn-delete {
-  background-color: #f44336;
-  border: none;
-  cursor: pointer;
-}
-
-.filter-container {
+.processo-seletivo-card h3 {
+  color: var(--primary-color);
+  font-size: 1.25rem;
   margin-bottom: 1rem;
 }
 
-.search-input {
-  width: 100%;
-  padding: 0.5rem;
-  font-size: 1rem;
-  border: 1px solid var(--border-color);
-  border-radius: var(--card-radius);
+.processo-seletivo-card p {
+  margin-bottom: 0.5rem;
+  color: #666;
 }
+
+.btn-view {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-view:hover {
+  background-color: var(--primary-color-dark);
+}
+

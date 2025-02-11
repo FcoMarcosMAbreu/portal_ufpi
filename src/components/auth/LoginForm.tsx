@@ -1,3 +1,5 @@
+"use client"
+
 import type React from "react"
 import { useState } from "react"
 import { useNavigate, Link } from "react-router-dom"
@@ -15,7 +17,7 @@ const LoginForm: React.FC = () => {
     setError("")
 
     try {
-      await authService.login(email, password)
+      await authService.login({ email, senha: password })
       navigate("/admin")
     } catch (err) {
       setError("Invalid email or password")
@@ -53,3 +55,4 @@ const LoginForm: React.FC = () => {
 }
 
 export default LoginForm
+
