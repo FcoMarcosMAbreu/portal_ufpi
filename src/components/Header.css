@@ -1,3 +1,7 @@
+li {
+  list-style-type: none;
+}
+
 .header {
   background-color: #ffffff;
   padding: 1rem;
@@ -61,6 +65,7 @@
   border: none;
   cursor: pointer;
   font-family: inherit;
+  user-select: none;
 }
 
 /* Hover effect for both links and buttons */
@@ -146,3 +151,4 @@
     justify-content: flex-start;
   }
 }
+

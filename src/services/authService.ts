@@ -21,17 +21,19 @@ export const authService = {
     const response = await axios.post(`${API_URL}/login`, credentials)
     const { access_token } = response.data
     localStorage.setItem("access_token", access_token)
+    localStorage.setItem("token_expiration", (Date.now() + 30 * 60 * 1000).toString())
     return access_token
   },
 
   // Realiza o logout do administrador
   logout: (): void => {
-    localStorage.removeItem("access_token")
+    authService.removeToken()
   },
 
   // Verifica se o usuário está autenticado
   isAuthenticated: (): boolean => {
-    return !!localStorage.getItem("access_token")
+    const token = localStorage.getItem("access_token")
+    return !!token && !authService.isTokenExpired()
   },
 
   // Obtém o token de acesso
@@ -56,6 +58,17 @@ export const authService = {
   getCurrentUser: (): JwtPayload | null => {
     const token = authService.getAccessToken()
     return token ? authService.decodeToken(token) : null
+  },
+
+  isTokenExpired: (): boolean => {
+    const expirationTime = localStorage.getItem("token_expiration")
+    if (!expirationTime) return true
+    return Date.now() > Number.parseInt(expirationTime, 10)
+  },
+
+  removeToken: (): void => {
+    localStorage.removeItem("access_token")
+    localStorage.removeItem("token_expiration")
   },
 }
 
