@@ -8,6 +8,8 @@ interface DocumentoViewModalProps {
   documento: DocumentoResponseDto
 }
 
+const API_BASE_URL = "http://localhost:3000"
+
 const DocumentoViewModal: React.FC<DocumentoViewModalProps> = ({ isOpen, onClose, documento }) => {
   if (!isOpen) return null
 
@@ -30,7 +32,7 @@ const DocumentoViewModal: React.FC<DocumentoViewModalProps> = ({ isOpen, onClose
           </p>
           <p>
             <strong>Download:</strong>{" "}
-            <a href={`/documentos/${documento.id}/download`} download>
+            <a href={`${API_BASE_URL}/documentos/${documento.id}/download`} download>
               Baixar Arquivo
             </a>
           </p>

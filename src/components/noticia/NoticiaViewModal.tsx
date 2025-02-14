@@ -1,6 +1,9 @@
 import type React from "react"
 import type { NoticiaDto } from "../../types/noticia"
 import "./NoticiaViewModal.css"
+import { Download } from "lucide-react"
+
+const API_BASE_URL = "http://localhost:3000"
 
 interface NoticiaViewModalProps {
   isOpen: boolean
@@ -40,12 +43,17 @@ const NoticiaViewModal: React.FC<NoticiaViewModalProps> = ({ isOpen, onClose, no
             </p>
           )}
           {noticia.id && (
-            <p>
-              <strong>Arquivo:</strong>{" "}
-              <a href={`/noticias/${noticia.id}/download`} download>
-                Download do Arquivo
+            <div className="download-container">
+              <a
+                href={`${API_BASE_URL}/noticias/${noticia.id}/download`}
+                download
+                className="download-btn"
+                title="Baixar arquivo"
+              >
+                <Download size={18} />
+                Baixar Arquivo
               </a>
-            </p>
+            </div>
           )}
         </div>
         <div className="modal-buttons">

@@ -2,8 +2,9 @@
   min-height: 100vh;
 }
 
-.hero-section-grade {
-  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url("https://clubenoticia.com.br/wp-content/uploads/2024/09/escola.jpg");
+.hero-section {
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+    url("../../assets/images/grade_curricular.jpg");
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -51,24 +52,42 @@
   line-height: 1.6;
 }
 
-.courses-section {
+.search-container {
+  margin-bottom: 2rem;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: border-color 0.3s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.research-areas {
   margin-bottom: 4rem;
 }
 
-.courses-section h2 {
+.research-areas h2 {
   text-align: center;
   font-size: 2rem;
   color: #333;
   margin-bottom: 2rem;
 }
 
-.courses-grid {
+.areas-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
 }
 
-.course-card {
+.area-card {
   background: white;
   border-radius: 8px;
   padding: 2rem;
@@ -76,48 +95,56 @@
   transition: transform 0.3s ease;
 }
 
-.course-card:hover {
+.area-card:hover {
   transform: translateY(-5px);
 }
 
-.course-header {
+.area-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
-.course-header h3 {
+.area-header h3 {
   font-size: 1.3rem;
   color: #333;
   margin: 0;
 }
 
-.course-code {
+.area-code {
   font-size: 0.9rem;
   color: #666;
   font-weight: bold;
 }
 
-.course-short-info {
+.area-short-description {
   color: #666;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
 }
 
-.course-full-description {
+.area-full-description {
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.5s ease;
 }
 
-.course-full-description.expanded {
-  max-height: 1000px;
+.area-full-description.expanded {
+  max-height: 2000px;
 }
 
-.course-full-description p {
+.area-full-description p {
   color: #666;
   margin-bottom: 1rem;
   line-height: 1.6;
+}
+
+.area-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
 }
 
 .read-more-btn {
@@ -132,6 +159,25 @@
 
 .read-more-btn:hover {
   text-decoration: underline;
+}
+
+.download-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease;
+}
+
+.download-btn:hover {
+  background-color: #45a049;
 }
 
 .contact-section {
@@ -184,16 +230,16 @@
   }
 
   .program-info h2,
-  .courses-section h2,
+  .research-areas h2,
   .contact-section h2 {
     font-size: 1.5rem;
   }
 
-  .course-card {
+  .area-card {
     padding: 1.5rem;
   }
 
-  .course-header h3 {
+  .area-header h3 {
     font-size: 1.2rem;
   }
 }

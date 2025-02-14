@@ -1,15 +1,36 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useState, useEffect } from "react"
 import "./GradeCurricular.css"
 import type { GradeCurricularDto } from "../../types/gradeCurricular"
 import { gradeCurricularService } from "../../services/gradeCurricularService"
+import { Download } from "lucide-react"
+
+const API_BASE_URL = "http://localhost:3000"
+
+// Mock data for grade curricular areas
+/*
+const GRADE_AREAS = [
+  {
+    id: 1,
+    title: "Disciplinas Obrigatórias",
+    shortDescription: "Disciplinas fundamentais para a formação acadêmica no programa.",
+    icon: "📚",
+  },
+  {
+    id: 2,
+    title: "Disciplinas Optativas",
+    shortDescription: "Disciplinas complementares para especialização em áreas específicas.",
+    icon: "📖",
+  },
+]
+*/
 
 export default function GradeCurricular() {
   const [gradeCurricular, setGradeCurricular] = useState<GradeCurricularDto[]>([])
   const [filteredGradeCurricular, setFilteredGradeCurricular] = useState<GradeCurricularDto[]>([])
   const [searchTerm, setSearchTerm] = useState("")
-  const [expandedCourses, setExpandedCourses] = useState<{ [key: number]: boolean }>({})
+  const [expandedArea, setExpandedArea] = useState<number | null>(null)
 
   useEffect(() => {
     fetchGrade()
@@ -17,7 +38,7 @@ export default function GradeCurricular() {
 
   useEffect(() => {
     filterGradeCurricular()
-  }, [searchTerm]) //Fixed unnecessary dependency
+  }, [gradeCurricular]) //Fixed unnecessary dependency
 
   const fetchGrade = async () => {
     try {
@@ -32,12 +53,9 @@ export default function GradeCurricular() {
   const filterGradeCurricular = () => {
     const filtered = gradeCurricular.filter(
       (grade) =>
-        grade.carga_horaria.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        grade.titulo.toLowerCase().includes(searchTerm.toLowerCase()) ||
         grade.codigo.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        grade.componente_curricular.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        grade.ementa.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        grade.tipo_pos.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        grade.titulo.toLowerCase().includes(searchTerm.toLowerCase()),
+        grade.componente_curricular.toLowerCase().includes(searchTerm.toLowerCase()),
     )
     setFilteredGradeCurricular(filtered)
   }
@@ -46,29 +64,42 @@ export default function GradeCurricular() {
     setSearchTerm(event.target.value)
   }
 
-  const toggleCourse = (id: number) => {
-    setExpandedCourses((prev) => ({ ...prev, [id]: !prev[id] }))
+  const toggleArea = (id: number) => {
+    setExpandedArea(expandedArea === id ? null : id)
   }
 
-  const renderCourseCards = (courses: GradeCurricularDto[]) => {
-    return courses.map((course) => (
-      <div key={course.id} className="course-card">
-        <div className="course-header">
-          <h3>{course.titulo}</h3>
-          <span className="course-code">{course.codigo}</span>
+  const renderDisciplinas = (disciplinas: GradeCurricularDto[]) => {
+    return disciplinas.map((disciplina) => (
+      <div key={disciplina.id} className="area-card">
+        <div className="area-header">
+          <h3>{disciplina.titulo}</h3>
+          <span className="area-code">{disciplina.codigo}</span>
         </div>
-        <p className="course-short-info">Carga Horária: {course.carga_horaria}</p>
-        <div className={`course-full-description ${expandedCourses[course.id] ? "expanded" : ""}`}>
+        <p className="area-short-description">
+          <strong>Carga Horária:</strong> {disciplina.carga_horaria}
+        </p>
+        <div className={`area-full-description ${expandedArea === disciplina.id ? "expanded" : ""}`}>
           <p>
-            <strong>Ementa:</strong> {course.ementa}
+            <strong>Ementa:</strong> {disciplina.ementa}
           </p>
           <p>
-            <strong>Componente Curricular:</strong> {course.componente_curricular}
+            <strong>Componente Curricular:</strong> {disciplina.componente_curricular}
           </p>
         </div>
-        <button className="read-more-btn" onClick={() => toggleCourse(course.id)}>
-          {expandedCourses[course.id] ? "Ler menos" : "Ler mais"}
-        </button>
+        <div className="area-actions">
+          <button className="read-more-btn" onClick={() => toggleArea(disciplina.id)}>
+            {expandedArea === disciplina.id ? "Ler menos" : "Ler mais"}
+          </button>
+          <a
+            href={`${API_BASE_URL}/grade-curricular/${disciplina.id}/download`}
+            download
+            className="download-btn"
+            title="Baixar ementa"
+          >
+            <Download size={18} />
+            Baixar Ementa
+          </a>
+        </div>
       </div>
     ))
   }
@@ -78,13 +109,21 @@ export default function GradeCurricular() {
 
   return (
     <div className="grade-curricular">
-      <section className="hero-section-grade">
+      <section className="hero-section">
         <div className="hero-content">
           <h1>Grade Curricular</h1>
         </div>
       </section>
 
       <section className="content-section">
+        <div className="program-info">
+          <h2>Estrutura Curricular</h2>
+          <p>
+            Nossa grade curricular é projetada para fornecer uma formação sólida e abrangente, combinando disciplinas
+            obrigatórias fundamentais com optativas especializadas.
+          </p>
+        </div>
+
         <div className="search-container">
           <input
             type="text"
@@ -95,18 +134,18 @@ export default function GradeCurricular() {
           />
         </div>
 
-        <div className="courses-section">
+        <div className="research-areas">
           <h2>Disciplinas de Mestrado</h2>
-          <div className="courses-grid">{renderCourseCards(mestradoCourses)}</div>
+          <div className="areas-grid">{renderDisciplinas(mestradoCourses)}</div>
         </div>
 
-        <div className="courses-section">
+        <div className="research-areas">
           <h2>Disciplinas de Doutorado</h2>
-          <div className="courses-grid">{renderCourseCards(doutoradoCourses)}</div>
+          <div className="areas-grid">{renderDisciplinas(doutoradoCourses)}</div>
         </div>
 
         <div className="contact-section">
-          <h2>Interessado em nossos programas?</h2>
+          <h2>Interessado em nosso programa?</h2>
           <p>
             Entre em contato com a coordenação do programa para mais informações sobre a grade curricular e o processo
             seletivo.
