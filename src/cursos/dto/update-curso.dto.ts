@@ -6,6 +6,9 @@ export class UpdateCursoDto extends PartialType(CreateCursoDto) {
   @ApiProperty({ description: 'Nome do curso', example: 'Engenharia de Software' })
   nome?: string;
 
+  @ApiProperty({ description: 'Tipo da pos graduação do curso', example: "Doutorado" })
+  tipo_pos: string;
+
   @ApiProperty({ description: 'Link do documento da CAPES', example: 'https://capes.gov.br/documento.pdf' })
   link_documento_capes?: string;
 

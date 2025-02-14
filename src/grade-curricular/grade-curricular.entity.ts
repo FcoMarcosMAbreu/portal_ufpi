@@ -1,5 +1,10 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
+export enum tipoEnum {
+  Doutorado = 'Doutorado',
+  Mestrado = 'Mestrado',
+}  
+
 @Entity('grade_curricular')
 export class GradeCurricular {
   @PrimaryGeneratedColumn()
@@ -10,6 +15,9 @@ export class GradeCurricular {
 
   @Column()
   codigo: string;
+
+  @Column({type: 'enum', enum: tipoEnum})
+  tipo_pos: string;
 
   @Column()
   componente_curricular: string;

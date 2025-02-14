@@ -7,6 +7,9 @@ export class UpdateGradeCurricularDto {
   @ApiProperty({ description: 'Código da grade curricular', example: 'CC123', required: false })
   codigo?: string;
 
+  @ApiProperty({ description: 'Tipo da pos graduação', example: "Doutorado" })
+  tipo_pos: string;
+
   @ApiProperty({ description: 'Componente curricular', example: 'Programação Web', required: false })
   componente_curricular?: string;
 

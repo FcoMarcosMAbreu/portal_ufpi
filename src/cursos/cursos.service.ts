@@ -54,6 +54,7 @@ export class CursosService {
     return {
       id: curso.id,
       nome: curso.nome,
+      tipo_pos: curso.tipo_pos,
       link_documento_capes: curso.link_documento_capes,
       link_detalhes_curso: curso.link_detalhes_curso,
       data_criacao: curso.data_criacao,

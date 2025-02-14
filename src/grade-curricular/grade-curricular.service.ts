@@ -16,6 +16,7 @@ export class GradeCurricularService {
     const gradeCurricular = this.gradeCurricularRepository.create({
       titulo: createGradeCurricularDto.titulo,
       codigo: createGradeCurricularDto.codigo,
+      tipo_pos: createGradeCurricularDto.tipo_pos,
       componente_curricular: createGradeCurricularDto.componente_curricular,
       ementa: createGradeCurricularDto.ementa,
       carga_horaria: createGradeCurricularDto.carga_horaria,

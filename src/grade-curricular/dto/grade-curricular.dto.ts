@@ -10,6 +10,9 @@ export class GradeCurricularDto {
   @ApiProperty({ description: 'Código da grade curricular', example: 'CC123' })
   codigo: string;
 
+  @ApiProperty({ description: 'Tipo da pos graduação', example: "Doutorado" })
+  tipo_pos: string;
+
   @ApiProperty({ description: 'Componente curricular', example: 'Programação Web' })
   componente_curricular: string;
 

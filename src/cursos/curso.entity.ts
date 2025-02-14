@@ -1,5 +1,10 @@
 import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm';
 
+export enum tipoEnumCurso{
+  Doutorado = 'Doutorado',
+  Mestrado = 'Mestrado',
+}
+
 @Entity('curso')
 export class Curso {
   @PrimaryGeneratedColumn()
@@ -7,6 +12,9 @@ export class Curso {
 
   @Column({ type: 'varchar', length: 255 })
   nome: string;
+
+  @Column({type: 'enum', enum: tipoEnumCurso})
+  tipo_pos: string;
 
   @Column({ type: 'varchar', length: 500 })
   link_documento_capes: string;

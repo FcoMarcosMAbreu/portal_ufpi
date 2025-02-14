@@ -12,6 +12,10 @@ export class CreateCursoDto {
   @IsUrl({}, { message: 'O link do documento da CAPES deve ser uma URL válida' })
   link_documento_capes: string;
 
+  @ApiProperty({ description: 'Tipo da pos graduação do curso' , example: "Doutorado" })
+  @IsNotEmpty()
+  tipo_pos: string;
+
   @ApiProperty()
   @IsNotEmpty()
   @IsUrl({}, { message: 'O link dos detalhes do curso deve ser uma URL válida' })
