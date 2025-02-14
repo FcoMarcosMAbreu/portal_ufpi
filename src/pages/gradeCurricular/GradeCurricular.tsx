@@ -1,111 +1,120 @@
+"use client"
+
+import { useEffect, useState } from "react"
 import "./GradeCurricular.css"
-
-interface DisciplinaProps {
-  codigo: string
-  nome: string
-  creditos: number
-  cargaHoraria: number
-  tipo: "Obrigatória" | "Optativa"
-}
-
-const disciplinasDoutorado: DisciplinaProps[] = [
-  {
-    codigo: "PPGCC001",
-    nome: "Metodologia da Pesquisa Científica",
-    creditos: 4,
-    cargaHoraria: 60,
-    tipo: "Obrigatória",
-  },
-  {
-    codigo: "PPGCC002",
-    nome: "Seminários de Doutorado I",
-    creditos: 2,
-    cargaHoraria: 30,
-    tipo: "Obrigatória",
-  },
-  {
-    codigo: "PPGCC003",
-    nome: "Seminários de Doutorado II",
-    creditos: 2,
-    cargaHoraria: 30,
-    tipo: "Obrigatória",
-  },
-  {
-    codigo: "PPGCC004",
-    nome: "Tópicos Avançados em Computação",
-    creditos: 4,
-    cargaHoraria: 60,
-    tipo: "Optativa",
-  },
-]
-
-const disciplinasMestrado: DisciplinaProps[] = [
-  {
-    codigo: "PPGCC101",
-    nome: "Metodologia da Pesquisa",
-    creditos: 3,
-    cargaHoraria: 45,
-    tipo: "Obrigatória",
-  },
-  {
-    codigo: "PPGCC102",
-    nome: "Seminários de Mestrado",
-    creditos: 2,
-    cargaHoraria: 30,
-    tipo: "Obrigatória",
-  },
-  {
-    codigo: "PPGCC103",
-    nome: "Fundamentos de Computação",
-    creditos: 4,
-    cargaHoraria: 60,
-    tipo: "Obrigatória",
-  },
-  {
-    codigo: "PPGCC104",
-    nome: "Tópicos Especiais em Computação",
-    creditos: 4,
-    cargaHoraria: 60,
-    tipo: "Optativa",
-  },
-]
-
-function DisciplinaCard({ disciplina }: { disciplina: DisciplinaProps }) {
-  return (
-    <div className={`disciplina-card ${disciplina.tipo.toLowerCase()}`}>
-      <div className="disciplina-header">
-        <span className="disciplina-codigo">{disciplina.codigo}</span>
-        <span className={`disciplina-tipo ${disciplina.tipo.toLowerCase()}`}>{disciplina.tipo}</span>
-      </div>
-      <h3 className="disciplina-nome">{disciplina.nome}</h3>
-      <div className="disciplina-info">
-        <span>Créditos: {disciplina.creditos}</span>
-        <span>Carga Horária: {disciplina.cargaHoraria}h</span>
-      </div>
-    </div>
-  )
-}
+import type { GradeCurricularDto } from "../../types/gradeCurricular"
+import { gradeCurricularService } from "../../services/gradeCurricularService"
 
 export default function GradeCurricular() {
+  const [gradeCurricular, setGradeCurricular] = useState<GradeCurricularDto[]>([])
+  const [filteredGradeCurricular, setFilteredGradeCurricular] = useState<GradeCurricularDto[]>([])
+  const [searchTerm, setSearchTerm] = useState("")
+  const [expandedCourses, setExpandedCourses] = useState<{ [key: number]: boolean }>({})
+
+  useEffect(() => {
+    fetchGrade()
+  }, [])
+
+  useEffect(() => {
+    filterGradeCurricular()
+  }, [searchTerm]) //Fixed unnecessary dependency
+
+  const fetchGrade = async () => {
+    try {
+      const data = await gradeCurricularService.getAll()
+      setGradeCurricular(data)
+      setFilteredGradeCurricular(data)
+    } catch (error) {
+      console.error("Erro ao buscar grade curricular:", error)
+    }
+  }
+
+  const filterGradeCurricular = () => {
+    const filtered = gradeCurricular.filter(
+      (grade) =>
+        grade.carga_horaria.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        grade.codigo.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        grade.componente_curricular.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        grade.ementa.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        grade.tipo_pos.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        grade.titulo.toLowerCase().includes(searchTerm.toLowerCase()),
+    )
+    setFilteredGradeCurricular(filtered)
+  }
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value)
+  }
+
+  const toggleCourse = (id: number) => {
+    setExpandedCourses((prev) => ({ ...prev, [id]: !prev[id] }))
+  }
+
+  const renderCourseCards = (courses: GradeCurricularDto[]) => {
+    return courses.map((course) => (
+      <div key={course.id} className="course-card">
+        <div className="course-header">
+          <h3>{course.titulo}</h3>
+          <span className="course-code">{course.codigo}</span>
+        </div>
+        <p className="course-short-info">Carga Horária: {course.carga_horaria}</p>
+        <div className={`course-full-description ${expandedCourses[course.id] ? "expanded" : ""}`}>
+          <p>
+            <strong>Ementa:</strong> {course.ementa}
+          </p>
+          <p>
+            <strong>Componente Curricular:</strong> {course.componente_curricular}
+          </p>
+        </div>
+        <button className="read-more-btn" onClick={() => toggleCourse(course.id)}>
+          {expandedCourses[course.id] ? "Ler menos" : "Ler mais"}
+        </button>
+      </div>
+    ))
+  }
+
+  const mestradoCourses = filteredGradeCurricular.filter((course) => course.tipo_pos.toLowerCase() === "mestrado")
+  const doutoradoCourses = filteredGradeCurricular.filter((course) => course.tipo_pos.toLowerCase() === "doutorado")
+
   return (
-    <div className="curriculo-container">
-      <section className="programa-section">
-        <h2>Doutorado</h2>
-        <div className="disciplinas-grid">
-          {disciplinasDoutorado.map((disciplina) => (
-            <DisciplinaCard key={disciplina.codigo} disciplina={disciplina} />
-          ))}
+    <div className="grade-curricular">
+      <section className="hero-section-grade">
+        <div className="hero-content">
+          <h1>Grade Curricular</h1>
         </div>
       </section>
 
-      <section className="programa-section">
-        <h2>Mestrado</h2>
-        <div className="disciplinas-grid">
-          {disciplinasMestrado.map((disciplina) => (
-            <DisciplinaCard key={disciplina.codigo} disciplina={disciplina} />
-          ))}
+      <section className="content-section">
+        <div className="search-container">
+          <input
+            type="text"
+            placeholder="Pesquisar disciplinas..."
+            value={searchTerm}
+            onChange={handleSearchChange}
+            className="search-input"
+          />
+        </div>
+
+        <div className="courses-section">
+          <h2>Disciplinas de Mestrado</h2>
+          <div className="courses-grid">{renderCourseCards(mestradoCourses)}</div>
+        </div>
+
+        <div className="courses-section">
+          <h2>Disciplinas de Doutorado</h2>
+          <div className="courses-grid">{renderCourseCards(doutoradoCourses)}</div>
+        </div>
+
+        <div className="contact-section">
+          <h2>Interessado em nossos programas?</h2>
+          <p>
+            Entre em contato com a coordenação do programa para mais informações sobre a grade curricular e o processo
+            seletivo.
+          </p>
+          <button className="contact-btn">Contate-nos</button>
         </div>
       </section>
     </div>
   )
 }
+

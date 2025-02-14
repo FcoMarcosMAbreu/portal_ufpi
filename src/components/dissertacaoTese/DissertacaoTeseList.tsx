@@ -5,6 +5,7 @@ import { useState, useEffect } from "react"
 import { dissertacaoTeseService } from "../../services/dissertacaoTeseService"
 import type { DissertacaoTeseDto } from "../../types/dissertacaoTese"
 import DissertacaoTeseViewModal from "./DissertacaoTeseViewModal"
+import { PageContainer } from "../common/PageContainer"
 import "./DissertacaoTeseList.css"
 
 const DissertacaoTeseList: React.FC = () => {
@@ -48,48 +49,49 @@ const DissertacaoTeseList: React.FC = () => {
   }
 
   return (
-    <div className="dissertacao-tese-list">
-      <h2>Lista de Dissertações e Teses</h2>
-      <div className="filter-container">
-        <input
-          type="text"
-          placeholder="Pesquisar dissertações e teses..."
-          value={searchTerm}
-          onChange={handleSearchChange}
-          className="search-input"
-        />
-      </div>
-      <table>
-        <thead>
-          <tr>
-            <th>Autor</th>
-            <th>Título</th>
-            <th>Orientador</th>
-            <th>Data</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredDissertacoesTeses.map((item) => (
-            <tr key={item.id}>
-              <td>{item.nome_autor}</td>
-              <td>{item.titulo}</td>
-              <td>{item.orientador}</td>
-              <td>{new Date(item.data).toLocaleDateString()}</td>
-              <td>
-                <button onClick={() => openViewModal(item)} className="btn-view">
-                  Visualizar
-                </button>
-              </td>
+    <PageContainer title="Dissertações e Teses" description="Lista de dissertações e teses do programa">
+      <div className="dissertacao-tese-list">
+        <div className="filter-container">
+          <input
+            type="text"
+            placeholder="Pesquisar dissertações e teses..."
+            value={searchTerm}
+            onChange={handleSearchChange}
+            className="search-input"
+          />
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Autor</th>
+              <th>Título</th>
+              <th>Orientador</th>
+              <th>Data</th>
+              <th>Ações</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {filteredDissertacoesTeses.map((item) => (
+              <tr key={item.id}>
+                <td>{item.nome_autor}</td>
+                <td>{item.titulo}</td>
+                <td>{item.orientador}</td>
+                <td>{new Date(item.data).toLocaleDateString()}</td>
+                <td>
+                  <button onClick={() => openViewModal(item)} className="btn-view">
+                    Visualizar
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
 
-      {isViewModalOpen && selectedItem && (
-        <DissertacaoTeseViewModal isOpen={isViewModalOpen} onClose={closeViewModal} dissertacaoTese={selectedItem} />
-      )}
-    </div>
+        {isViewModalOpen && selectedItem && (
+          <DissertacaoTeseViewModal isOpen={isViewModalOpen} onClose={closeViewModal} dissertacaoTese={selectedItem} />
+        )}
+      </div>
+    </PageContainer>
   )
 }
 
