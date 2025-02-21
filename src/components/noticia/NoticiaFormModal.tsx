@@ -22,6 +22,7 @@ const NoticiaFormModal: React.FC<NoticiaFormModalProps> = ({ isOpen, onClose, on
     links_referencia: "",
     data_criacao: new Date(),
   })
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     if (noticia) {
@@ -50,6 +51,7 @@ const NoticiaFormModal: React.FC<NoticiaFormModalProps> = ({ isOpen, onClose, on
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setError(null)
     try {
       if (noticia) {
         await noticiaService.update(noticia.id, formData as UpdateNoticiaDto)
@@ -60,6 +62,7 @@ const NoticiaFormModal: React.FC<NoticiaFormModalProps> = ({ isOpen, onClose, on
       onClose()
     } catch (error) {
       console.error("Erro ao salvar notícia:", error)
+      setError("Ocorreu um erro ao salvar a notícia. Por favor, tente novamente.")
     }
   }
 
@@ -69,6 +72,7 @@ const NoticiaFormModal: React.FC<NoticiaFormModalProps> = ({ isOpen, onClose, on
     <div className="modal-overlay">
       <div className="modal">
         <h2>{noticia ? "Editar Notícia" : "Criar Nova Notícia"}</h2>
+        {error && <p className="error-message">{error}</p>}
         <form onSubmit={handleSubmit}>
           <div>
             <label htmlFor="titulo">Título:</label>

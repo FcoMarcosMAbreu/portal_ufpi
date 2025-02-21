@@ -1,5 +1,7 @@
 import "./Home.css"
 import { ArrowDown } from "lucide-react"
+import { useTranslation } from "react-i18next"
+import LanguageSelector from "../components/LanguageSelector"
 
 // Mock data
 const FEATURES = [
@@ -18,8 +20,8 @@ const FEATURES = [
     id: 3,
     title: "Infraestrutura Moderna",
     description: "Laboratórios equipados com tecnologia de ponta, biblioteca atualizada e espaços de estudo dedicados.",
-  },
-  /*{
+  },/*
+  {
     id: 4,
     title: "Parcerias Internacionais",
     description: "Acordos de cooperação com universidades estrangeiras e participação em redes de pesquisa globais.",
@@ -77,13 +79,15 @@ const PARTNERS = [
   },
 ]
 
-const HERO_DATA = {
-  title: "Programa de Pós-Graduação em Zootecnia Tropical - CCA",
+/*const HERO_DATA = {
+  title: {t("home.title")},
   subtitle: "Mestrado e Doutorado",
   description: "Formando Pesquisadores e Profissionais Especializados na área de Zootecnia",
 }
+*/
 
 function Home() {
+  const {t} = useTranslation()
   const scrollToContent = () => {
     const contentSection = document.getElementById("content")
     if (contentSection) {
@@ -95,9 +99,9 @@ function Home() {
     <div className="home">
       <section className="hero">
         <div className="hero-overlay">
-          <h1>{HERO_DATA.title}</h1>
-          <p className="hero-subtitle">{HERO_DATA.subtitle}</p>
-          <p className="hero-description">{HERO_DATA.description}</p>
+          <h1>{t("home.title")}</h1>
+          <p className="hero-subtitle">{t("home.subtitle")}</p>
+          <p className="hero-description">{t("home.description")}</p>
           <button onClick={scrollToContent} className="scroll-button" aria-label="Rolar para conteúdo">
             <ArrowDown className="scroll-icon" />
           </button>
@@ -106,14 +110,15 @@ function Home() {
 
       <div id="content" className="content-section">
         <section className="about">
-          <h2>Sobre o Programa</h2>
+          <h2>{t("home.aboutProgram")}</h2>
           {/*<p>
             O Programa de Pós-Graduação em Computação da Universidade Federal do Piauí (UFPI) é referência em pesquisa e
             inovação tecnológica. Nosso compromisso é formar profissionais e pesquisadores de excelência, contribuindo
             para o avanço da ciência e desenvolvimento tecnológico do país.
           </p>*/}
           <p>
-          O Programa de Pós-Graduação em Zootecnia Tropical (PPGZT) da UFPI é um curso Stricto sensu vinculado ao Centro
+            {t("home.aboutProgramText")}
+          {/*O Programa de Pós-Graduação em Zootecnia Tropical (PPGZT) da UFPI é um curso Stricto sensu vinculado ao Centro
            de Ciências Agrárias. Seu objetivo é formar docentes, pesquisadores e especialistas em Zootecnia, 
            contribuindo para a produção pecuária sustentável e a melhoria da qualidade de vida no campo. 
            Oferece Mestrado e Doutorado, promovendo a inserção de jovens doutores e acompanhando o impacto
@@ -123,6 +128,7 @@ function Home() {
             e 2 - Genética, Melhoramento Genético e Reprodução Animal nos Trópicos.
             <br/>
             Acompanhe mais pelo Instagram <a href="https://www.instagram.com/ppgztufpi/">@ppgztufpi</a> e YouTube: <a href="https://www.youtube.com/channel/UCuN8pgJX11FN57mR44NukGg">PPGZT UFPI</a>.
+            */}
           </p>
         </section>
 
@@ -130,33 +136,33 @@ function Home() {
           <div className="features-grid">
             {FEATURES.map((feature) => (
               <div key={feature.id} className="feature-card">
-                <h3>{feature.title}</h3>
-                <p>{feature.description}</p>
+                <h3>{t(`features.${feature.id}.title`)}</h3>
+                <p>{t(`features.${feature.id}.description`)}</p>
               </div>
             ))}
           </div>
         </section>
 
         <section className="professors">
-          <h2>Coordenadores do Programa</h2>
+          <h2>{t("home.coordinatorsTitle")}</h2>
           <div className="professors-grid">
             {PROFESSORS.map((professor) => (
               <div key={professor.id} className="professor-card">
-                <h3>{professor.nome}</h3>
+                <h3>{t(`professors.${professor.id}.name`)}</h3>
                 <p>
-                  <strong>Nível:</strong> {professor.nivel}
+                  <strong>{t("home.coodinatorsLevel")}:</strong> {t(`professors.${professor.id}.level`)}
                 </p>
                 <p>
-                  <strong>Área:</strong> {professor.area}
+                  <strong>{t("home.coordinatorsArea")}:</strong> {t(`professors.${professor.id}.area`)}
                 </p>
                 <p>
-                  <strong>Email:</strong> {professor.email}
+                  <strong>{t("home.coordinatorsEmail")}:</strong> {t(`professors.${professor.id}.email`)}
                 </p>
                 <p>
-                  <strong>Publicações:</strong> {professor.publicacoes}
+                  <strong>{t("home.coordinatorsPublications")}:</strong> {t(`professors.${professor.id}.publications`)}
                 </p>
                 <a href={professor.curriculo_lattes} target="_blank" rel="noopener noreferrer" className="lattes-link">
-                  Currículo Lattes
+                  {t("home.coordinatorsCurriculum")}
                 </a>
               </div>
             ))}
@@ -167,30 +173,30 @@ function Home() {
           <div className="stats-grid">
             <div className="stat-card">
               <h3>45+</h3>
-              <p>Professores Doutores</p>
+              <p>{t("home.professorDoc")}</p>
             </div>
             <div className="stat-card">
               <h3>200+</h3>
-              <p>Alunos Formados</p>
+              <p>{t("home.alunosForms")}</p>
             </div>
             <div className="stat-card">
               <h3>30+</h3>
-              <p>Projetos de Pesquisa</p>
+              <p>{t("home.researchProj")}</p>
             </div>
             <div className="stat-card">
               <h3>15+</h3>
-              <p>Parcerias Internacionais</p>
+              <p>{t("home.internationalPartners")}</p>
             </div>
           </div>
         </section>
 
         <section className="partners">
-          <h2>Parceiros Institucionais</h2>
+          <h2>{t("home.institutionalPartners")}</h2>
           <div className="partners-grid">
             {PARTNERS.map((partner) => (
               <div key={partner.id} className="partner-card">
                 <img src={partner.logo || "/placeholder.svg"} alt={partner.name} className="partner-logo" />
-                <p className="partner-description">{partner.description}</p>
+                <p className="partner-description">{t(`partners.${partner.id}.description`)}</p>
               </div>
             ))}
           </div>

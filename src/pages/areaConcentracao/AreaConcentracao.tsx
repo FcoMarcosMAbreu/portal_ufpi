@@ -1,5 +1,6 @@
 import { useState } from "react"
 import "./AreaConcentracao.css"
+import { useTranslation } from "react-i18next"
 
 // Mock data for research areas
 const RESEARCH_AREAS = [
@@ -31,6 +32,7 @@ Também investiga a otimização do aproveitamento de matéria-prima, segurança
 
 export default function AreaConcentracao() {
   const [expandedArea, setExpandedArea] = useState<number | null>(null)
+  const { t } = useTranslation()
 
   const toggleArea = (id: number) => {
     setExpandedArea(expandedArea === id ? null : id)
@@ -40,37 +42,38 @@ export default function AreaConcentracao() {
     <div className="area-concentracao">
       <section className="hero-section-concentracao">
         <div className="hero-content">
-          <h1>Áreas de Concentração</h1>
+          <h1>{t("concentrationArea.title")}</h1>
           {/*<p className="subtitle">Doutorado em Ciência Animal</p>*/}
         </div>
       </section>
 
       <section className="content-section">
         <div className="program-info">
-          <h2>Pesquisas</h2>
+          <h2>{t("concentrationArea.researchesTitle")}</h2>
           <p>
-            O Programa oferece formação avançada em duas linhas de pesquisa principais,
-            focando no desenvolvimento de soluções inovadoras para os desafios da produção animal em regiões tropicais.
+          {t("concentrationArea.researchesText")}
           </p>
         </div>
 
         <div className="research-areas">
-          <h2>Linhas de Pesquisa</h2>
+          <h2>{t("concentrationArea.researchLines")}</h2>
           <div className="areas-grid">
             {RESEARCH_AREAS.map((area) => (
               <div key={area.id} className="area-card">
                 <div className="area-header">
                   <span className="area-icon">{area.icon}</span>
-                  <h3>{area.title}</h3>
+                  <h3>{t(`researchArea.${area.id}.title`)}</h3>
                 </div>
-                <p className="area-short-description">{area.shortDescription}</p>
+                <p className="area-short-description">{t(`researchArea.${area.id}.shortDescription`)}</p>
                 <div className={`area-full-description ${expandedArea === area.id ? "expanded" : ""}`}>
-                  {area.fullDescription.split("\n\n").map((paragraph, index) => (
-                    <p key={index}>{paragraph}</p>
-                  ))}
+                  {t(`researchArea.${area.id}.fullDescription`)
+                    .split("\n\n")
+                    .map((paragraph, index) => (
+                      <p key={index}>{paragraph}</p>
+                    ))}
                 </div>
                 <button className="read-more-btn" onClick={() => toggleArea(area.id)}>
-                  {expandedArea === area.id ? "Ler menos" : "Ler mais"}
+                  {expandedArea === area.id ? `${t("concentrationArea.readLess")}` : `${t("concentrationArea.readMore")}`}
                 </button>
               </div>
             ))}
@@ -78,12 +81,11 @@ export default function AreaConcentracao() {
         </div>
 
         <div className="contact-section">
-          <h2>Interessado em nosso programa?</h2>
+          <h2>{t("concentrationArea.interest")}</h2>
           <p>
-            Entre em contato com a coordenação do programa para mais informações sobre o processo seletivo e as linhas
-            de pesquisa.
+          {t("concentrationArea.interestText")}
           </p>
-          <button className="contact-btn">Contate-nos</button>
+          <button className="contact-btn">{t("concentrationArea.contact")}</button>
         </div>
       </section>
     </div>

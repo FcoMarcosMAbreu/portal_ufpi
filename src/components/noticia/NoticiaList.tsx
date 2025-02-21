@@ -8,12 +8,14 @@ import NoticiaViewModal from "./NoticiaViewModal"
 import { PageContainer } from "../common/PageContainer"
 import { ResourceGrid } from "../common/ResourceGrid"
 import "./NoticiaList.css"
+import { useTranslation } from "react-i18next"
 
 const NoticiaList: React.FC = () => {
   const [noticias, setNoticias] = useState<NoticiaDto[]>([])
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedNoticia, setSelectedNoticia] = useState<NoticiaDto | null>(null)
   const [isViewModalOpen, setIsViewModalOpen] = useState(false)
+  const { t } = useTranslation()
 
   useEffect(() => {
     fetchNoticias()
@@ -49,11 +51,11 @@ const NoticiaList: React.FC = () => {
   }
 
   return (
-    <PageContainer title="Notícias" description="Últimas notícias e informações">
+    <PageContainer title= {t("news.title")} description={t("news.description")}>
       <div className="filter-container">
         <input
           type="text"
-          placeholder="Pesquisar notícias..."
+          placeholder={t("news.placeholder")}
           value={searchTerm}
           onChange={handleSearchChange}
           className="search-input"
@@ -64,13 +66,13 @@ const NoticiaList: React.FC = () => {
           <div key={noticia.id} className="noticia-card">
             <h3>{noticia.titulo}</h3>
             <p>
-              <strong>Tag:</strong> {noticia.tag}
+              <strong>{t("news.tag")}:</strong> {noticia.tag}
             </p>
             <p>
-              <strong>Data de Criação:</strong> {new Date(noticia.data_criacao).toLocaleDateString()}
+              <strong>{t("news.creationDate")}:</strong> {new Date(noticia.data_criacao).toLocaleDateString()}
             </p>
             <button onClick={() => openViewModal(noticia)} className="btn-view">
-              Visualizar
+            {t("news.see")}
             </button>
           </div>
         ))}

@@ -5,6 +5,7 @@ import "./GradeCurricular.css"
 import type { GradeCurricularDto } from "../../types/gradeCurricular"
 import { gradeCurricularService } from "../../services/gradeCurricularService"
 import { Download } from "lucide-react"
+import { useTranslation } from "react-i18next"
 
 const API_BASE_URL = "http://localhost:3000"
 
@@ -31,6 +32,7 @@ export default function GradeCurricular() {
   const [filteredGradeCurricular, setFilteredGradeCurricular] = useState<GradeCurricularDto[]>([])
   const [searchTerm, setSearchTerm] = useState("")
   const [expandedArea, setExpandedArea] = useState<number | null>(null)
+  const { t } = useTranslation()
 
   useEffect(() => {
     fetchGrade()
@@ -76,19 +78,19 @@ export default function GradeCurricular() {
           <span className="area-code">{disciplina.codigo}</span>
         </div>
         <p className="area-short-description">
-          <strong>Carga Horária:</strong> {disciplina.carga_horaria}
+          <strong>{t("curriculum.workload")}:</strong> {disciplina.carga_horaria}
         </p>
         <div className={`area-full-description ${expandedArea === disciplina.id ? "expanded" : ""}`}>
           <p>
-            <strong>Ementa:</strong> {disciplina.ementa}
+            <strong>{t("curriculum.syllabus")}:</strong> {disciplina.ementa}
           </p>
           <p>
-            <strong>Componente Curricular:</strong> {disciplina.componente_curricular}
+            <strong>{t("curriculum.currComponent")}:</strong> {disciplina.componente_curricular}
           </p>
         </div>
         <div className="area-actions">
           <button className="read-more-btn" onClick={() => toggleArea(disciplina.id)}>
-            {expandedArea === disciplina.id ? "Ler menos" : "Ler mais"}
+            {expandedArea === disciplina.id ? `${t("curriculum.readLess")}` : `${t("curriculum.readMore")}`}
           </button>
           <a
             href={`${API_BASE_URL}/grade-curricular/${disciplina.id}/download`}
@@ -97,7 +99,7 @@ export default function GradeCurricular() {
             title="Baixar ementa"
           >
             <Download size={18} />
-            Baixar Ementa
+            {t("curriculum.download")}
           </a>
         </div>
       </div>
@@ -111,23 +113,22 @@ export default function GradeCurricular() {
     <div className="grade-curricular">
       <section className="hero-section">
         <div className="hero-content">
-          <h1>Grade Curricular</h1>
+          <h1>{t("curriculum.title")}</h1>
         </div>
       </section>
 
       <section className="content-section">
         <div className="program-info">
-          <h2>Estrutura Curricular</h2>
+          <h2>{t("curriculum.structure")}</h2>
           <p>
-            Nossa grade curricular é projetada para fornecer uma formação sólida e abrangente, combinando disciplinas
-            obrigatórias fundamentais com optativas especializadas.
+          {t("curriculum.structureText")}
           </p>
         </div>
 
         <div className="search-container">
           <input
             type="text"
-            placeholder="Pesquisar disciplinas..."
+            placeholder={t("curriculum.search")}
             value={searchTerm}
             onChange={handleSearchChange}
             className="search-input"
@@ -135,22 +136,21 @@ export default function GradeCurricular() {
         </div>
 
         <div className="research-areas">
-          <h2>Disciplinas de Mestrado</h2>
+          <h2>{t("curriculum.masterDisc")}</h2>
           <div className="areas-grid">{renderDisciplinas(mestradoCourses)}</div>
         </div>
 
         <div className="research-areas">
-          <h2>Disciplinas de Doutorado</h2>
+          <h2>{t("curriculum.docDisc")}</h2>
           <div className="areas-grid">{renderDisciplinas(doutoradoCourses)}</div>
         </div>
 
         <div className="contact-section">
-          <h2>Interessado em nosso programa?</h2>
+          <h2>{t("curriculum.interest")}</h2>
           <p>
-            Entre em contato com a coordenação do programa para mais informações sobre a grade curricular e o processo
-            seletivo.
+          {t("curriculum.interestText")}
           </p>
-          <button className="contact-btn">Contate-nos</button>
+          <button className="contact-btn">{t("curriculum.contact")}</button>
         </div>
       </section>
     </div>

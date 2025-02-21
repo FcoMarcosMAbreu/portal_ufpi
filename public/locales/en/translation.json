@@ -1,0 +1,26 @@
+{
+  "header": {
+    "home": "Home",
+    "programs": "Programs",
+    "presentation": "Presentation",
+    "curriculum": "Curriculum",
+    "concentrationArea": "Concentration Area",
+    "courses": "Courses",
+    "teaching": "Teaching",
+    "activeStudents": "Active Students",
+    "faculty": "Faculty",
+    "thesesDissertations": "Theses/Dissertations",
+    "classes": "Classes",
+    "calendar": "Calendar",
+    "selectionProcesses": "Selection Processes",
+    "news": "News",
+    "documents": "Documents",
+    "forms": "Forms",
+    "resolution": "Resolution",
+    "bylaws": "Bylaws",
+    "others": "Others",
+    "teachingMaterials": "Teaching Materials",
+    "adminDashboard": "Admin Dashboard",
+    "login": "Login"
+  }
+}

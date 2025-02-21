@@ -1,6 +1,7 @@
 import type React from "react"
 import type { ProcessoSeletivoDto } from "../../types/processoSeletivo"
 import "./ProcessoSeletivoViewModal.css"
+import { useTranslation } from "react-i18next"
 
 interface ProcessoSeletivoViewModalProps {
   isOpen: boolean
@@ -9,31 +10,32 @@ interface ProcessoSeletivoViewModalProps {
 }
 
 const ProcessoSeletivoViewModal: React.FC<ProcessoSeletivoViewModalProps> = ({ isOpen, onClose, processoSeletivo }) => {
+  const { t } = useTranslation()
   if (!isOpen) return null
 
   return (
     <div className="modal-overlay">
       <div className="modal">
-        <h2>Detalhes do Processo Seletivo</h2>
+        <h2>{t("selectionProcesses.details")}</h2>
         <div className="processo-seletivo-details">
           <p>
-            <strong>Título:</strong> {processoSeletivo.titulo}
+            <strong>{t("selectionProcesses.detailsTitle")}:</strong> {processoSeletivo.titulo}
           </p>
           <p>
-            <strong>Descrição:</strong> {processoSeletivo.descricao}
+            <strong>{t("selectionProcesses.detailsDescription")}:</strong> {processoSeletivo.descricao}
           </p>
           <p>
-            <strong>Link de Inscrição:</strong>{" "}
+            <strong>{t("selectionProcesses.detailsLink")}:</strong>{" "}
             <a href={processoSeletivo.link_inscricao} target="_blank" rel="noopener noreferrer">
               {processoSeletivo.link_inscricao}
             </a>
           </p>
           <p>
-            <strong>Data de Criação:</strong> {new Date(processoSeletivo.data_criacao).toLocaleDateString()}
+            <strong>{t("selectionProcesses.creationDate")}:</strong> {new Date(processoSeletivo.data_criacao).toLocaleDateString()}
           </p>
         </div>
         <div className="modal-buttons">
-          <button onClick={onClose}>Fechar</button>
+          <button onClick={onClose}>{t("selectionProcesses.close")}</button>
         </div>
       </div>
     </div>

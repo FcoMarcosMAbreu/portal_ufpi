@@ -9,6 +9,7 @@ import DocumentoViewModal from "./DocumentoViewModal"
 import { PageContainer } from "../common/PageContainer"
 import { ResourceGrid } from "../common/ResourceGrid"
 import "./DocumentoList.css"
+import { useTranslation } from "react-i18next"
 
 interface DocumentoListProps {
   tag: TagDocumento
@@ -21,21 +22,24 @@ const DocumentoList: React.FC<DocumentoListProps> = ({ tag, title }) => {
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedDocumento, setSelectedDocumento] = useState<DocumentoResponseDto | null>(null)
   const [isViewModalOpen, setIsViewModalOpen] = useState(false)
+  const { t } = useTranslation()
 
+  // Fetch documents on component mount
   useEffect(() => {
     fetchDocumentos()
   }, [])
 
+  // Filter documents whenever documents array, search term or tag changes
   useEffect(() => {
     filterDocumentos()
-  }, [searchTerm, tag]) //Corrected dependency array
+  }, [documentos, searchTerm, tag])
 
   const fetchDocumentos = async () => {
     try {
       const allDocumentos = await documentoService.getAll()
       setDocumentos(allDocumentos)
     } catch (error) {
-      console.error("Erro ao buscar documentos:", error)
+      console.error(t("errors.fetchDocuments"), error)
     }
   }
 
@@ -64,11 +68,11 @@ const DocumentoList: React.FC<DocumentoListProps> = ({ tag, title }) => {
   }
 
   return (
-    <PageContainer title={title} description={`Lista de documentos - ${title}`}>
+    <PageContainer title={t(`documentList.tags.${tag}`)} description={t("documentList.description", { title: t(`documentList.tags.${tag}`) })}>
       <div className="filter-container">
         <input
           type="text"
-          placeholder="Pesquisar documentos..."
+          placeholder={t("documentList.searchPlaceholder")}
           value={searchTerm}
           onChange={handleSearchChange}
           className="search-input"
@@ -79,13 +83,18 @@ const DocumentoList: React.FC<DocumentoListProps> = ({ tag, title }) => {
           <div key={documento.id} className="documento-card">
             <h3>{documento.nome}</h3>
             <p>
-              <strong>Tipo:</strong> {documento.tipo}
+              <strong>{t("documentList.type")}:</strong> {t(`documentTypes.${documento.tipo}`)}
             </p>
             <p>
-              <strong>Data de Criação:</strong> {new Date(documento.data_criacao).toLocaleDateString()}
+              <strong>{t("documentList.creationDate")}:</strong>{" "}
+              {new Date(documento.data_criacao).toLocaleDateString(undefined, {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
             </p>
             <button onClick={() => openViewModal(documento)} className="btn-view">
-              Visualizar
+              {t("documentList.view")}
             </button>
           </div>
         ))}

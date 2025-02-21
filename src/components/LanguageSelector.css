@@ -1,0 +1,27 @@
+.language-selector {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .language-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+  }
+  
+  .language-button:hover,
+  .language-button.active {
+    opacity: 1;
+  }
+  
+  .language-button img {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+  }
+  
+  

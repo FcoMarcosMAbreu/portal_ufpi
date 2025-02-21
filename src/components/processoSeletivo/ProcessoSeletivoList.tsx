@@ -8,12 +8,14 @@ import ProcessoSeletivoViewModal from "./ProcessoSeletivoViewModal"
 import { PageContainer } from "../common/PageContainer"
 import { ResourceGrid } from "../common/ResourceGrid"
 import "./ProcessoSeletivoList.css"
+import { useTranslation } from "react-i18next"
 
 const ProcessoSeletivoList: React.FC = () => {
   const [processosSeletivos, setProcessosSeletivos] = useState<ProcessoSeletivoDto[]>([])
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedProcessoSeletivo, setSelectedProcessoSeletivo] = useState<ProcessoSeletivoDto | null>(null)
   const [isViewModalOpen, setIsViewModalOpen] = useState(false)
+  const { t } = useTranslation()
 
   useEffect(() => {
     fetchProcessosSeletivos()
@@ -49,11 +51,11 @@ const ProcessoSeletivoList: React.FC = () => {
   }
 
   return (
-    <PageContainer title="Processos Seletivos" description="Lista de processos seletivos em andamento">
+    <PageContainer title= {t("selectionProcesses.title")} description={t("selectionProcesses.description")}>
       <div className="filter-container">
         <input
           type="text"
-          placeholder="Pesquisar processos seletivos..."
+          placeholder={t("selectionProcesses.placeholder")}
           value={searchTerm}
           onChange={handleSearchChange}
           className="search-input"
@@ -65,7 +67,7 @@ const ProcessoSeletivoList: React.FC = () => {
             <h3>{processoSeletivo.titulo}</h3>
             <p>{processoSeletivo.descricao.substring(0, 100)}...</p>
             <button onClick={() => openViewModal(processoSeletivo)} className="btn-view">
-              Visualizar
+            {t("selectionProcesses.see")}
             </button>
           </div>
         ))}

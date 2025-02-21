@@ -8,12 +8,14 @@ import TurmaViewModal from "./TurmaViewModal"
 import { PageContainer } from "../common/PageContainer"
 import { ResourceGrid } from "../common/ResourceGrid"
 import "./TurmaList.css"
+import { useTranslation } from "react-i18next"
 
 const TurmaList: React.FC = () => {
   const [turmas, setTurmas] = useState<TurmaDto[]>([])
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedTurma, setSelectedTurma] = useState<TurmaDto | null>(null)
   const [isViewModalOpen, setIsViewModalOpen] = useState(false)
+  const { t } = useTranslation()
 
   useEffect(() => {
     fetchTurmas()
@@ -50,11 +52,11 @@ const TurmaList: React.FC = () => {
   }
 
   return (
-    <PageContainer title="Turmas" description="Lista de turmas disponíveis">
+    <PageContainer title= {t("classes.title")} description={t("classes.description")}>
       <div className="filter-container">
         <input
           type="text"
-          placeholder="Pesquisar turmas..."
+          placeholder= {t("classes.searchPlaceholder")}
           value={searchTerm}
           onChange={handleSearchChange}
           className="search-input"
@@ -65,13 +67,13 @@ const TurmaList: React.FC = () => {
           <div key={turma.id} className="turma-card">
             <h3>{turma.nome_turma}</h3>
             <p>
-              <strong>Matéria:</strong> {turma.materia}
+              <strong>{t("classes.subject")}:</strong> {turma.materia}
             </p>
             <p>
-              <strong>Horários:</strong> {turma.horarios}
+              <strong>{t("classes.schedules")}:</strong> {turma.horarios}
             </p>
             <button onClick={() => openViewModal(turma)} className="btn-view">
-              Visualizar
+            {t("classes.see")}
             </button>
           </div>
         ))}

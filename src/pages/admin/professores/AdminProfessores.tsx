@@ -52,7 +52,10 @@ const AdminProfessores: React.FC = () => {
       professor.email.toLowerCase().includes(searchTerm.toLowerCase()),
   )
 
-  const openCreateModal = () => setIsCreateModalOpen(true)
+  const openCreateModal = () => {
+    setSelectedProfessor(null)
+    setIsCreateModalOpen(true)
+  }
   const closeCreateModal = () => setIsCreateModalOpen(false)
 
   const openEditModal = (professor: ProfessorResponseDto) => {
@@ -71,6 +74,12 @@ const AdminProfessores: React.FC = () => {
   const closeViewModal = () => {
     setSelectedProfessor(null)
     setIsViewModalOpen(false)
+  }
+
+  const onSubmitSuccess = (newProfessor: ProfessorResponseDto) => {
+    setProfessores([...professores, newProfessor])
+    setIsCreateModalOpen(false)
+    setIsEditModalOpen(false)
   }
 
   return (

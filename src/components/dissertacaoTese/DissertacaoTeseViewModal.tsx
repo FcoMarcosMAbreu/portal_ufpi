@@ -1,6 +1,7 @@
 import type React from "react"
 import type { DissertacaoTeseDto } from "../../types/dissertacaoTese"
 import "./DissertacaoTeseViewModal.css"
+import { useTranslation } from "react-i18next"
 
 interface DissertacaoTeseViewModalProps {
   isOpen: boolean
@@ -9,31 +10,32 @@ interface DissertacaoTeseViewModalProps {
 }
 
 const DissertacaoTeseViewModal: React.FC<DissertacaoTeseViewModalProps> = ({ isOpen, onClose, dissertacaoTese }) => {
+  const { t } = useTranslation()
   if (!isOpen) return null
 
   return (
     <div className="modal-overlay">
       <div className="modal">
-        <h2>Detalhes da Dissertação/Tese</h2>
+        <h2>{t("theses.details")}</h2>
         <div className="dissertacao-tese-details">
           <p>
-            <strong>Nome do Autor:</strong> {dissertacaoTese.nome_autor}
+            <strong>{t("theses.author")}:</strong> {dissertacaoTese.nome_autor}
           </p>
           <p>
-            <strong>Título:</strong> {dissertacaoTese.titulo}
+            <strong>{t("theses.thesesTitle")}:</strong> {dissertacaoTese.titulo}
           </p>
           <p>
-            <strong>Orientador:</strong> {dissertacaoTese.orientador}
+            <strong>{t("theses.advisor")}:</strong> {dissertacaoTese.orientador}
           </p>
           <p>
-            <strong>Data:</strong> {new Date(dissertacaoTese.data).toLocaleDateString()}
+            <strong>{t("theses.date")}:</strong> {new Date(dissertacaoTese.data).toLocaleDateString()}
           </p>
           <p>
-            <strong>Resumo:</strong> {dissertacaoTese.resumo}
+            <strong>{t("theses.summarize")}:</strong> {dissertacaoTese.resumo}
           </p>
         </div>
         <div className="modal-buttons">
-          <button onClick={onClose}>Fechar</button>
+          <button onClick={onClose}>{t("theses.close")}</button>
         </div>
       </div>
     </div>

@@ -1,0 +1,27 @@
+{
+  "header": {
+    "home": "Início",
+    "programs": "Programas",
+    "presentation": "Apresentação",
+    "curriculum": "Grade Curricular",
+    "concentrationArea": "Área de Concentração",
+    "courses": "Cursos",
+    "teaching": "Ensino",
+    "activeStudents": "Alunos Ativos",
+    "faculty": "Corpo Docente",
+    "thesesDissertations": "Teses/Dissertações",
+    "classes": "Turmas",
+    "calendar": "Calendário",
+    "selectionProcesses": "Processos Seletivos",
+    "news": "Notícias",
+    "documents": "Documentos",
+    "forms": "Formulários",
+    "resolution": "Resolução",
+    "bylaws": "Regimento",
+    "others": "Outros",
+    "teachingMaterials": "Material Didático",
+    "adminDashboard": "Painel Administrativo",
+    "login": "Entrar"
+  }
+}
+

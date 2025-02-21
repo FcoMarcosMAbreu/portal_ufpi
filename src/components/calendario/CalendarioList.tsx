@@ -8,12 +8,14 @@ import CalendarioViewModal from "./CalendarioViewModal"
 import { PageContainer } from "../common/PageContainer"
 import { ResourceGrid } from "../common/ResourceGrid"
 import "./CalendarioList.css"
+import { useTranslation } from "react-i18next"
 
 const CalendarioList: React.FC = () => {
   const [calendarios, setCalendarios] = useState<CalendarioDto[]>([])
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedCalendario, setSelectedCalendario] = useState<CalendarioDto | null>(null)
   const [isViewModalOpen, setIsViewModalOpen] = useState(false)
+  const { t } = useTranslation()
 
   useEffect(() => {
     fetchCalendarios()
@@ -49,11 +51,11 @@ const CalendarioList: React.FC = () => {
   }
 
   return (
-    <PageContainer title="Calendário de Eventos" description="Lista de eventos programados">
+    <PageContainer title= {t("calendar.title")} description= {t("calendar.description")} >
       <div className="filter-container">
         <input
           type="text"
-          placeholder="Pesquisar eventos..."
+          placeholder= {t("calendar.placeholder")}
           value={searchTerm}
           onChange={handleSearchChange}
           className="search-input"
@@ -64,13 +66,13 @@ const CalendarioList: React.FC = () => {
           <div key={calendario.id} className="calendario-card">
             <h3>{calendario.titulo}</h3>
             <p>
-              <strong>Data de Início:</strong> {new Date(calendario.data_inicio).toLocaleDateString()}
+              <strong>{t("calendar.initialDate")}:</strong> {new Date(calendario.data_inicio).toLocaleDateString()}
             </p>
             <p>
-              <strong>Data de Término:</strong> {new Date(calendario.data_termino).toLocaleDateString()}
+              <strong>{t("calendar.finalDate")}:</strong> {new Date(calendario.data_termino).toLocaleDateString()}
             </p>
             <button onClick={() => openViewModal(calendario)} className="btn-view">
-              Visualizar
+            {t("calendar.see")}
             </button>
           </div>
         ))}

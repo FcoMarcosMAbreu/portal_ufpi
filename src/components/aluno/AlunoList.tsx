@@ -5,11 +5,13 @@ import type { AlunoResponseDto } from "../../types/aluno"
 import { PageContainer } from "../common/PageContainer"
 import { ResourceGrid } from "../common/ResourceGrid"
 import "./AlunoList.css"
+import { useTranslation } from "react-i18next"
 
 const AlunoList: React.FC = () => {
   const [alunos, setAlunos] = useState<AlunoResponseDto[]>([])
   const [filteredAlunos, setFilteredAlunos] = useState<AlunoResponseDto[]>([])
   const [searchTerm, setSearchTerm] = useState("")
+  const { t } = useTranslation()
 
   useEffect(() => {
     fetchAlunos()
@@ -44,11 +46,11 @@ const AlunoList: React.FC = () => {
   }
 
   return (
-    <PageContainer title="Alunos Ativos" description="Lista de alunos atualmente matriculados no programa">
+    <PageContainer title= {t("students.title")} description={t("students.description")}>
       <div className="filter-container">
         <input
           type="text"
-          placeholder="Pesquisar alunos..."
+          placeholder= {t("students.searchPlaceholder")}
           value={searchTerm}
           onChange={handleSearchChange}
           className="search-input"
@@ -60,13 +62,13 @@ const AlunoList: React.FC = () => {
             <h3 className="aluno-name">{aluno.nome}</h3>
             <div className="aluno-info">
               <p>
-                <strong>Matrícula:</strong> {aluno.matricula}
+                <strong>{t("students.registration")}:</strong> {aluno.matricula}
               </p>
               <p>
-                <strong>Email:</strong> {aluno.email}
+                <strong>{t("students.email")}:</strong> {aluno.email}
               </p>
               <p>
-                <strong>Curso:</strong> {aluno.curso}
+                <strong>{t("students.course")}:</strong> {aluno.curso}
               </p>
             </div>
           </div>

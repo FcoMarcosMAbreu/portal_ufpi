@@ -24,6 +24,7 @@ const ProfessorFormModal: React.FC<ProfessorFormModalProps> = ({ isOpen, onClose
     curriculo_lattes: "",
     vinculo: Vinculo.EFETIVO,
   })
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     if (professor) {
@@ -56,6 +57,7 @@ const ProfessorFormModal: React.FC<ProfessorFormModalProps> = ({ isOpen, onClose
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setError(null)
     try {
       if (professor) {
         await professorService.update(professor.id, formData as UpdateProfessorDto)
@@ -66,6 +68,7 @@ const ProfessorFormModal: React.FC<ProfessorFormModalProps> = ({ isOpen, onClose
       onClose()
     } catch (error) {
       console.error("Erro ao salvar professor:", error)
+      setError("Ocorreu um erro ao salvar o professor. Por favor, tente novamente.")
     }
   }
 
@@ -75,6 +78,7 @@ const ProfessorFormModal: React.FC<ProfessorFormModalProps> = ({ isOpen, onClose
     <div className="modal-overlay">
       <div className="modal">
         <h2>{professor ? "Editar Professor" : "Criar Novo Professor"}</h2>
+        {error && <p className="error-message">{error}</p>}
         <form onSubmit={handleSubmit}>
           <div>
             <label htmlFor="nome">Nome:</label>

@@ -7,12 +7,15 @@ import type { DissertacaoTeseDto } from "../../types/dissertacaoTese"
 import DissertacaoTeseViewModal from "./DissertacaoTeseViewModal"
 import { PageContainer } from "../common/PageContainer"
 import "./DissertacaoTeseList.css"
+import { useTranslation } from "react-i18next"
 
 const DissertacaoTeseList: React.FC = () => {
   const [dissertacoesTeses, setDissertacoesTeses] = useState<DissertacaoTeseDto[]>([])
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedItem, setSelectedItem] = useState<DissertacaoTeseDto | null>(null)
   const [isViewModalOpen, setIsViewModalOpen] = useState(false)
+  const { t } = useTranslation()
+
 
   useEffect(() => {
     fetchDissertacoesTeses()
@@ -49,12 +52,12 @@ const DissertacaoTeseList: React.FC = () => {
   }
 
   return (
-    <PageContainer title="Dissertações e Teses" description="Lista de dissertações e teses do programa">
+    <PageContainer title= {t("theses.title")} description={t("theses.description")}>
       <div className="dissertacao-tese-list">
         <div className="filter-container">
           <input
             type="text"
-            placeholder="Pesquisar dissertações e teses..."
+            placeholder={t("theses.searchPlaceholder")}
             value={searchTerm}
             onChange={handleSearchChange}
             className="search-input"
@@ -63,11 +66,11 @@ const DissertacaoTeseList: React.FC = () => {
         <table>
           <thead>
             <tr>
-              <th>Autor</th>
-              <th>Título</th>
-              <th>Orientador</th>
-              <th>Data</th>
-              <th>Ações</th>
+              <th>{t("theses.author")}</th>
+              <th>{t("theses.thesesTitle")}</th>
+              <th>{t("theses.advisor")}</th>
+              <th>{t("theses.date")}</th>
+              <th>{t("theses.actions")}</th>
             </tr>
           </thead>
           <tbody>
@@ -79,7 +82,7 @@ const DissertacaoTeseList: React.FC = () => {
                 <td>{new Date(item.data).toLocaleDateString()}</td>
                 <td>
                   <button onClick={() => openViewModal(item)} className="btn-view">
-                    Visualizar
+                  {t("theses.seeMore")}
                   </button>
                 </td>
               </tr>

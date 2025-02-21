@@ -4,10 +4,13 @@ import { useState, useEffect } from "react"
 import { cursoService } from "../../services/cursoService"
 import type { CursoResponseDto } from "../../types/curso"
 import "./ApresentacaoCursos.css"
+import { useTranslation } from "react-i18next"
 
 const ApresentacaoCursos: React.FC = () => {
   const [cursos, setCursos] = useState<CursoResponseDto[]>([])
   const [searchTerm, setSearchTerm] = useState("")
+  const { t } = useTranslation()
+  
 
   useEffect(() => {
     fetchCursos()
@@ -33,10 +36,10 @@ const ApresentacaoCursos: React.FC = () => {
         <h3>{curso.nome}</h3>
         <div className="curso-links">
           <a href={curso.link_documento_capes} target="_blank" rel="noopener noreferrer">
-            Documento de reconhecimento e conceito da CAPES
+            {t("courses.capes")}
           </a>
           <a href={curso.link_detalhes_curso} target="_blank" rel="noopener noreferrer">
-            Detalhes do curso
+          {t("courses.details")}
           </a>
         </div>
       </div>
@@ -51,7 +54,7 @@ const ApresentacaoCursos: React.FC = () => {
     <div className="apresentacao-cursos">
       <section className="hero-section-cursos">
         <div className="hero-content">
-          <h1>Cursos</h1>
+          <h1>{t("courses.title")}</h1>
         </div>
       </section>
 
@@ -59,7 +62,7 @@ const ApresentacaoCursos: React.FC = () => {
         <div className="search-container">
           <input
             type="text"
-            placeholder="Pesquisar cursos..."
+            placeholder={t("courses.searchPlaceholder")}
             value={searchTerm}
             onChange={handleSearchChange}
             className="search-input"
@@ -67,17 +70,17 @@ const ApresentacaoCursos: React.FC = () => {
         </div>
 
         <div className="section-padding">
-          <h2>PÓS-GRADUAÇÃO EM ZOOTECNIA TROPICAL - Doutorado</h2>
+          <h2>{t("courses.titleDoc")}</h2>
           <div className="cursos-grid">{renderCursoCards(doutoradoCursos)}</div>
         </div>
 
         <div className="section-padding">
-          <h2>PÓS-GRADUAÇÃO EM ZOOTECNIA TROPICAL - Mestrado</h2>
+          <h2>{t("courses.titleMest")}</h2>
           <div className="cursos-grid">{renderCursoCards(mestradoCursos)}</div>
         </div>
 
         {filteredCursos.length === 0 && (
-          <p className="no-results">Nenhum curso encontrado para a pesquisa realizada.</p>
+          <p className="no-results">{t("courses.noResults")}</p>
         )}
       </section>
     </div>

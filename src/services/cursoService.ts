@@ -1,5 +1,6 @@
 import axios from "axios"
 import type { CursoResponseDto, CreateCursoDto, UpdateCursoDto } from "../types/curso"
+import { authService } from "./authService"
 
 const API_URL = "http://localhost:3000"
 
@@ -9,6 +10,19 @@ const axiosInstance = axios.create({
     "Content-Type": "application/json",
   },
 })
+
+axiosInstance.interceptors.request.use(
+  (config) => {
+    const token = authService.getAccessToken()
+    if (token) {
+      config.headers["Authorization"] = `Bearer ${token}`
+    }
+    return config
+  },
+  (error) => {
+    return Promise.reject(error)
+  },
+)
 
 export const cursoService = {
   // Obtém todos os cursos do banco de dados

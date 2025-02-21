@@ -7,10 +7,12 @@ import type { ProfessorResponseDto } from "../../types/professor"
 import { PageContainer } from "../common/PageContainer"
 import { ResourceGrid } from "../common/ResourceGrid"
 import "./ProfessorList.css"
+import { useTranslation } from "react-i18next"
 
 const ProfessorList: React.FC = () => {
   const [professores, setProfessores] = useState<ProfessorResponseDto[]>([])
   const [searchTerm, setSearchTerm] = useState("")
+  const { t } = useTranslation()
 
   useEffect(() => {
     fetchProfessores()
@@ -37,11 +39,11 @@ const ProfessorList: React.FC = () => {
   )
 
   return (
-    <PageContainer title="Corpo Docente" description="Conheça os professores do programa de pós-graduação">
+    <PageContainer title= {t("professorList.title")} description={t("professorList.description")}>
       <div className="filter-container">
         <input
           type="text"
-          placeholder="Pesquisar professores..."
+          placeholder={t("professorList.searchPlaceholder")}
           value={searchTerm}
           onChange={handleSearchChange}
           className="search-input"
@@ -53,18 +55,18 @@ const ProfessorList: React.FC = () => {
             <h3 className="professor-name">{professor.nome}</h3>
             <div className="professor-info">
               <p>
-                <strong>Nível:</strong> {professor.nivel}
+                <strong>{t("professorList.level")}:</strong> {professor.nivel}
               </p>
               <p>
-                <strong>Email:</strong> {professor.email}
+                <strong>{t("professorList.email")}:</strong> {professor.email}
               </p>
               <p>
-                <strong>Telefone:</strong> {professor.telefone}
+                <strong>{t("professorList.phone")}:</strong> {professor.telefone}
               </p>
             </div>
             <div className="professor-links">
               <a href={professor.curriculo_lattes} target="_blank" rel="noopener noreferrer" className="lattes-link">
-                Currículo Lattes
+              {t("professorList.lattes")}
               </a>
             </div>
           </div>

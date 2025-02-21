@@ -1,6 +1,7 @@
 import type React from "react"
 import type { DocumentoResponseDto } from "../../types/documento"
 import "./DocumentoViewModal.css"
+import { useTranslation } from "react-i18next"
 
 interface DocumentoViewModalProps {
   isOpen: boolean
@@ -11,34 +12,35 @@ interface DocumentoViewModalProps {
 const API_BASE_URL = "http://localhost:3000"
 
 const DocumentoViewModal: React.FC<DocumentoViewModalProps> = ({ isOpen, onClose, documento }) => {
+  const { t } = useTranslation()
   if (!isOpen) return null
 
   return (
     <div className="modal-overlay">
       <div className="modal">
-        <h2>Detalhes do Documento</h2>
+        <h2>{t("documentList.details")}</h2>
         <div className="documento-details">
           <p>
-            <strong>Nome:</strong> {documento.nome}
+            <strong>{t("documentList.name")}:</strong> {documento.nome}
           </p>
           <p>
-            <strong>Tipo:</strong> {documento.tipo}
+            <strong>{t("documentList.type")}:</strong> {documento.tipo}
           </p>
           <p>
-            <strong>Tag:</strong> {documento.tag}
+            <strong>{t("documentList.tag")}:</strong> {documento.tag}
           </p>
           <p>
-            <strong>Data de Criação:</strong> {new Date(documento.data_criacao).toLocaleDateString()}
+            <strong>{t("documentList.createDate")}:</strong> {new Date(documento.data_criacao).toLocaleDateString()}
           </p>
           <p>
-            <strong>Download:</strong>{" "}
+            <strong>{t("documentList.download")}:</strong>{" "}
             <a href={`${API_BASE_URL}/documentos/${documento.id}/download`} download>
-              Baixar Arquivo
+            {t("documentList.downloadFile")}
             </a>
           </p>
         </div>
         <div className="modal-buttons">
-          <button onClick={onClose}>Fechar</button>
+          <button onClick={onClose}>{t("documentList.close")}</button>
         </div>
       </div>
     </div>
