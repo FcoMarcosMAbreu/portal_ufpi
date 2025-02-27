@@ -20,50 +20,55 @@ export class DocumentosController {
 
 
   @Post()
-  @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth()
-  @UseInterceptors(FileInterceptor('arquivo', {
-    storage: diskStorage({
-      destination: "./uploads/documentos",
-      filename: (req, file, callback) => {
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() *1e9);
-        const ext = extname(file.originalname);
-        callback(null, `${file.fieldname}-${uniqueSuffix}${ext}`);
-      }
-    }),
-    limits: { fileSize: 10 * 1024 * 1024}
-  }))
-  @ApiConsumes('multipart/form-data')
-  @ApiOperation({ summary: 'Faz upload e cria um documento' })
-  @ApiBody({
-    schema: {
-      type: 'object',
-      properties: {
-        nome: { type: 'string', example: 'Relatório de vendas' },
-        tipo: { type: 'string', example: 'PDF' },
-        tag: { type: 'string', example: 'FORMULARIO' },
-        arquivo: { type: 'string', format: 'binary' }
-      }
+@UseGuards(JwtAuthGuard)
+@ApiBearerAuth()
+@UseInterceptors(FileInterceptor('arquivo', {
+  storage: diskStorage({
+    destination: './uploads/documentos',
+    filename: (req, file, callback) => {
+      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+      const ext = extname(file.originalname);
+      callback(null, `arquivo-${uniqueSuffix}${ext}`);
     }
-  })
-  async create(
-    @UploadedFile() file: Express.Multer.File,
-    @Body() createDocumentoDto: CreateDocumentoDto):  Promise<DocumentoResponseDto>{
-      if (!file){
-        throw new HttpException('Arquivo não encontrado', HttpStatus.BAD_REQUEST);
-      }
-
-      const tipoDocumento = this.getTipoDocumento(file.mimetype);
-      const caminhoArquivo = `uploads/documentos/${file.filename}`;
-
-      return this.documentosService.create({
-        nome: createDocumentoDto.nome,
-        tipo: tipoDocumento,
-        tag: createDocumentoDto.tag,
-        caminho_arquivo: caminhoArquivo,
-      })
-      
+  }),
+  limits: { fileSize: 10 * 1024 * 1024 }
+}))
+@ApiConsumes('multipart/form-data')
+@ApiOperation({ summary: 'Faz upload e cria um documento' })
+@ApiBody({
+  schema: {
+    type: 'object',
+    properties: {
+      nome: { type: 'string', example: 'Relatório de vendas' },
+      tipo: { type: 'string', example: 'PDF' },
+      tag: { type: 'string', example: 'FORMULARIO' },
+      arquivo: { type: 'string', format: 'binary' }
+    }
   }
+})
+async create(
+  @UploadedFile() file: Express.Multer.File,
+  @Body() body: any
+): Promise<DocumentoResponseDto> {
+  // Log para depuração
+  //console.log('Body recebido:', body);
+  //console.log('Arquivo recebido:', file);
+
+  if (!body.nome || !body.tag) {
+    throw new HttpException('Nome e Tag são obrigatórios.', HttpStatus.BAD_REQUEST);
+  }
+
+  // Definir o caminho do arquivo ou um placeholder
+  const caminhoArquivo = file ? `uploads/documentos/${file.filename}` : 'Sem arquivo';
+
+  return this.documentosService.create({
+    nome: body.nome,
+    tipo: body.tipo,
+    tag: body.tag,
+    caminho_arquivo: caminhoArquivo
+  });
+}
+
 
   @Get()
   findAll() {

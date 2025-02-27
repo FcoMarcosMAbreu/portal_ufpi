@@ -18,6 +18,7 @@ export class CreateNoticiaDto {
 
   @ApiProperty({ description: 'Links de referência', example: 'https://linkreferencia.com', type: String })
   @IsString()
+  @IsOptional()
   links_referencia: string;
 
   @ApiProperty({ description: 'Documento anexo', type: 'string', format: 'binary', required: false })

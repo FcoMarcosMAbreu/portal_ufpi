@@ -44,11 +44,7 @@ export class NoticiasController {
       throw new BadRequestException('O arquivo excede o limite de 10 MB');
     }
 
-    if (!file) {
-      throw new HttpException('Arquivo não encontrado', HttpStatus.BAD_REQUEST);
-    }
-
-    createNoticiaDto.arquivo = `uploads/noticias/${file.filename}`;
+    createNoticiaDto.arquivo = file ? `uploads/noticias/${file.filename}` : "Sem arquivo";
     
     return this.noticiasService.create(createNoticiaDto);
   }
