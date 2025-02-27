@@ -9,8 +9,8 @@ export enum TagNoticia {
     titulo: string
     tag: TagNoticia
     conteudo: string
-    links_referencia: string
-    documento_anexo?: string
+    links_referencia?: string
+    arquivo?: string
     data_criacao: Date
   }
   
@@ -18,7 +18,7 @@ export enum TagNoticia {
     titulo: string
     tag: TagNoticia
     conteudo: string
-    links_referencia: string
+    links_referencia?: string
     arquivo?: File
     data_criacao: Date
   }

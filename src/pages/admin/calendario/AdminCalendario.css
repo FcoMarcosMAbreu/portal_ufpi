@@ -14,7 +14,7 @@
   margin-bottom: 20px;
 }
 
-.admin-calendario-actions .btn-create {
+.admin-calendario-actions .btn-create .btn-back{
   padding: 10px 20px;
   background-color: #4caf50;
   color: white;

@@ -21,6 +21,7 @@ const DocumentoFormModal: React.FC<DocumentoFormModalProps> = ({ isOpen, onClose
     tag: TagDocumento.OUTROS,
     arquivo: null as unknown as File,
   })
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     if (documento) {
@@ -52,9 +53,18 @@ const DocumentoFormModal: React.FC<DocumentoFormModalProps> = ({ isOpen, onClose
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setError(null)
     try {
       if (documento) {
-        await documentoService.update(documento.id, formData as UpdateDocumentoDto)
+        const updatedDocumento: UpdateDocumentoDto = {
+          nome: formData.nome,
+          tipo: formData.tipo as TipoDocumento,
+          tag: formData.tag as TagDocumento,
+        }
+        if (formData.arquivo) {
+          updatedDocumento.arquivo = formData.arquivo
+        }
+        await documentoService.update(documento.id, updatedDocumento)
       } else {
         await documentoService.create(formData as CreateDocumentoDto)
       }
@@ -62,6 +72,11 @@ const DocumentoFormModal: React.FC<DocumentoFormModalProps> = ({ isOpen, onClose
       onClose()
     } catch (error) {
       console.error("Erro ao salvar documento:", error)
+      if (error instanceof Error) {
+        setError(`Erro ao salvar documento: ${error.message}`)
+      } else {
+        setError("Ocorreu um erro desconhecido ao salvar o documento. Por favor, tente novamente.")
+      }
     }
   }
 
@@ -71,6 +86,7 @@ const DocumentoFormModal: React.FC<DocumentoFormModalProps> = ({ isOpen, onClose
     <div className="modal-overlay">
       <div className="modal">
         <h2>{documento ? "Editar Documento" : "Criar Novo Documento"}</h2>
+        {error && <p className="error-message">{error}</p>}
         <form onSubmit={handleSubmit}>
           <div>
             <label htmlFor="nome">Nome:</label>
@@ -98,7 +114,7 @@ const DocumentoFormModal: React.FC<DocumentoFormModalProps> = ({ isOpen, onClose
           </div>
           <div>
             <label htmlFor="arquivo">Arquivo:</label>
-            <input type="file" id="arquivo" name="arquivo" onChange={handleFileChange} required={!documento} />
+            <input type="file" id="arquivo" name="arquivo" onChange={handleFileChange} />
           </div>
           <div className="modal-buttons">
             <button type="button" onClick={onClose}>

@@ -2,7 +2,8 @@ import axios from "axios"
 import type { CursoResponseDto, CreateCursoDto, UpdateCursoDto } from "../types/curso"
 import { authService } from "./authService"
 
-const API_URL = "http://localhost:3000"
+//const API_URL = "http://localhost:3000"
+const API_URL = import.meta.env.VITE_API_URL
 
 const axiosInstance = axios.create({
   baseURL: API_URL,
@@ -45,7 +46,7 @@ export const cursoService = {
 
   // Atualiza um curso existente no banco de dados
   update: async (id: number, curso: UpdateCursoDto): Promise<CursoResponseDto> => {
-    const response = await axiosInstance.put(`/cursos/${id}`, curso)
+    const response = await axiosInstance.patch(`/cursos/${id}`, curso)
     return response.data
   },
 

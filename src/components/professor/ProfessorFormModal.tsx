@@ -23,6 +23,7 @@ const ProfessorFormModal: React.FC<ProfessorFormModalProps> = ({ isOpen, onClose
     telefone: "",
     curriculo_lattes: "",
     vinculo: Vinculo.EFETIVO,
+    data_criacao: new Date(),
   })
   const [error, setError] = useState<string | null>(null)
 
@@ -46,6 +47,7 @@ const ProfessorFormModal: React.FC<ProfessorFormModalProps> = ({ isOpen, onClose
         telefone: "",
         curriculo_lattes: "",
         vinculo: Vinculo.EFETIVO,
+        data_criacao: new Date(),
       })
     }
   }, [professor])
@@ -62,7 +64,11 @@ const ProfessorFormModal: React.FC<ProfessorFormModalProps> = ({ isOpen, onClose
       if (professor) {
         await professorService.update(professor.id, formData as UpdateProfessorDto)
       } else {
-        await professorService.create(formData as CreateProfessorDto)
+        const newProfessor = {
+          ...formData,
+          data_criacao: new Date(), // Ensure we always use the current date for new professors
+        }
+        await professorService.create(newProfessor as CreateProfessorDto)
       }
       onSubmitSuccess()
       onClose()
@@ -141,6 +147,19 @@ const ProfessorFormModal: React.FC<ProfessorFormModalProps> = ({ isOpen, onClose
               ))}
             </select>
           </div>
+          {/* Remove this block
+          <div>
+            <label htmlFor="data_criacao">Data de Criação:</label>
+            <input
+              type="date"
+              id="data_criacao"
+              name="data_criacao"
+              value={formData.data_criacao instanceof Date ? formData.data_criacao.toISOString().split('T')[0] : formData.data_criacao}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          */}
           <div className="modal-buttons">
             <button type="button" onClick={onClose}>
               Cancelar
@@ -154,4 +173,3 @@ const ProfessorFormModal: React.FC<ProfessorFormModalProps> = ({ isOpen, onClose
 }
 
 export default ProfessorFormModal
-

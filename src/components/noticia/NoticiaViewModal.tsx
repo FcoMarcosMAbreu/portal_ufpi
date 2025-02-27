@@ -2,7 +2,6 @@ import type React from "react"
 import type { NoticiaDto } from "../../types/noticia"
 import "./NoticiaViewModal.css"
 import { Download } from "lucide-react"
-import { useTranslation } from "react-i18next"
 
 const API_BASE_URL = "http://localhost:3000"
 
@@ -13,39 +12,31 @@ interface NoticiaViewModalProps {
 }
 
 const NoticiaViewModal: React.FC<NoticiaViewModalProps> = ({ isOpen, onClose, noticia }) => {
-  const { t } = useTranslation()
-
   if (!isOpen) return null
+
+  const showDownloadButton = noticia.arquivo && noticia.arquivo !== "Sem arquivo"
 
   return (
     <div className="modal-overlay">
       <div className="modal">
-        <h2>{t("news.details")}</h2>
+        <h2>Detalhes da Notícia</h2>
         <div className="noticia-details">
           <p>
-            <strong>{t("news.detailsTitle")}:</strong> {noticia.titulo}
+            <strong>Título:</strong> {noticia.titulo}
           </p>
           <p>
-            <strong>{t("news.tag")}:</strong> {noticia.tag}
+            <strong>Tag:</strong> {noticia.tag}
           </p>
           <p>
-            <strong>{t("news.detailsContent")}:</strong> {noticia.conteudo}
+            <strong>Conteúdo:</strong> {noticia.conteudo}
           </p>
           <p>
-            <strong>{t("news.detailsLink")}:</strong> {noticia.links_referencia}
+            <strong>Links de Referência:</strong> {noticia.links_referencia}
           </p>
           <p>
-            <strong>{t("news.createDate")}:</strong> {new Date(noticia.data_criacao).toLocaleDateString()}
+            <strong>Data de Criação:</strong> {new Date(noticia.data_criacao).toLocaleString()}
           </p>
-          {noticia.documento_anexo && (
-            <p>
-              <strong>{t("news.attach")}:</strong>{" "}
-              <a href={noticia.documento_anexo} target="_blank" rel="noopener noreferrer">
-              {t("news.seeDoc")}
-              </a>
-            </p>
-          )}
-          {noticia.id && (
+          {showDownloadButton && (
             <div className="download-container">
               <a
                 href={`${API_BASE_URL}/noticias/${noticia.id}/download`}
@@ -54,13 +45,13 @@ const NoticiaViewModal: React.FC<NoticiaViewModalProps> = ({ isOpen, onClose, no
                 title="Baixar arquivo"
               >
                 <Download size={18} />
-                {t("news.dowload")}
+                Baixar Arquivo
               </a>
             </div>
           )}
         </div>
         <div className="modal-buttons">
-          <button onClick={onClose}>{t("news.close")}</button>
+          <button onClick={onClose}>Fechar</button>
         </div>
       </div>
     </div>

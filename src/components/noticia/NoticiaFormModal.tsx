@@ -20,6 +20,7 @@ const NoticiaFormModal: React.FC<NoticiaFormModalProps> = ({ isOpen, onClose, on
     tag: TagNoticia.Informativo,
     conteudo: "",
     links_referencia: "",
+    arquivo: undefined,
     data_criacao: new Date(),
   })
   const [error, setError] = useState<string | null>(null)
@@ -31,7 +32,7 @@ const NoticiaFormModal: React.FC<NoticiaFormModalProps> = ({ isOpen, onClose, on
         tag: noticia.tag,
         conteudo: noticia.conteudo,
         links_referencia: noticia.links_referencia,
-        data_criacao: noticia.data_criacao,
+        data_criacao: new Date(noticia.data_criacao),
       })
     } else {
       setFormData({
@@ -39,6 +40,7 @@ const NoticiaFormModal: React.FC<NoticiaFormModalProps> = ({ isOpen, onClose, on
         tag: TagNoticia.Informativo,
         conteudo: "",
         links_referencia: "",
+        arquivo: undefined,
         data_criacao: new Date(),
       })
     }
@@ -49,14 +51,33 @@ const NoticiaFormModal: React.FC<NoticiaFormModalProps> = ({ isOpen, onClose, on
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setFormData((prev) => ({ ...prev, arquivo: e.target.files![0] }))
+    }
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError(null)
     try {
+      const formDataToSend = new FormData()
+      Object.entries(formData).forEach(([key, value]) => {
+        if (value !== undefined) {
+          if (key === "arquivo" && value instanceof File) {
+            formDataToSend.append(key, value)
+          } else if (key === "data_criacao" && value instanceof Date) {
+            formDataToSend.append(key, value.toISOString())
+          } else {
+            formDataToSend.append(key, String(value))
+          }
+        }
+      })
+
       if (noticia) {
-        await noticiaService.update(noticia.id, formData as UpdateNoticiaDto)
+        await noticiaService.update(noticia.id, formDataToSend)
       } else {
-        await noticiaService.create(formData as CreateNoticiaDto)
+        await noticiaService.create(formDataToSend)
       }
       onSubmitSuccess()
       onClose()
@@ -100,6 +121,25 @@ const NoticiaFormModal: React.FC<NoticiaFormModalProps> = ({ isOpen, onClose, on
               name="links_referencia"
               value={formData.links_referencia}
               onChange={handleChange}
+            />
+          </div>
+          <div>
+            <label htmlFor="arquivo">Arquivo:</label>
+            <input type="file" id="arquivo" name="arquivo" onChange={handleFileChange} />
+          </div>
+          <div>
+            <label htmlFor="data_criacao">Data de Criação:</label>
+            <input
+              type="datetime-local"
+              id="data_criacao"
+              name="data_criacao"
+              value={
+                formData.data_criacao instanceof Date
+                  ? formData.data_criacao.toISOString().slice(0, 16)
+                  : formData.data_criacao
+              }
+              onChange={handleChange}
+              required
             />
           </div>
           <div className="modal-buttons">

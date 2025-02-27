@@ -2,7 +2,8 @@ import axios from "axios"
 import type { AdminResponseDto, CreateAdminDto, UpdateAdminDto } from "../types/admin"
 import { authService } from "./authService"
 
-const API_URL = "http://localhost:3000/admins"
+//const API_URL = "http://localhost:3000/admins"
+const API_URL = import.meta.env.VITE_API_URL + "/admins"
 
 const axiosInstance = axios.create({
   baseURL: API_URL,

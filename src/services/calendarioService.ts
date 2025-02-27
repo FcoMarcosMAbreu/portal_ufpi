@@ -1,13 +1,26 @@
 import axios from "axios"
 import type { CalendarioDto, CreateCalendarioDto, UpdateCalendarioDto } from "../types/calendario"
+import { authService } from "./authService"
 
-const API_URL = "http://localhost:3000"
+//const API_URL = "http://localhost:3000"
+const API_URL = import.meta.env.VITE_API_URL
 
 const axiosInstance = axios.create({
   baseURL: API_URL,
   headers: {
     "Content-Type": "application/json",
   },
+})
+
+axiosInstance.interceptors.request.use((config) => {
+  const token = authService.getAccessToken()
+  if (token) {
+    config.headers["Authorization"] = `Bearer ${token}`
+    console.log("Token adicionado à requisição:", token)
+  } else {
+    console.log("Token não encontrado")
+  }
+  return config
 })
 
 export const calendarioService = {
@@ -31,7 +44,7 @@ export const calendarioService = {
 
   // Atualiza um evento existente no calendário no banco de dados
   update: async (id: number, calendario: UpdateCalendarioDto): Promise<CalendarioDto> => {
-    const response = await axiosInstance.put(`/calendario/${id}`, calendario)
+    const response = await axiosInstance.patch(`/calendario/${id}`, calendario)
     return response.data
   },
 

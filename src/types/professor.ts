@@ -2,12 +2,13 @@ export enum Nivel {
     GRADUACAO = "GRADUACAO",
     MESTRADO = "MESTRADO",
     DOUTORADO = "DOUTORADO",
+    PHD  = "PHD",
   }
   
   export enum Vinculo {
-    EFETIVO = "EFETIVO",
-    SUBSTITUTO = "SUBSTITUTO",
-    VISITANTE = "VISITANTE",
+    TEMPORARIO = 'TEMPORARIO',
+    EFETIVO = 'EFETIVO',
+    COLABORADOR = 'COLABORADOR',
   }
   
   export interface ProfessorResponseDto {

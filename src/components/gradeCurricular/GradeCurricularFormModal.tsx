@@ -8,6 +8,7 @@ import type {
   CreateGradeCurricularDto,
   UpdateGradeCurricularDto,
 } from "../../types/gradeCurricular"
+import { tipoEnumCurso } from "../../types/curso"
 import "./GradeCurricularFormModal.css"
 
 interface GradeCurricularFormModalProps {
@@ -29,6 +30,7 @@ const GradeCurricularFormModal: React.FC<GradeCurricularFormModalProps> = ({
     componente_curricular: "",
     carga_horaria: "",
     ementa: null,
+    tipo_pos: tipoEnumCurso.Mestrado,
   })
 
   useEffect(() => {
@@ -38,6 +40,7 @@ const GradeCurricularFormModal: React.FC<GradeCurricularFormModalProps> = ({
         codigo: gradeCurricular.codigo,
         componente_curricular: gradeCurricular.componente_curricular,
         carga_horaria: gradeCurricular.carga_horaria,
+        tipo_pos: gradeCurricular.tipo_pos,
       })
     } else {
       setFormData({
@@ -46,11 +49,12 @@ const GradeCurricularFormModal: React.FC<GradeCurricularFormModalProps> = ({
         componente_curricular: "",
         carga_horaria: "",
         ementa: null,
+        tipo_pos: tipoEnumCurso.Mestrado,
       })
     }
   }, [gradeCurricular])
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
@@ -66,10 +70,17 @@ const GradeCurricularFormModal: React.FC<GradeCurricularFormModalProps> = ({
     try {
       const formDataToSend = new FormData()
       Object.entries(formData).forEach(([key, value]) => {
-        if (value !== null) {
-          formDataToSend.append(key, value)
+        if (value !== undefined) {
+          if (key === "ementa" && value instanceof File) {
+            formDataToSend.append(key, value)
+          } else {
+            formDataToSend.append(key, String(value))
+          }
         }
       })
+
+      // Adiciona a data de criação automaticamente
+      formDataToSend.append("data_criacao", new Date().toISOString())
 
       if (gradeCurricular) {
         await gradeCurricularService.update(gradeCurricular.id, formDataToSend as unknown as UpdateGradeCurricularDto)
@@ -121,6 +132,13 @@ const GradeCurricularFormModal: React.FC<GradeCurricularFormModalProps> = ({
             />
           </div>
           <div>
+            <label htmlFor="tipo_pos">Tipo de Pós-Graduação:</label>
+            <select id="tipo_pos" name="tipo_pos" value={formData.tipo_pos} onChange={handleChange} required>
+              <option value={tipoEnumCurso.Mestrado}>Mestrado</option>
+              <option value={tipoEnumCurso.Doutorado}>Doutorado</option>
+            </select>
+          </div>
+          <div>
             <label htmlFor="ementa">Ementa:</label>
             <input type="file" id="ementa" name="ementa" onChange={handleFileChange} />
           </div>
@@ -137,3 +155,4 @@ const GradeCurricularFormModal: React.FC<GradeCurricularFormModalProps> = ({
 }
 
 export default GradeCurricularFormModal
+

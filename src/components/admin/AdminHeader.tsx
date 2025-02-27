@@ -20,7 +20,7 @@ const AdminHeader: React.FC = () => {
           <img src={logo} alt="Logo" className="admin-logo" />
         </Link>
         <div className="admin-user-info">
-          {currentUser && <span className="admin-user-name">Olá, {currentUser.name}</span>}
+          {currentUser && <span className="admin-user-name">Olá, {currentUser.email}</span>}
           <button onClick={handleLogout} className="admin-logout-button">
             Logout
           </button>

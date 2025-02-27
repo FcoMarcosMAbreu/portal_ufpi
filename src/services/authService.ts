@@ -1,7 +1,8 @@
 import axios from "axios"
 import type { CreateAdminDto, LoginAdminDto, JwtPayload } from "../types/auth"
 
-const API_URL = "http://localhost:3000/auth"
+//const API_URL = "http://localhost:3000/auth"
+const API_URL = import.meta.env.VITE_API_URL + "/auth"
 
 const axiosInstance = axios.create({
   baseURL: API_URL,

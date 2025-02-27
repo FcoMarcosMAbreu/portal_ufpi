@@ -2,7 +2,8 @@ import axios from "axios"
 import type { AlunoResponseDto, CreateAlunoDto, UpdateAlunoDto } from "../types/aluno"
 import { authService } from "./authService"
 
-const API_URL = "http://localhost:3000/alunos"
+//const API_URL = "http://localhost:3000/alunos"
+const API_URL = import.meta.env.VITE_API_URL + "/alunos"
 
 const axiosInstance = axios.create({
   baseURL: API_URL,

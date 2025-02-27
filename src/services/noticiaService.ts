@@ -1,17 +1,17 @@
 import axios from "axios"
-import type { NoticiaDto, CreateNoticiaDto, UpdateNoticiaDto } from "../types/noticia"
+import type { NoticiaDto } from "../types/noticia"
 import { authService } from "./authService"
 
-const API_URL = "http://localhost:3000/noticias"
+//const API_URL = "http://localhost:3000/noticias"
+const API_URL = import.meta.env.VITE_API_URL + "/noticias"
 
 const axiosInstance = axios.create({
   baseURL: API_URL,
   headers: {
-    "Content-Type": "application/json",
+    "Content-Type": "multipart/form-data",
   },
 })
 
-// Add a request interceptor
 axiosInstance.interceptors.request.use(
   (config) => {
     const token = authService.getAccessToken()
@@ -36,13 +36,13 @@ export const noticiaService = {
     return response.data
   },
 
-  create: async (noticia: CreateNoticiaDto): Promise<NoticiaDto> => {
+  create: async (noticia: FormData): Promise<NoticiaDto> => {
     const response = await axiosInstance.post("", noticia)
     return response.data
   },
 
-  update: async (id: number, noticia: UpdateNoticiaDto): Promise<NoticiaDto> => {
-    const response = await axiosInstance.patch(`/${id}`, noticia)
+  update: async (id: number, noticia: FormData): Promise<NoticiaDto> => {
+    const response = await axiosInstance.put(`/${id}`, noticia)
     return response.data
   },
 

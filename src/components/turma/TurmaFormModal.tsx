@@ -22,6 +22,7 @@ const TurmaFormModal: React.FC<TurmaFormModalProps> = ({ isOpen, onClose, onSubm
     periodo_ano: PeriodoAno.PRIMEIRO,
     docentes: "",
   })
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     if (turma) {
@@ -50,6 +51,7 @@ const TurmaFormModal: React.FC<TurmaFormModalProps> = ({ isOpen, onClose, onSubm
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setError(null)
     try {
       if (turma) {
         await turmaService.update(turma.id, formData as UpdateTurmaDto)
@@ -60,6 +62,11 @@ const TurmaFormModal: React.FC<TurmaFormModalProps> = ({ isOpen, onClose, onSubm
       onClose()
     } catch (error) {
       console.error("Erro ao salvar turma:", error)
+      if (error instanceof Error) {
+        setError(`Erro ao salvar turma: ${error.message}`)
+      } else {
+        setError("Ocorreu um erro desconhecido ao salvar a turma. Por favor, tente novamente.")
+      }
     }
   }
 
@@ -69,6 +76,7 @@ const TurmaFormModal: React.FC<TurmaFormModalProps> = ({ isOpen, onClose, onSubm
     <div className="modal-overlay">
       <div className="modal">
         <h2>{turma ? "Editar Turma" : "Criar Nova Turma"}</h2>
+        {error && <p className="error-message">{error}</p>}
         <form onSubmit={handleSubmit}>
           <div>
             <label htmlFor="materia">Matéria:</label>
@@ -130,3 +138,4 @@ const TurmaFormModal: React.FC<TurmaFormModalProps> = ({ isOpen, onClose, onSubm
 }
 
 export default TurmaFormModal
+

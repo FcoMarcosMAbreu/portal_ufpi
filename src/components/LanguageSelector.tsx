@@ -18,12 +18,14 @@ const LanguageSelector: React.FC = () => {
         onClick={() => changeLanguage("pt")}
       >
         <img src="src\assets\images\brasil.png" alt="Português" />
+        {/*<a href="https://www.flaticon.com/br/icones-gratis/brasil" title="brasil ícones">Brasil ícones criados por Freepik - Flaticon</a>*/}
       </button>
       <button
         className={`language-button ${i18n.language === "en" ? "active" : ""}`}
         onClick={() => changeLanguage("en")}
       >
         <img src="src\assets\images\estados-unidos.png" alt="English" />
+        {/*<a href="https://www.flaticon.com/br/icones-gratis/estados-unidos" title="estados unidos ícones">Estados unidos ícones criados por Freepik - Flaticon</a> */}
       </button>
     </div>
   )
