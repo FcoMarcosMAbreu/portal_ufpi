@@ -16,7 +16,7 @@ interface DocumentoListProps {
   title: string
 }
 
-const DocumentoList: React.FC<DocumentoListProps> = ({ tag, title }) => {
+const DocumentoList: React.FC<DocumentoListProps> = ({ tag }) => {
   const [documentos, setDocumentos] = useState<DocumentoResponseDto[]>([])
   const [filteredDocumentos, setFilteredDocumentos] = useState<DocumentoResponseDto[]>([])
   const [searchTerm, setSearchTerm] = useState("")

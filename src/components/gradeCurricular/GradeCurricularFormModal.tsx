@@ -29,8 +29,8 @@ const GradeCurricularFormModal: React.FC<GradeCurricularFormModalProps> = ({
     codigo: "",
     componente_curricular: "",
     carga_horaria: "",
-    ementa: null,
-    tipo_pos: tipoEnumCurso.Mestrado,
+    ementa: undefined,
+    tipo_pos: undefined,
   })
 
   useEffect(() => {
@@ -48,8 +48,8 @@ const GradeCurricularFormModal: React.FC<GradeCurricularFormModalProps> = ({
         codigo: "",
         componente_curricular: "",
         carga_horaria: "",
-        ementa: null,
-        tipo_pos: tipoEnumCurso.Mestrado,
+        ementa: undefined,
+        tipo_pos: undefined,
       })
     }
   }, [gradeCurricular])

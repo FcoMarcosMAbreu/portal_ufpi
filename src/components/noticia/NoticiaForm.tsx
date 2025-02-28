@@ -1,16 +1,19 @@
+"use client"
+
 import type React from "react"
 import { useState, useEffect } from "react"
-import { useNavigate, useParams } from "react-router-dom"
+import { useParams } from "react-router-dom"
 import { noticiaService } from "../../services/noticiaService"
 import { type CreateNoticiaDto, type UpdateNoticiaDto, TagNoticia } from "../../types/noticia"
 import "./NoticiaForm.css"
 
 interface NoticiaFormProps {
   isEditing: boolean
+  onSubmitSuccess: () => void
+  onClose: () => void
 }
 
-const NoticiaForm: React.FC<NoticiaFormProps> = ({ isEditing }) => {
-  const navigate = useNavigate()
+const NoticiaForm: React.FC<NoticiaFormProps> = ({ isEditing, onSubmitSuccess, onClose }) => {
   const { id } = useParams<{ id: string }>()
   const [formData, setFormData] = useState<CreateNoticiaDto | UpdateNoticiaDto>({
     titulo: "",
@@ -19,7 +22,6 @@ const NoticiaForm: React.FC<NoticiaFormProps> = ({ isEditing }) => {
     links_referencia: "",
     data_criacao: new Date(),
   })
-  const [file, setFile] = useState<File | null>(null)
 
   useEffect(() => {
     if (isEditing && id) {
@@ -50,24 +52,43 @@ const NoticiaForm: React.FC<NoticiaFormProps> = ({ isEditing }) => {
     }))
   }
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setFile(e.target.files[0])
-    }
-  }
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     try {
-      const data = { ...formData, arquivo: file }
+      const formDataToSend = new FormData()
+      Object.entries(formData).forEach(([key, value]) => {
+        if (value !== undefined) {
+          if (key === "arquivo" && value instanceof File) {
+            formDataToSend.append(key, value)
+          } else if (key === "data_criacao" && value instanceof Date) {
+            formDataToSend.append(key, value.toISOString())
+          } else {
+            formDataToSend.append(key, String(value))
+          }
+        }
+      })
+
       if (isEditing && id) {
-        await noticiaService.update(Number.parseInt(id), data as UpdateNoticiaDto)
+        await noticiaService.update(Number.parseInt(id), formDataToSend)
       } else {
-        await noticiaService.create(data as CreateNoticiaDto)
+        await noticiaService.create(formDataToSend)
       }
-      navigate("/noticia/list")
+      onSubmitSuccess()
+      onClose()
     } catch (error) {
       console.error("Erro ao salvar notícia:", error)
+    }
+  }
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const formDataToSend = new FormData()
+      Object.entries(formData).forEach(([key, value]) => {
+        if (value !== undefined) {
+          formDataToSend.append(key, String(value))
+        }
+      })
+      formDataToSend.append("arquivo", e.target.files[0])
     }
   }
 
@@ -115,3 +136,4 @@ const NoticiaForm: React.FC<NoticiaFormProps> = ({ isEditing }) => {
 }
 
 export default NoticiaForm
+

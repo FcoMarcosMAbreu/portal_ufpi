@@ -9,7 +9,7 @@ import AdminForm from "./components/admin/AdminForm"
 import AlunoList from "./components/aluno/AlunoList"
 import AlunoForm from "./components/aluno/AlunoForm"
 import NoticiaList from "./components/noticia/NoticiaList"
-import NoticiaForm from "./components/noticia/NoticiaForm"
+//import NoticiaForm from "./components/noticia/NoticiaForm"
 import ProfessorList from "./components/professor/ProfessorList"
 import ProfessorForm from "./components/professor/ProfessorForm"
 import CursoList from "./components/curso/CursoList"
@@ -36,7 +36,7 @@ import { TagDocumento } from "./types/documento"
 import ResourceManager from "./components/admin/ResourceManager"
 import type { AdminResponseDto, CreateAdminDto, UpdateAdminDto } from "./types/admin"
 import type { AlunoResponseDto, CreateAlunoDto, UpdateAlunoDto } from "./types/aluno"
-import type { NoticiaDto, CreateNoticiaDto, UpdateNoticiaDto } from "./types/noticia"
+//import type { NoticiaDto, CreateNoticiaDto, UpdateNoticiaDto } from "./types/noticia"
 import type { ProfessorResponseDto, CreateProfessorDto, UpdateProfessorDto } from "./types/professor"
 import type { CursoResponseDto, CreateCursoDto, UpdateCursoDto } from "./types/curso"
 import type { DocumentoResponseDto, CreateDocumentoDto, UpdateDocumentoDto } from "./types/documento"
@@ -53,7 +53,7 @@ import type {
 // Import all service files here
 import { adminService } from "./services/adminService"
 import { alunoService } from "./services/alunoService"
-import { noticiaService } from "./services/noticiaService"
+//import { noticiaService } from "./services/noticiaService"
 import { professorService } from "./services/professorService"
 import { cursoService } from "./services/cursoService"
 import { documentoService } from "./services/documentoService"
@@ -300,6 +300,7 @@ function App() {
                       />
                     }
                   />
+                  {/*
                   <Route
                     path="/noticias"
                     element={
@@ -315,7 +316,7 @@ function App() {
                         ]}
                       />
                     }
-                  />
+                  />*/}
                   <Route
                     path="/professores"
                     element={
@@ -460,8 +461,8 @@ function App() {
                   <Route path="/edit/:id" element={<AdminForm isEditing={true} />} />
                   <Route path="/aluno/create" element={<AlunoForm isEditing={false} />} />
                   <Route path="/aluno/edit/:id" element={<AlunoForm isEditing={true} />} />
-                  <Route path="/noticia/create" element={<NoticiaForm isEditing={false} />} />
-                  <Route path="/noticia/edit/:id" element={<NoticiaForm isEditing={true} />} />
+                  {/* <Route path="/noticia/create" element={<NoticiaForm isEditing={false} />} /> */}
+                  {/* <Route path="/noticia/edit/:id" element={<NoticiaForm isEditing={true} />} /> */}
                   <Route path="/professor/create" element={<ProfessorForm isEditing={false} />} />
                   <Route path="/professor/edit/:id" element={<ProfessorForm isEditing={true} />} />
                   <Route path="/curso/create" element={<CursoForm isEditing={false} />} />

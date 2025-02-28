@@ -1,7 +1,7 @@
 import "./Home.css"
 import { ArrowDown } from "lucide-react"
 import { useTranslation } from "react-i18next"
-import LanguageSelector from "../components/LanguageSelector"
+//import LanguageSelector from "../components/LanguageSelector"
 
 // Mock data
 const FEATURES = [

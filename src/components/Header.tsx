@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Link, useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import { authService } from "../services/authService"
 import logo from "../assets/images/logo.png"
@@ -10,7 +10,7 @@ import LanguageSelector from "./LanguageSelector"
 
 function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const navigate = useNavigate()
+  //const navigate = useNavigate()
   const { t } = useTranslation()
 
   useEffect(() => {

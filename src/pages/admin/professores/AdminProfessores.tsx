@@ -76,11 +76,6 @@ const AdminProfessores: React.FC = () => {
     setIsViewModalOpen(false)
   }
 
-  const onSubmitSuccess = (newProfessor: ProfessorResponseDto) => {
-    setProfessores([...professores, newProfessor])
-    setIsCreateModalOpen(false)
-    setIsEditModalOpen(false)
-  }
 
   return (
     <div className="admin-professores">

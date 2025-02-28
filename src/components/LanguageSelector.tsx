@@ -1,6 +1,6 @@
 import type React from "react"
 import { useTranslation } from "react-i18next"
-import { Globe } from "lucide-react"
+//import { Globe } from "lucide-react"
 import "./LanguageSelector.css"
 
 const LanguageSelector: React.FC = () => {
