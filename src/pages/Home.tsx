@@ -1,6 +1,6 @@
 import "./Home.css"
 import { ArrowDown } from "lucide-react"
-import { useTranslation } from "react-i18next"
+import { useTranslation} from "react-i18next"
 //import LanguageSelector from "../components/LanguageSelector"
 
 // Mock data
@@ -87,7 +87,7 @@ const PARTNERS = [
 */
 
 function Home() {
-  const {t} = useTranslation()
+  const {t} = useTranslation() 
   const scrollToContent = () => {
     const contentSection = document.getElementById("content")
     if (contentSection) {
@@ -118,6 +118,9 @@ function Home() {
           </p>*/}
           <p>
             {t("home.aboutProgramText")}
+            <br/>
+            {t("home.aboutProgramLinkIg")} <a href='https://www.instagram.com/ppgztufpi/' target='_blank' rel='noopener noreferrer'>@ppgztufpi</a>
+            {t("home.aboutProgramLinkY2b")} <a href='https://www.youtube.com/channel/UCuN8pgJX11FN57mR44NukGg' target='_blank' rel='noopener noreferrer'>PPGZT UFPI</a>.
           {/*O Programa de Pós-Graduação em Zootecnia Tropical (PPGZT) da UFPI é um curso Stricto sensu vinculado ao Centro
            de Ciências Agrárias. Seu objetivo é formar docentes, pesquisadores e especialistas em Zootecnia, 
            contribuindo para a produção pecuária sustentável e a melhoria da qualidade de vida no campo. 
