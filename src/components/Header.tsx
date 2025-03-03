@@ -10,8 +10,8 @@ import LanguageSelector from "./LanguageSelector"
 
 function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
-  //const navigate = useNavigate()
   const { t } = useTranslation()
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   useEffect(() => {
     const checkLoginStatus = async () => {
@@ -25,35 +25,48 @@ function Header() {
     checkLoginStatus()
   }, [])
 
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen)
+  }
+
   return (
     <header className="header">
       <div className="header-content">
         <Link to="/" className="logo-link">
           <img src={logo || "/placeholder.svg"} alt="Logo" className="logo" />
         </Link>
-        <nav className="navbar">
+        <button className="mobile-menu-toggle" onClick={toggleMenu}>
+          ☰
+        </button>
+        <nav className={`navbar ${isMenuOpen ? "open" : ""}`}>
           <ul className="nav-list">
-            {/*
             <li className="nav-item">
-              <Link to="/" className="nav-link">
+              <Link to="/" className="nav-link" onClick={() => setIsMenuOpen(false)}>
                 {t("header.home")}
               </Link>
             </li>
-            */}
             <li className="nav-item">
               <span className="nav-link">{t("header.programs")}</span>
               <ul className="dropdown-menu">
                 <li>
-                  <Link to="/">{t("header.presentation")}</Link>
+                  <Link to="/" onClick={() => setIsMenuOpen(false)}>
+                    {t("header.presentation")}
+                  </Link>
                 </li>
                 <li>
-                  <Link to="/programas/grade-curricular">{t("header.curriculum")}</Link>
+                  <Link to="/programas/grade-curricular" onClick={() => setIsMenuOpen(false)}>
+                    {t("header.curriculum")}
+                  </Link>
                 </li>
                 <li>
-                  <Link to="/programas/area-concentracao">{t("header.concentrationArea")}</Link>
+                  <Link to="/programas/area-concentracao" onClick={() => setIsMenuOpen(false)}>
+                    {t("header.concentrationArea")}
+                  </Link>
                 </li>
                 <li>
-                  <Link to="/programas/cursos">{t("header.courses")}</Link>
+                  <Link to="/programas/cursos" onClick={() => setIsMenuOpen(false)}>
+                    {t("header.courses")}
+                  </Link>
                 </li>
               </ul>
             </li>
@@ -61,34 +74,44 @@ function Header() {
               <span className="nav-link">{t("header.teaching")}</span>
               <ul className="dropdown-menu">
                 <li>
-                  <Link to="/ensino/alunos-ativos">{t("header.activeStudents")}</Link>
+                  <Link to="/ensino/alunos-ativos" onClick={() => setIsMenuOpen(false)}>
+                    {t("header.activeStudents")}
+                  </Link>
                 </li>
                 <li>
-                  <Link to="/ensino/corpo-docente">{t("header.faculty")}</Link>
+                  <Link to="/ensino/corpo-docente" onClick={() => setIsMenuOpen(false)}>
+                    {t("header.faculty")}
+                  </Link>
                 </li>
                 <li>
-                  <Link to="/ensino/cursos">{t("header.courses")}</Link>
+                  <Link to="/ensino/cursos" onClick={() => setIsMenuOpen(false)}>
+                    {t("header.courses")}
+                  </Link>
                 </li>
                 <li>
-                  <Link to="/ensino/teses-dissertacoes">{t("header.thesesDissertations")}</Link>
+                  <Link to="/ensino/teses-dissertacoes" onClick={() => setIsMenuOpen(false)}>
+                    {t("header.thesesDissertations")}
+                  </Link>
                 </li>
                 <li>
-                  <Link to="/ensino/turmas">{t("header.classes")}</Link>
+                  <Link to="/ensino/turmas" onClick={() => setIsMenuOpen(false)}>
+                    {t("header.classes")}
+                  </Link>
                 </li>
               </ul>
             </li>
             <li className="nav-item">
-              <Link to="/calendario" className="nav-link">
+              <Link to="/calendario" className="nav-link" onClick={() => setIsMenuOpen(false)}>
                 {t("header.calendar")}
               </Link>
             </li>
             <li className="nav-item">
-              <Link to="/processo-seletivo" className="nav-link">
+              <Link to="/processo-seletivo" className="nav-link" onClick={() => setIsMenuOpen(false)}>
                 {t("header.selectionProcesses")}
               </Link>
             </li>
             <li className="nav-item">
-              <Link to="/noticia" className="nav-link">
+              <Link to="/noticia" className="nav-link" onClick={() => setIsMenuOpen(false)}>
                 {t("header.news")}
               </Link>
             </li>
@@ -96,19 +119,29 @@ function Header() {
               <span className="nav-link">{t("header.documents")}</span>
               <ul className="dropdown-menu">
                 <li>
-                  <Link to="/documentos/formularios">{t("header.forms")}</Link>
+                  <Link to="/documentos/formularios" onClick={() => setIsMenuOpen(false)}>
+                    {t("header.forms")}
+                  </Link>
                 </li>
                 <li>
-                  <Link to="/documentos/resolucao">{t("header.resolution")}</Link>
+                  <Link to="/documentos/resolucao" onClick={() => setIsMenuOpen(false)}>
+                    {t("header.resolution")}
+                  </Link>
                 </li>
                 <li>
-                  <Link to="/documentos/regimento">{t("header.bylaws")}</Link>
+                  <Link to="/documentos/regimento" onClick={() => setIsMenuOpen(false)}>
+                    {t("header.bylaws")}
+                  </Link>
                 </li>
                 <li>
-                  <Link to="/documentos/outros">{t("header.others")}</Link>
+                  <Link to="/documentos/outros" onClick={() => setIsMenuOpen(false)}>
+                    {t("header.others")}
+                  </Link>
                 </li>
                 <li>
-                  <Link to="/documentos/material-didatico">{t("header.teachingMaterials")}</Link>
+                  <Link to="/documentos/material-didatico" onClick={() => setIsMenuOpen(false)}>
+                    {t("header.teachingMaterials")}
+                  </Link>
                 </li>
               </ul>
             </li>
@@ -116,11 +149,11 @@ function Header() {
         </nav>
         <div className="auth-links">
           {isLoggedIn ? (
-            <Link to="/admin" className="nav-link">
+            <Link to="/admin" className="nav-link" onClick={() => setIsMenuOpen(false)}>
               {t("header.adminDashboard")}
             </Link>
           ) : (
-            <Link to="/login" className="nav-link">
+            <Link to="/login" className="nav-link" onClick={() => setIsMenuOpen(false)}>
               {t("header.login")}
             </Link>
           )}

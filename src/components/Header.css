@@ -1,7 +1,3 @@
-li {
-  list-style-type: none;
-}
-
 .header {
   background-color: #ffffff;
   padding: 1rem;
@@ -40,7 +36,7 @@ li {
 }
 
 .nav-list {
-  list-style-type: none;
+  list-style-type: none; /* Remova os marcadores de list item */
   padding: 0;
   display: flex;
   justify-content: center;
@@ -52,7 +48,6 @@ li {
   position: relative;
 }
 
-/* Unify link and button styles */
 .nav-link,
 .nav-button {
   text-decoration: none;
@@ -68,7 +63,10 @@ li {
   user-select: none;
 }
 
-/* Hover effect for both links and buttons */
+li {
+  list-style-type: none;
+}
+
 .nav-link:hover,
 .nav-button:hover {
   color: var(--primary-color);
@@ -119,15 +117,49 @@ li {
   gap: 1rem;
 }
 
+/*Adicione esta regra para ocultar o botão de menu móvel por padrão*/ 
+.mobile-menu-toggle {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .nav-list {
+    gap: 0.5rem;
+  }
+
+  .nav-link,
+  .nav-button {
+    font-size: 0.875rem;
+    padding: 0.5rem 0.75rem;
+  }
+}
+
 @media (max-width: 768px) {
+  .header {
+    position: static;
+    padding: 0.5rem;
+  }
+
   .header-content {
     flex-direction: column;
     align-items: flex-start;
   }
 
+  .navbar {
+    width: 100%;
+    margin-top: 1rem;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+
+  .navbar.open {
+    max-height: 1000px;
+  }
+
   .nav-list {
     flex-direction: column;
-    width: 100%;
+    align-items: flex-start;
   }
 
   .nav-item {
@@ -149,6 +181,29 @@ li {
     margin-top: 1rem;
     width: 100%;
     justify-content: flex-start;
+  }
+
+  .mobile-menu-toggle {
+    display: block;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo {
+    width: 30px;
+  }
+
+  .nav-link,
+  .nav-button {
+    font-size: 0.8125rem;
+    padding: 0.5rem 0.5rem;
   }
 }
 

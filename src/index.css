@@ -15,12 +15,17 @@
   box-sizing: border-box;
 }
 
+html {
+  font-size: 16px;
+}
+
 body {
   min-height: 100vh;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
     "Helvetica Neue", sans-serif;
   line-height: 1.5;
   background-color: #ffffff;
+  padding-top: 60px; /* Ajuste este valor de acordo com a altura do seu header */
 }
 
 /* Layout containers */
@@ -41,7 +46,7 @@ main {
 /* Common grid layout */
 .grid-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: var(--grid-gap);
   width: 100%;
   max-width: var(--max-width);
@@ -81,18 +86,6 @@ main {
   margin: 0 auto;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  :root {
-    --container-padding: 1rem;
-    --grid-gap: 1rem;
-  }
-
-  .section-header h2 {
-    font-size: 1.5rem;
-  }
-}
-
 /* List layouts */
 .list-container {
   width: 100%;
@@ -102,8 +95,6 @@ main {
   background: #fff;
   border-radius: var(--card-radius);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  padding: 5%;
-  padding-bottom: 6%;
 }
 
 .resource-grid {
@@ -123,3 +114,44 @@ main {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  :root {
+    --container-padding: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --container-padding: 1rem;
+    --grid-gap: 1rem;
+  }
+
+  html {
+    font-size: 14px;
+  }
+
+  .section-header h2 {
+    font-size: 1.75rem;
+  }
+
+  .grid-container {
+    grid-template-columns: 1fr;
+  }
+
+  body {
+    padding-top: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 12px;
+  }
+
+  .section-header h2 {
+    font-size: 1.5rem;
+  }
+}
+
